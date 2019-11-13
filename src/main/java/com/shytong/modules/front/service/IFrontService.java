@@ -3,7 +3,8 @@ package com.shytong.modules.front.service;
 import org.springframework.ui.ModelMap;
 
 /**
- * @author CL
+ * @Author:CL
+ * @Date:2019/11/14
  */
 public interface IFrontService {
     /**

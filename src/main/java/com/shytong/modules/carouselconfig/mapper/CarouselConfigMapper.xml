@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CarouselConfigMapper">
+    <!--  添加轮播配置项  -->
+    <insert id="addCarouselConfig" parameterType="com.shytong.modules.carousel.model.CarouselDo">
+        INSERT INTO sy_carousel_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="style != null and style != ''">
+                style,
+            </if>
+            <if test="startIndex != null">
+                start_index,
+            </if>
+            <if test="intervalTime != null and interval != ''">
+                interval_time,
+            </if>
+            <if test="cycleType != null and cycleType != ''">
+                cycle_type,
+            </if>
+            <if test="maxShowCount != null">
+                max_show_count,
+            </if>
+            <if test="isUp != null">
+                is_up,
+            </if>
+            <if test="sort != null ">
+                sort,
+            </if>
+            <if test="status != null and status != ''">
+                `status`,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="creatorId != null and creator != ''">
+                creator_id,
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="style != null and style != ''">
+                #{style,jdbcType=VARCHAR},
+            </if>
+            <if test="startIndex != null">
+                #{startIndex,jdbcType=INTEGER},
+            </if>
+            <if test="intervalTime != null and interval != ''">
+                #{intervalTime,jdbcType=VARCHAR},
+            </if>
+            <if test="cycleType != null and cycleType != ''">
+                #{cycleType,jdbcType=VARCHAR},
+            </if>
+            <if test="maxShowCount != null">
+                #{maxShowCount,jdbcType=INTEGER},
+            </if>
+            <if test="isUp != null">
+                #{isUp,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null ">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null and status != ''">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType= TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType= TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creator != ''">
+                #{creatorId,jdbcType= VARCHAR},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                #{editorId,jdbcType= VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType= INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--  修改轮播配置项  -->
+    <update id="updateCarouselConfig" parameterType="com.shytong.modules.carousel.model.CarouselDo">
+        UPDATE sy_carousel
+        <trim prefix="set" suffixOverrides=",">
+            <if test="style != null and style != ''">
+                style = #{style,jdbcType=VARCHAR},
+            </if>
+            <if test="startIndex != null">
+                start_index = #{startIndex,jdbcType=INTEGER},
+            </if>
+            <if test="intervalTime != null and interval != ''">
+                interval_time = #{intervalTime,jdbcType=VARCHAR},
+            </if>
+            <if test="cycleType != null and cycleType != ''">
+                cycle_type = #{cycleType,jdbcType=VARCHAR},
+            </if>
+            <if test="maxShowCount != null">
+                max_show_count = #{maxShowCount,jdbcType=INTEGER},
+            </if>
+            <if test="isUp != null">
+                is_up = #{isUp,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null ">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null and status != ''">
+                `status` = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType= TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType= TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creator != ''">
+                creator_id = #{creatorId,jdbcType= VARCHAR},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id = #{editorId,jdbcType= VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType= INTEGER},
+            </if>
+        </trim>
+        WHERE
+        id = #{id,jdbcType = VARCHAR}
+    </update>
+
+    <!--  获取轮播配置列表项  -->
+    <select id="selectCarouselConfig" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            id,
+            style,
+            start_index AS startIndex,
+            interval_time AS intervalTime,
+            cycle_type AS cycleType,
+            max_show_count AS maxShowCount,
+            is_up AS isUp,
+            sort,
+            `status`,
+            sort,
+            gmt_modified AS gmtModified,
+        FROM
+            sy_carousel_config
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="style != null and style != ''">
+                AND style = #{style,jdbcType=VARCHAR},
+            </if>
+            <if test="startIndex != null">
+                AND start_index = #{startIndex,jdbcType=INTEGER},
+            </if>
+            <if test="intervalTime != null and interval != ''">
+                AND interval_time = #{intervalTime,jdbcType=VARCHAR},
+            </if>
+            <if test="cycleType != null and cycleType != ''">
+                AND cycle_type = #{cycleType,jdbcType=VARCHAR},
+            </if>
+            <if test="maxShowCount != null">
+                AND max_show_count = #{maxShowCount,jdbcType=INTEGER},
+            </if>
+            <if test="isUp != null">
+                AND is_up = #{isUp,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null ">
+                AND sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null and status != ''">
+                AND `status` = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                AND gmt_create = #{gmtCreate,jdbcType= TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                AND gmt_modified = #{gmtModified,jdbcType= TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creator != ''">
+                AND creator_id = #{creatorId,jdbcType= VARCHAR},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                AND editor_id = #{editorId,jdbcType= VARCHAR},
+            </if>
+            AND is_deleted = 0
+        </where>
+        ORDER BY sort
+    </select>
+</mapper>

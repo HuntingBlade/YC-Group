@@ -21,7 +21,6 @@ public class IndexController {
     @Autowired
     private IFrontService frontService;
 
-
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(HttpServletRequest servletRequest, ModelMap model) {
         frontService.setHtml(model);

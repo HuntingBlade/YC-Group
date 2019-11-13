@@ -3,7 +3,7 @@ package com.shytong.modules.front.dao;
 
 /**
  * @Author: CL
- * @Date: 2019/11/11 15:03
+ * @Date: 2019/11/11
  */
 public interface IFrontDao {
 

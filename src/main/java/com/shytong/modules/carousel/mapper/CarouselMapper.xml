@@ -18,20 +18,8 @@
             <if test="url != null and url != ''">
                 url,
             </if>
-            <if test="defaultIndex != null">
-                default_index,
-            </if>
-            <if test="interval != null and interval != ''">
-                `interval`,
-            </if>
-            <if test="cycleType != null and cycleType != ''">
-                cycle_type,
-            </if>
             <if test="sort != null ">
                 sort,
-            </if>
-            <if test="enable != null">
-                `enable`,
             </if>
             <if test="status != null and status != ''">
                 `status`,
@@ -66,20 +54,8 @@
             <if test="url != null and url != ''">
                 #{url,jdbcType=VARCHAR},
             </if>
-            <if test="defaultIndex != null">
-                #{defaultIndex,jdbcType=INTEGER},
-            </if>
-            <if test="interval != null and interval != ''">
-                #{interval,jdbcType=VARCHAR},
-            </if>
-            <if test="cycleType != null and cycleType != ''">
-                #{cycleType,jdbcType=VARCHAR},
-            </if>
             <if test="sort != null ">
                 #{sort,jdbcType=INTEGER},
-            </if>
-            <if test="enable != null">
-                #{enable,jdbcType=INTEGER},
             </if>
             <if test="status != null and status != ''">
                 #{status,jdbcType=VARCHAR},
@@ -128,20 +104,8 @@
             <if test="type != null and type != ''">
                 type = #{type,jdbcType=VARCHAR},
             </if>
-            <if test="defaultIndex != null">
-                default_index = #{defaultIndex,jdbcType=INTEGER},
-            </if>
-            <if test="interval != null and interval != ''">
-                `interval` = #{interval,jdbcType=VARCHAR},
-            </if>
-            <if test="cycleType != null and cycleType != ''">
-                cycle_type = #{cycleType,jdbcType=VARCHAR},
-            </if>
             <if test="sort != null ">
                 sort = #{sort,jdbcType=INTEGER},
-            </if>
-            <if test="enable != null">
-                `enable` = #{enable,jdbcType=INTEGER},
             </if>
             <if test="status != null and status != ''">
                 status = #{status,jdbcType=VARCHAR},
@@ -168,23 +132,18 @@
 
     <!--  获取轮播列表  -->
     <select id="select" parameterType="java.util.Map" resultType="java.util.Map">
-        select
-        id,
-        title,
-        source,
-        type,
-        url,
-        default_index AS defaultIndex,
-        interval,
-        cycle_type AS cycleType,
-        sort,
-        enable,
-        status,
-        sort,
-        gmt_modified AS gmtModified,
-        page_size AS pageSize
-        from
-        sy_carousel
+        SELECT
+            id,
+            title,
+            source,
+            type,
+            url,
+            sort,
+            status,
+            sort,
+            gmt_modified AS gmtModified,
+        FROM
+            sy_carousel
         <where>
             <if test="id != null">
                 id = #{id,jdbcType=INTEGER},
@@ -198,20 +157,8 @@
             <if test="url != null and url != ''">
                 AND url = #{url,jdbcType=VARCHAR}
             </if>
-            <if test="defaultIndex != null">
-                AND default_index = #{defaultIndex,jdbcType=INTEGER}
-            </if>
-            <if test="interval != null and interval != ''">
-                AND `interval` = #{interval,jdbcType=VARCHAR}
-            </if>
-            <if test="cycleType != null and cycleType != ''">
-                AND cycle_type = #{cycleType,jdbcType=VARCHAR}
-            </if>
             <if test="sort != null ">
                 AND sort = #{sort,jdbcType=INTEGER}
-            </if>
-            <if test="enable != null">
-                AND `enable` = #{enable,jdbcType=INTEGER}
             </if>
             <if test="status != null and status != ''">
                 AND status = #{status,jdbcType=VARCHAR}
