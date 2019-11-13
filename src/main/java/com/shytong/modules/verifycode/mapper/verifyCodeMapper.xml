@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @author zhr 创建时间 2017-09-02 16:54:19-->
+<mapper namespace="verifyCode">
+    <!--baseresult-->
+
+    <resultMap id="BaseResultMap"   type="com.shytong.modules.verifycode.model.VerifyCodeDo">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="app_id" property="appId" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="CHAR" />
+        <result column="expire_time" property="expireTime" jdbcType="TIMESTAMP" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+    </resultMap>
+
+
+
+    <insert id="insert" parameterType="com.shytong.modules.verifycode.model.VerifyCodeDo"   >
+    insert into sy_verify_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id !=null ">
+            id,
+        </if>
+        <if test="code !=null ">
+            code,
+        </if>
+        <if test="appId !=null ">
+            app_id,
+        </if>
+        <if test="phone !=null ">
+            phone,
+        </if>
+        <if test="type !=null ">
+            type,
+        </if>
+        <if test="status !=null ">
+            status,
+        </if>
+        <if test="expireTime !=null ">
+            expire_time,
+        </if>
+        <if test="gmtCreate !=null ">
+            gmt_create,
+        </if>
+        <if test="isDeleted !=null ">
+            is_deleted,
+        </if>
+
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id !=null ">
+            #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="code !=null ">
+            #{code,jdbcType=VARCHAR},
+        </if>
+        <if test="appId !=null ">
+            #{appId,jdbcType=VARCHAR},
+        </if>
+        <if test="phone !=null ">
+            #{phone,jdbcType=VARCHAR},
+        </if>
+        <if test="type !=null ">
+            #{type,jdbcType=VARCHAR},
+        </if>
+        <if test="status !=null ">
+            #{status,jdbcType=CHAR},
+        </if>
+        <if test="expireTime !=null ">
+            #{expireTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="gmtCreate !=null ">
+            #{gmtCreate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="isDeleted !=null ">
+            #{isDeleted,jdbcType=TINYINT},
+        </if>
+
+    </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="com.shytong.modules.verifycode.model.VerifyCodeDo"   >
+    update sy_verify_code
+    <set>
+        <if test="(isAll == 1 ||  fields.id !=null ) and id !=null">
+            id=#{id,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.code !=null ) and code !=null">
+            code=#{code,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.appId !=null ) and appId !=null">
+            app_id=#{appId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.phone !=null ) and phone !=null">
+            phone=#{phone,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.type !=null ) and type !=null">
+            type=#{type,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.status !=null ) and status !=null">
+            status=#{status,jdbcType=CHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.expireTime !=null ) and expireTime !=null">
+            expire_time=#{expireTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="(isAll == 1 ||  fields.gmtCreate !=null ) and gmtCreate !=null">
+            gmt_create=#{gmtCreate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="(isAll == 1 ||  fields.isDeleted !=null ) and isDeleted !=null">
+            is_deleted=#{isDeleted,jdbcType=TINYINT},
+        </if>
+
+    </set>
+    where 1=1 
+    and id=#{id,jdbcType=VARCHAR} 
+    </update>
+
+    <select id="selective" parameterType="com.shytong.modules.verifycode.model.VerifyCodeDo" resultType="com.shytong.modules.verifycode.model.VerifyCodeDo"  >
+    <trim prefix="select " suffix="" suffixOverrides=",">
+        <if test="isAll == 1 ||  fields.id !=null ">
+            id as id,
+        </if>
+        <if test="isAll == 1 ||  fields.code !=null ">
+            code as code,
+        </if>
+        <if test="isAll == 1 ||  fields.appId !=null ">
+            app_id as appId,
+        </if>
+        <if test="isAll == 1 ||  fields.phone !=null ">
+            phone as phone,
+        </if>
+        <if test="isAll == 1 ||  fields.type !=null ">
+            type as type,
+        </if>
+        <if test="isAll == 1 ||  fields.status !=null ">
+            status as status,
+        </if>
+        <if test="isAll == 1 ||  fields.expireTime !=null ">
+            expire_time as expireTime,
+        </if>
+        <if test="isAll == 1 ||  fields.gmtCreate !=null ">
+            gmt_create as gmtCreate,
+        </if>
+        <if test="isAll == 1 ||  fields.isDeleted !=null ">
+            is_deleted as isDeleted,
+        </if>
+
+    </trim>
+    from sy_verify_codewhere 1=1 
+    and id=#{id,jdbcType=VARCHAR} 
+    </select>
+
+    <select id="selectList" parameterType="com.shytong.modules.verifycode.model.VerifyCodeDo" resultType="com.shytong.modules.verifycode.model.VerifyCodeDo"  >
+    <trim prefix="select " suffix="" suffixOverrides=",">
+        <if test="isAll == 1 ||  fields.id !=null ">
+            id as id,
+        </if>
+        <if test="isAll == 1 ||  fields.code !=null ">
+            code as code,
+        </if>
+        <if test="isAll == 1 ||  fields.appId !=null ">
+            app_id as appId,
+        </if>
+        <if test="isAll == 1 ||  fields.phone !=null ">
+            phone as phone,
+        </if>
+        <if test="isAll == 1 ||  fields.type !=null ">
+            type as type,
+        </if>
+        <if test="isAll == 1 ||  fields.status !=null ">
+            status as status,
+        </if>
+        <if test="isAll == 1 ||  fields.expireTime !=null ">
+            expire_time as expireTime,
+        </if>
+        <if test="isAll == 1 ||  fields.gmtCreate !=null ">
+            gmt_create as gmtCreate,
+        </if>
+        <if test="isAll == 1 ||  fields.isDeleted !=null ">
+            is_deleted as isDeleted,
+        </if>
+
+    </trim>
+    from sy_verify_code where 1=1 
+    </select>
+
+    <update id="delete" parameterType="com.shytong.modules.verifycode.model.VerifyCodeDo"   >
+    update sy_verify_codeset is_deleted=1  where 
+     id=#{id,jdbcType=VARCHAR} 
+    </update>
+
+
+
+</mapper>

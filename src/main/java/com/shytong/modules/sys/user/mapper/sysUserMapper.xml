@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @author zhr 创建时间 2017-09-02 16:54:19-->
+<mapper namespace="sysUser">
+    <!--baseresult-->
+
+    <resultMap id="BaseResultMap"   type="com.shytong.modules.sys.user.model.SysUserDo">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="account" property="account" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="CHAR" />
+        <result column="phone" property="phone" jdbcType="CHAR" />
+        <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+        <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+        <result column="editor_id" property="editorId" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+        <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="CHAR" />
+    </resultMap>
+
+
+
+    <insert id="insert" parameterType="com.shytong.modules.sys.user.model.SysUserDo"   >
+    insert into sy_sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id !=null ">
+            id,
+        </if>
+        <if test="nickName !=null ">
+            nick_name,
+        </if>
+        <if test="account !=null ">
+            account,
+        </if>
+        <if test="status !=null ">
+            status,
+        </if>
+        <if test="phone !=null ">
+            phone,
+        </if>
+        <if test="pwd !=null ">
+            pwd,
+        </if>
+        <if test="avatar !=null ">
+            avatar,
+        </if>
+        <if test="gmtCreate !=null ">
+            gmt_create,
+        </if>
+        <if test="creatorId !=null ">
+            creator_id,
+        </if>
+        <if test="gmtModified !=null ">
+            gmt_modified,
+        </if>
+        <if test="editorId !=null ">
+            editor_id,
+        </if>
+        <if test="isDeleted !=null ">
+            is_deleted,
+        </if>
+        <if test="orgId !=null ">
+            org_id,
+        </if>
+        <if test="type !=null ">
+            type,
+        </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id !=null ">
+            #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="nickName !=null ">
+            #{nickName,jdbcType=VARCHAR},
+        </if>
+        <if test="account !=null ">
+            #{account,jdbcType=VARCHAR},
+        </if>
+        <if test="status !=null ">
+            #{status,jdbcType=CHAR},
+        </if>
+        <if test="phone !=null ">
+            #{phone,jdbcType=CHAR},
+        </if>
+        <if test="pwd !=null ">
+            #{pwd,jdbcType=VARCHAR},
+        </if>
+        <if test="avatar !=null ">
+            #{avatar,jdbcType=VARCHAR},
+        </if>
+        <if test="gmtCreate !=null ">
+            #{gmtCreate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="creatorId !=null ">
+            #{creatorId,jdbcType=VARCHAR},
+        </if>
+        <if test="gmtModified !=null ">
+            #{gmtModified,jdbcType=TIMESTAMP},
+        </if>
+        <if test="editorId !=null ">
+            #{editorId,jdbcType=VARCHAR},
+        </if>
+        <if test="isDeleted !=null ">
+            #{isDeleted,jdbcType=TINYINT},
+        </if>
+        <if test="orgId !=null ">
+            #{orgId,jdbcType=VARCHAR},
+        </if>
+        <if test="type !=null ">
+            #{type,jdbcType=CHAR},
+        </if>
+    </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="com.shytong.modules.sys.user.model.SysUserDo"   >
+    update sy_sys_user
+    <set>
+        <if test="(isAll == 1 ||  fields.id !=null ) and id !=null">
+            id=#{id,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.nickName !=null ) and nickName !=null">
+            nick_name=#{nickName,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.account !=null ) and account !=null">
+            account=#{account,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.status !=null ) and status !=null">
+            status=#{status,jdbcType=CHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.phone !=null ) and phone !=null">
+            phone=#{phone,jdbcType=CHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.pwd !=null ) and pwd !=null">
+            pwd=#{pwd,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.avatar !=null ) and avatar !=null">
+            avatar=#{avatar,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.gmtCreate !=null ) and gmtCreate !=null">
+            gmt_create=#{gmtCreate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="(isAll == 1 ||  fields.creatorId !=null ) and creatorId !=null">
+            creator_id=#{creatorId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.gmtModified !=null ) and gmtModified !=null">
+            gmt_modified=#{gmtModified,jdbcType=TIMESTAMP},
+        </if>
+        <if test="(isAll == 1 ||  fields.editorId !=null ) and editorId !=null">
+            editor_id=#{editorId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.isDeleted !=null ) and isDeleted !=null">
+            is_deleted=#{isDeleted,jdbcType=TINYINT},
+        </if>
+        <if test="(isAll == 1 ||  fields.orgId !=null ) and orgId !=null">
+            org_id=#{orgId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.type !=null ) and type !=null">
+            type=#{type,jdbcType=CHAR},
+        </if>
+
+    </set>
+    where 1=1 
+    and id=#{id,jdbcType=VARCHAR} 
+    </update>
+
+    <select id="selective" parameterType="com.shytong.modules.sys.user.model.SysUserDo" resultType="com.shytong.modules.sys.user.model.SysUserDo"  >
+    <trim prefix="select " suffix="" suffixOverrides=",">
+        
+        id as id,        
+        nick_name as nickName,        
+        account as account,        
+        status as status,        
+        phone as phone,        
+        pwd as pwd,        
+        avatar as avatar,        
+        gmt_create as gmtCreate,        
+        creator_id as creatorId,        
+        gmt_modified as gmtModified,        
+        editor_id as editorId,        
+        is_deleted as isDeleted,        
+        org_id as orgId,        
+        type as type,    </trim>
+    from sy_sys_user where 1=1 and id=#{id} and is_deleted=0 
+    </select>
+
+    <select id="select" parameterType="com.shytong.modules.sys.user.model.SysUserDo" resultType="com.shytong.modules.sys.user.model.SysUserDo"  >
+    select ${fields} from 
+                sy_sys_user where id=#{id} and is_deleted=0
+    </select>
+
+    <update id="delete" parameterType="com.shytong.modules.sys.user.model.SysUserDo"   >
+    update  sy_sys_user  set is_deleted=1  where 
+     id=#{id,jdbcType=VARCHAR} 
+    </update>
+
+
+
+</mapper>

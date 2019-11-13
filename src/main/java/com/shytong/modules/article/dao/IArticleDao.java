@@ -1,0 +1,44 @@
+package com.shytong.modules.article.dao;
+
+import com.github.pagehelper.PageInfo;
+import com.shytong.common.model.SyMap;
+import com.shytong.modules.article.model.ArticleDo;
+
+import java.util.List;
+
+/**
+ * @Author: CL
+ * @Date: 2019/11/12 19:41
+ */
+public interface IArticleDao {
+
+    /**
+     * 添加文章
+     * @param articleDo
+     * @return
+     */
+    Integer insertArticle(ArticleDo articleDo);
+
+    /**
+     * 删除文章(批量删除)
+     * @param list
+     * @return
+     */
+    Integer deletedArticle(List list);
+
+    /**
+     * 修改文章
+     * @param articleDo
+     * @return
+     */
+    Integer updateArticle(ArticleDo articleDo);
+
+    /**
+     * 获取文章列表
+     * @param pageNum
+     * @param pageSize
+     * @param params
+     * @return
+     */
+    PageInfo<ArticleDo> selectArticleList(Integer pageNum, Integer pageSize, SyMap params);
+}

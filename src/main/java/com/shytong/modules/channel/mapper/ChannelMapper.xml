@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ChannelMapper">
+    <!--  添加栏目项  -->
+    <insert id="insert" parameterType="com.shytong.modules.channel.model.ChannelDo">
+        INSERT INTO sy_channel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null and name != ''">
+                `name`,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="group != null and group != ''">
+                `group`,
+            </if>
+            <if test="pageName != null and pageName !=''">
+                page_name,
+            </if>
+            <if test="indexName != null and indexName != ''">
+                index_name,
+            </if>
+            <if test="indexCount != null and indexCount != ''">
+                index_count,
+            </if>
+            <if test="pageTemplate != null and pageTemplate != ''">
+                page_template,
+            </if>
+            <if test="listName != null and listName != ''">
+                list_name,
+            </if>
+            <if test="listCount != null and listCount != ''">
+                list_count,
+            </if>
+            <if test="listTemplate != null and listTemplate != ''">
+                list_template,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="creatorId != null and creator != ''">
+                creator_id,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTGER}
+            </if>
+            <if test="name != null and name != ''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType= INTEGER},
+            </if>
+            <if test="group != null and group != ''">
+                #{group,jdbcType= VARCHAR},
+            </if>
+            <if test="pageName != null and pageName !=''">
+                #{pageName,jdbcType= VARCHAR},
+            </if>
+            <if test="indexName != null and indexName != ''">
+                #{indexName,jdbcType= VARCHAR},
+            </if>
+            <if test="indexCount != null and indexCount != ''">
+                #{indexCount,jdbcType= VARCHAR},
+            </if>
+            <if test="pageTemplate != null and pageTemplate != ''">
+                #{pageTemplate,jdbcType= VARCHAR},
+            </if>
+            <if test="listName != null and listName != ''">
+                #{listName,jdbcType= VARCHAR},
+            </if>
+            <if test="listCount != null and listCount != ''">
+                #{listCount,jdbcType= VARCHAR},
+            </if>
+            <if test="listTemplate != null and listTemplate != ''">
+                #{listTemplate,jdbcType= VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType= INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType= TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creator != ''">
+                #{creatorId,jdbcType= VARCHAR},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType= TIMESTAMP},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                #{editorId,jdbcType= VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType= INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--  修改栏目项  -->
+    <update id="update" parameterType="com.shytong.modules.channel.model.ChannelDo">
+        UPDATE sy_channel
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType= INTEGER},
+            </if>
+            <if test="group != null and group != ''">
+                `group` = #{group,jdbcType= VARCHAR},
+            </if>
+            <if test="pageName != null and pageName !=''">
+                page_name = #{pageName,jdbcType= VARCHAR},
+            </if>
+            <if test="indexName != null and indexName != ''">
+                index_name = #{indexName,jdbcType= VARCHAR},
+            </if>
+            <if test="indexCount != null and indexCount != ''">
+                index_count = #{indexCount,jdbcType= VARCHAR},
+            </if>
+            <if test="pageTemplate != null and pageTemplate != ''">
+                page_template = #{pageTemplate,jdbcType= VARCHAR},
+            </if>
+            <if test="listName != null and listName != ''">
+                list_name = #{listName,jdbcType= VARCHAR},
+            </if>
+            <if test="listCount != null and listCount != ''">
+                list_count = #{listCount,jdbcType= VARCHAR},
+            </if>
+            <if test="listTemplate != null and listTemplate != ''">
+                list_template = #{listTemplate,jdbcType= VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType= INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create =#{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                creator_id = #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id = #{editorId,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=INTEGER},
+            </if>
+        </trim>
+        WHERE
+        id = #{id,jdbcType = INTEGER}
+    </update>
+
+    <!--  获取栏目列表  -->
+    <select id="select" parameterType="java.util.Map" resultType="com.shytong.modules.channel.model.ChannelDo">
+        select
+        id,
+        name,
+        parent_id AS parentId,
+        "group",
+        page_name AS pageName,
+        index_name AS indexName,
+        index_count AS indexCount,
+        page_template AS pageTemplate,
+        list_name AS listName,
+        list_count AS listCount,
+        list_template AS listTemplate,
+        sort,
+        gmt_modified AS gmtModified
+        from
+        sy_channel
+        <where>
+            <if test="name != null and name != ''">
+                AND `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                AND parent_id = #{parentId,jdbcType= INTEGER},
+            </if>
+            <if test="group != null and group != ''">
+                AND `group` = #{group,jdbcType= VARCHAR},
+            </if>
+            <if test="pageName != null and pageName !=''">
+                AND page_name = #{pageName,jdbcType= VARCHAR},
+            </if>
+            <if test="indexName != null and indexName != ''">
+                AND index_name = #{indexName,jdbcType= VARCHAR},
+            </if>
+            <if test="indexCount != null and indexCount != ''">
+                AND index_count = #{indexCount,jdbcType= VARCHAR},
+            </if>
+            <if test="pageTemplate != null and pageTemplate != ''">
+                AND page_template = #{pageTemplate,jdbcType= VARCHAR},
+            </if>
+            <if test="listName != null and listName != ''">
+                AND list_name = #{listName,jdbcType= VARCHAR},
+            </if>
+            <if test="listCount != null and listCount != ''">
+                AND list_count = #{listCount,jdbcType= VARCHAR},
+            </if>
+            <if test="listTemplate != null and listTemplate != ''">
+                AND list_template = #{listTemplate,jdbcType= VARCHAR},
+            </if>
+            <if test="sort != null">
+                AND sort = #{sort,jdbcType= INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                AND gmt_create =#{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                AND gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                AND creator_id = #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                AND editor_id = #{editorId,jdbcType=VARCHAR},
+            </if>
+            and is_deleted = 0
+        </where>
+        ORDER BY sort
+    </select>
+</mapper>

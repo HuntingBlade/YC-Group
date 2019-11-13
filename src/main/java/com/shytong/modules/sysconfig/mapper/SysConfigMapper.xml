@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sysConfig">
+    <!--  添加系统配置  -->
+    <insert id="insert" parameterType="com.shytong.modules.sysconfig.model.SysConfigDo">
+        INSERT INTO sy_sys_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="sysGroup != null and sysGroup != ''">
+                sys_group,
+            </if>
+            <if test="sysKey != null and sysKey != ''">
+                sys_key,
+            </if>
+            <if test="sysValue != null and sysValue != ''">
+                sys_value,
+            </if>
+            <if test="sysName != null and sysName != ''">
+                sys_name,
+            </if>
+            <if test="type != null and type != ''">
+                type,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                creator_id,
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="sysGroup != null and sysGroup != ''">
+                #{sysGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="sysKey != null and sysKey != ''">
+                #{sysKey,jdbcType=VARCHAR},
+            </if>
+            <if test="sysValue != null and sysValue != ''">
+                #{sysValue,jdbcType=VARCHAR},
+            </if>
+            <if test="sysName != null and sysName != ''">
+                #{sysName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                #{editorId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--  修改系统配置  -->
+    <update id="update" parameterType="com.shytong.modules.sysconfig.model.SysConfigDo">
+        UPDATE sy_sys_config
+        <trim prefix="set" suffixOverrides=",">
+            <if test="sysGroup != null and sysGroup != ''">
+                sys_group = #{sysGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="sysKey != null and sysKey != ''">
+                sys_key = #{sysKey,jdbcType=VARCHAR},
+            </if>
+            <if test="sysValue != null and sysValue != ''">
+                sys_value = #{sysValue,jdbcType=VARCHAR},
+            </if>
+            <if test="sysName != null and sysName != ''">
+                sys_name =#{sysName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create =#{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creatorId != ''">
+                creator_id = #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id = #{editorId,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=INTEGER},
+            </if>
+        </trim>
+        WHERE
+        id = #{id,jdbcType = VARCHAR}
+    </update>
+
+    <!--  获取参数列表  -->
+    <select id="selectList" parameterType="java.util.Map" resultType="com.shytong.modules.sysconfig.model.SysConfigDo">
+        SELECT
+        id AS id,
+        sys_group AS sysGroup,
+        sys_key AS sysKey,
+        sys_name AS sysName,
+        sys_value AS sysValue,
+        type AS type,
+        sort AS sort,
+        enable AS enable
+        FROM
+        sy_sys_config
+        <where>
+            <if test="sysGroup != null and sysGroup != ''">
+                and sys_group = #{sysGroup,jdbcType=VARCHAR}
+            </if>
+            and is_deleted = 0
+        </where>
+        ORDER BY sort
+    </select>
+</mapper>

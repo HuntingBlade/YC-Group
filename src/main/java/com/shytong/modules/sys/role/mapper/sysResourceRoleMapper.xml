@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @author zhr 创建时间 2017-09-02 16:54:19-->
+<mapper namespace="sysResourceRole">
+    <!--baseresult-->
+
+    <resultMap id="BaseResultMap"   type="com.shytong.modules.sys.role.model.SysResourceRoleDo">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+        <result column="resource_id" property="resourceId" jdbcType="VARCHAR" />
+        <result column="info" property="info" jdbcType="VARCHAR" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+        <result column="editor_id" property="editorId" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+    </resultMap>
+
+
+
+    <insert id="insert" parameterType="com.shytong.modules.sys.role.model.SysResourceRoleDo"   >
+    insert into sy_sys_resource_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id !=null ">
+            id,
+        </if>
+        <if test="roleId !=null ">
+            role_id,
+        </if>
+        <if test="resourceId !=null ">
+            resource_id,
+        </if>
+        <if test="info !=null ">
+            info,
+        </if>
+        <if test="gmtCreate !=null ">
+            gmt_create,
+        </if>
+        <if test="creatorId !=null ">
+            creator_id,
+        </if>
+        <if test="gmtModified !=null ">
+            gmt_modified,
+        </if>
+        <if test="editorId !=null ">
+            editor_id,
+        </if>
+        <if test="isDeleted !=null ">
+            is_deleted,
+        </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id !=null ">
+            #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="roleId !=null ">
+            #{roleId,jdbcType=VARCHAR},
+        </if>
+        <if test="resourceId !=null ">
+            #{resourceId,jdbcType=VARCHAR},
+        </if>
+        <if test="info !=null ">
+            #{info,jdbcType=VARCHAR},
+        </if>
+        <if test="gmtCreate !=null ">
+            #{gmtCreate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="creatorId !=null ">
+            #{creatorId,jdbcType=VARCHAR},
+        </if>
+        <if test="gmtModified !=null ">
+            #{gmtModified,jdbcType=TIMESTAMP},
+        </if>
+        <if test="editorId !=null ">
+            #{editorId,jdbcType=VARCHAR},
+        </if>
+        <if test="isDeleted !=null ">
+            #{isDeleted,jdbcType=TINYINT},
+        </if>
+    </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="com.shytong.modules.sys.role.model.SysResourceRoleDo"   >
+    update sy_sys_resource_role
+    <set>
+        <if test="(isAll == 1 ||  fields.id !=null ) and id !=null">
+            id=#{id,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.roleId !=null ) and roleId !=null">
+            role_id=#{roleId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.resourceId !=null ) and resourceId !=null">
+            resource_id=#{resourceId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.info !=null ) and info !=null">
+            info=#{info,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.gmtCreate !=null ) and gmtCreate !=null">
+            gmt_create=#{gmtCreate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="(isAll == 1 ||  fields.creatorId !=null ) and creatorId !=null">
+            creator_id=#{creatorId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.gmtModified !=null ) and gmtModified !=null">
+            gmt_modified=#{gmtModified,jdbcType=TIMESTAMP},
+        </if>
+        <if test="(isAll == 1 ||  fields.editorId !=null ) and editorId !=null">
+            editor_id=#{editorId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.isDeleted !=null ) and isDeleted !=null">
+            is_deleted=#{isDeleted,jdbcType=TINYINT},
+        </if>
+
+    </set>
+    where 1=1 
+    and id=#{id,jdbcType=VARCHAR} 
+    </update>
+
+    <select id="selective" parameterType="com.shytong.modules.sys.role.model.SysResourceRoleDo" resultType="com.shytong.modules.sys.role.model.SysResourceRoleDo"  >
+    <trim prefix="select " suffix="" suffixOverrides=",">
+        
+        id as id,        
+        role_id as roleId,        
+        resource_id as resourceId,        
+        info as info,        
+        gmt_create as gmtCreate,        
+        creator_id as creatorId,        
+        gmt_modified as gmtModified,        
+        editor_id as editorId,        
+        is_deleted as isDeleted,    </trim>
+    from sy_sys_resource_role where 1=1 and id=#{id} and is_deleted=0 
+    </select>
+
+    <select id="select" parameterType="com.shytong.modules.sys.role.model.SysResourceRoleDo" resultType="com.shytong.modules.sys.role.model.SysResourceRoleDo"  >
+    select ${fields} from 
+                sy_sys_resource_role where id=#{id} and is_deleted=0
+    </select>
+
+    <update id="delete" parameterType="com.shytong.modules.sys.role.model.SysResourceRoleDo"   >
+    update  sy_sys_resource_role  set is_deleted=1  where 
+     id=#{id,jdbcType=VARCHAR} 
+    </update>
+
+
+
+</mapper>

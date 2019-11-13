@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @author zhr 创建时间 2017-09-02 16:54:19-->
+<mapper namespace="org">
+    <!--baseresult-->
+
+    <resultMap id="BaseResultMap"   type="com.shytong.modules.sys.org.model.OrgDo">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+        <result column="editor_id" property="editorId" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+    </resultMap>
+
+
+
+    <insert id="insert" parameterType="com.shytong.modules.sys.org.model.OrgDo"   >
+    insert into sy_sys_org
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id !=null ">
+            id,
+        </if>
+        <if test="name !=null ">
+            name,
+        </if>
+        <if test="code !=null ">
+            code,
+        </if>
+        <if test="parentId !=null ">
+            parent_id,
+        </if>
+        <if test="gmtCreate !=null ">
+            gmt_create,
+        </if>
+        <if test="creatorId !=null ">
+            creator_id,
+        </if>
+        <if test="gmtModified !=null ">
+            gmt_modified,
+        </if>
+        <if test="editorId !=null ">
+            editor_id,
+        </if>
+        <if test="isDeleted !=null ">
+            is_deleted,
+        </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id !=null ">
+            #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="name !=null ">
+            #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="code !=null ">
+            #{code,jdbcType=VARCHAR},
+        </if>
+        <if test="parentId !=null ">
+            #{parentId,jdbcType=VARCHAR},
+        </if>
+        <if test="gmtCreate !=null ">
+            #{gmtCreate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="creatorId !=null ">
+            #{creatorId,jdbcType=VARCHAR},
+        </if>
+        <if test="gmtModified !=null ">
+            #{gmtModified,jdbcType=TIMESTAMP},
+        </if>
+        <if test="editorId !=null ">
+            #{editorId,jdbcType=VARCHAR},
+        </if>
+        <if test="isDeleted !=null ">
+            #{isDeleted,jdbcType=TINYINT},
+        </if>
+    </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="com.shytong.modules.sys.org.model.OrgDo"   >
+    update sy_sys_org
+    <set>
+        <if test="(isAll == 1 ||  fields.id !=null ) and id !=null">
+            id=#{id,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.name !=null ) and name !=null">
+            name=#{name,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.code !=null ) and code !=null">
+            code=#{code,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.parentId !=null ) and parentId !=null">
+            parent_id=#{parentId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.gmtCreate !=null ) and gmtCreate !=null">
+            gmt_create=#{gmtCreate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="(isAll == 1 ||  fields.creatorId !=null ) and creatorId !=null">
+            creator_id=#{creatorId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.gmtModified !=null ) and gmtModified !=null">
+            gmt_modified=#{gmtModified,jdbcType=TIMESTAMP},
+        </if>
+        <if test="(isAll == 1 ||  fields.editorId !=null ) and editorId !=null">
+            editor_id=#{editorId,jdbcType=VARCHAR},
+        </if>
+        <if test="(isAll == 1 ||  fields.isDeleted !=null ) and isDeleted !=null">
+            is_deleted=#{isDeleted,jdbcType=TINYINT},
+        </if>
+
+    </set>
+    where 1=1 
+    and id=#{id,jdbcType=VARCHAR} 
+    </update>
+
+    <select id="selective" parameterType="com.shytong.modules.sys.org.model.OrgDo" resultType="com.shytong.modules.sys.org.model.OrgDo"  >
+    <trim prefix="select " suffix="" suffixOverrides=",">
+        
+        id as id,        
+        name as name,        
+        code as code,        
+        parent_id as parentId,        
+        gmt_create as gmtCreate,        
+        creator_id as creatorId,        
+        gmt_modified as gmtModified,        
+        editor_id as editorId,        
+        is_deleted as isDeleted,    </trim>
+    from sy_sys_org where 1=1 and id=#{id} and is_deleted=0 
+    </select>
+
+    <sql id="fields"   >
+             
+        id as id,        
+        name as name,        
+        code as code,        
+        parent_id as parentId,        
+        gmt_create as gmtCreate,        
+        creator_id as creatorId,        
+        gmt_modified as gmtModified,        
+        editor_id as editorId,        
+        is_deleted as isDeleted
+    </sql>
+
+    <select id="select" parameterType="java.util.Map" resultType="com.shytong.modules.sys.org.model.OrgDo"  >
+    select ${fields} from 
+                sy_sys_org where ${sycondition}
+    </select>
+
+    <update id="delete" parameterType="com.shytong.modules.sys.org.model.OrgDo"   >
+    update  sy_sys_org set is_deleted=1  where 
+     id=#{id,jdbcType=VARCHAR} 
+    </update>
+
+
+
+</mapper>

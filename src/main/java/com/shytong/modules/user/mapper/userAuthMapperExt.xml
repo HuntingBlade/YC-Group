@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @author zhr 创建时间 2017-09-02 16:54:19-->
+<mapper namespace="userAuth_ext">
+    <!--baseresult-->
+
+    <resultMap id="BaseResultMap"   type="com.shytong.modules.user.model.UserAuthDo">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="sys_identifier" property="sysIdentifier" jdbcType="VARCHAR" />
+        <result column="identifier" property="identifier" jdbcType="VARCHAR" />
+        <result column="certificate" property="certificate" jdbcType="VARCHAR" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+    </resultMap>
+
+
+    <select id="selectList" parameterType="java.util.Map" resultType="java.util.Map"  >
+        SELECT                     
+            id as id,            
+            user_id as userId,            
+            type as type,            
+            sys_identifier as sysIdentifier,            
+            identifier as identifier,            
+            certificate as certificate,            
+            gmt_create as gmtCreate,            
+            is_deleted as isDeleted
+        from sy_user_auth where 1=1  and is_deleted=0 
+</select>
+
+
+
+        </mapper>

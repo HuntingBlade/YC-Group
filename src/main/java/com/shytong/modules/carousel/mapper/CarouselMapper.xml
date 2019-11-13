@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CarouselMapper">
+    <!--  添加轮播项  -->
+    <insert id="insert" parameterType="com.shytong.modules.carousel.model.CarouselDo">
+        INSERT INTO sy_carousel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">
+                title,
+            </if>
+            <if test="source != null and source != ''">
+                source,
+            </if>
+            <if test="type != null and type != ''">
+                `type`,
+            </if>
+            <if test="url != null and url != ''">
+                url,
+            </if>
+            <if test="defaultIndex != null">
+                default_index,
+            </if>
+            <if test="interval != null and interval != ''">
+                `interval`,
+            </if>
+            <if test="cycleType != null and cycleType != ''">
+                cycle_type,
+            </if>
+            <if test="sort != null ">
+                sort,
+            </if>
+            <if test="enable != null">
+                `enable`,
+            </if>
+            <if test="status != null and status != ''">
+                `status`,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="creatorId != null and creator != ''">
+                creator_id,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null and source != ''">
+                #{source,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null and url != ''">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultIndex != null">
+                #{defaultIndex,jdbcType=INTEGER},
+            </if>
+            <if test="interval != null and interval != ''">
+                #{interval,jdbcType=VARCHAR},
+            </if>
+            <if test="cycleType != null and cycleType != ''">
+                #{cycleType,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null ">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=INTEGER},
+            </if>
+            <if test="status != null and status != ''">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType= TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creator != ''">
+                #{creatorId,jdbcType= VARCHAR},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType= TIMESTAMP},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                #{editorId,jdbcType= VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType= INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--  删除轮播项(批量删除)  -->
+    <update id="deleted" parameterType="java.util.List">
+        update sy_carousel
+        set is_deleted = '1'
+        where id in
+        <foreach collection="list" item="arr" index="no" open="(" separator="," close=")">
+            #{arr,jdbcType = INTEGER}
+        </foreach>
+    </update>
+
+    <!--  修改轮播项  -->
+    <update id="update" parameterType="com.shytong.modules.carousel.model.CarouselDo">
+        UPDATE sy_carousel
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title != null and title != ''">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null and source != ''">
+                source = #{source,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultIndex != null">
+                default_index = #{defaultIndex,jdbcType=INTEGER},
+            </if>
+            <if test="interval != null and interval != ''">
+                `interval` = #{interval,jdbcType=VARCHAR},
+            </if>
+            <if test="cycleType != null and cycleType != ''">
+                cycle_type = #{cycleType,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null ">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="enable != null">
+                `enable` = #{enable,jdbcType=INTEGER},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType= TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creator != ''">
+                creator_id = #{creatorId,jdbcType= VARCHAR},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType= TIMESTAMP},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id = #{editorId,jdbcType= VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType= INTEGER},
+            </if>
+        </trim>
+        WHERE
+        id = #{id,jdbcType = INTEGER}
+    </update>
+
+    <!--  获取轮播列表  -->
+    <select id="select" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+        id,
+        title,
+        source,
+        type,
+        url,
+        default_index AS defaultIndex,
+        interval,
+        cycle_type AS cycleType,
+        sort,
+        enable,
+        status,
+        sort,
+        gmt_modified AS gmtModified,
+        page_size AS pageSize
+        from
+        sy_carousel
+        <where>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null and title != ''">
+                AND title = #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="source != null and source != ''">
+                AND source = #{source,jdbcType=VARCHAR}
+            </if>
+            <if test="url != null and url != ''">
+                AND url = #{url,jdbcType=VARCHAR}
+            </if>
+            <if test="defaultIndex != null">
+                AND default_index = #{defaultIndex,jdbcType=INTEGER}
+            </if>
+            <if test="interval != null and interval != ''">
+                AND `interval` = #{interval,jdbcType=VARCHAR}
+            </if>
+            <if test="cycleType != null and cycleType != ''">
+                AND cycle_type = #{cycleType,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null ">
+                AND sort = #{sort,jdbcType=INTEGER}
+            </if>
+            <if test="enable != null">
+                AND `enable` = #{enable,jdbcType=INTEGER}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="gmtCreate != null">
+                AND gmt_create = #{gmtCreate,jdbcType= TIMESTAMP}
+            </if>
+            <if test="creatorId != null and creator != ''">
+                AND creator_id = #{creatorId,jdbcType= VARCHAR}
+            </if>
+            <if test="gmtModified != null">
+                AND gmt_modified = #{gmtModified,jdbcType= TIMESTAMP}
+            </if>
+            <if test="editorId != null and editorId != ''">
+                AND editor_id = #{editorId,jdbcType= VARCHAR}
+            </if>
+            AND is_deleted = 0
+        </where>
+        ORDER BY sort
+    </select>
+</mapper>

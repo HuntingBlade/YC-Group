@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ArticleMapper">
+    <!--  添加文章  -->
+    <insert id="insert" parameterType="com.shytong.modules.article.model.ArticleDo">
+        INSERT INTO sy_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="postTime != null">
+                post_time,
+            </if>
+            <if test="title != null and title != ''">
+                title,
+            </if>
+            <if test="titleImg != null and titleImg != ''">
+                title_img,
+            </if>
+            <if test="type != null and type != ''">
+                type,
+            </if>
+            <if test="author != null and author != ''">
+                author,
+            </if>
+            <if test="source != null and source != ''">
+                source,
+            </if>
+            <if test="content != null and content != ''">
+                content,
+            </if>
+            <if test="recommend != null and recommend != ''">
+                recommend,
+            </if>
+            <if test="sort != null">
+                keyword,
+            </if>
+            <if test="clickCount != null">
+                click_count,
+            </if>
+            <if test="topPrior!=null">
+                top_prior,
+            </if>
+            <if test="url != null and url != ''">
+                url,
+            </if>
+            <if test="status != null and status != ''">
+                status,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="creatorId != null and creator != ''">
+                creator_id,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=INTEGER},
+            </if>
+            <if test="postTime != null">
+                #{postTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="title != null and title != ''">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="titleImg != null and titleImg != ''">
+                #{titleImg,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null and author != ''">
+                #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null and source != ''">
+                #{source,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null and content != ''">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="recommend != null and recommend != ''">
+                #{recommend,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="clickCount != null">
+                #{clickCount,jdbcType=INTEGER},
+            </if>
+            <if test="topPrior!=null">
+                #{topPrior,jdbcType=INTEGER},
+            </if>
+            <if test="url != null and url != ''">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status != ''">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType= TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creator != ''">
+                #{creatorId,jdbcType= VARCHAR},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType= TIMESTAMP},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                #{editorId,jdbcType= VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType= INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--  删除文章(批量删除)  -->
+    <update id="deleted" parameterType="java.util.List">
+        update sy_article
+        set is_deleted = '1'
+        where id in
+        <foreach collection="list" item="arr" index="no" open="(" separator="," close=")">
+            #{arr,jdbcType = VARCHAR}
+        </foreach>
+    </update>
+
+    <!--  修改文章  -->
+    <update id="update" parameterType="com.shytong.modules.article.model.ArticleDo">
+        UPDATE sy_article
+        <trim prefix="set" suffixOverrides=",">
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=INTEGER},
+            </if>
+            <if test="postTime != null">
+                post_time = #{postTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="titleImg != null and titleImg != ''">
+                title_img = #{titleImg,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null and author != ''">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null and source != ''">
+                source = #{source,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="recommend != null and recommend != ''">
+                recommend = #{recommend,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="clickCount != null">
+                click_count = #{clickCount,jdbcType=INTEGER},
+            </if>
+            <if test="topPrior!=null">
+                top_prior = #{topPrior,jdbcType=INTEGER},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType= TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creator != ''">
+                creator_id = #{creatorId,jdbcType= VARCHAR},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType= TIMESTAMP},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                editor_id = #{editorId,jdbcType= VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType= INTEGER},
+            </if>
+        </trim>
+        WHERE
+        id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!--  获取文章列表  -->
+    <select id="select" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            id,
+            channel_id AS channelId,
+            post_time AS postTime,
+            title,
+            title_img AS titleImg,
+            type,
+            author,
+            source,
+            content,
+            recommend,
+            sort,
+            keyword,
+            click_count AS clickCount,
+            top_prior AS topPrior,
+            url,
+            status,
+            gmt_create AS gmtCreate,
+            gmt_modified AS gmtModified
+        FROM
+            sy_article
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="channelId != null">
+                AND channel_id = #{channelId,jdbcType=INTEGER},
+            </if>
+            <if test="postTime != null">
+                AND post_time = #{postTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="title != null and title != ''">
+                AND title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="titleImg != null and titleImg != ''">
+                AND title_img = #{titleImg,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                AND type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null and author != ''">
+                AND author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null and source != ''">
+                AND source = #{source,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null and content != ''">
+                AND content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="recommend != null and recommend != ''">
+                AND recommend = #{recommend,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                AND sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="clickCount != null">
+                AND click_count = #{clickCount,jdbcType=INTEGER},
+            </if>
+            <if test="topPrior!=null">
+                AND top_prior = #{topPrior,jdbcType=INTEGER},
+            </if>
+            <if test="url != null and url != ''">
+                AND url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                AND gmt_create = #{gmtCreate,jdbcType= TIMESTAMP},
+            </if>
+            <if test="creatorId != null and creator != ''">
+                AND creator_id = #{creatorId,jdbcType= VARCHAR},
+            </if>
+            <if test="gmtModified != null">
+                AND gmt_modified = #{gmtModified,jdbcType= TIMESTAMP},
+            </if>
+            <if test="editorId != null and editorId != ''">
+                AND editor_id = #{editorId,jdbcType= VARCHAR},
+            </if>
+            AND is_deleted = 0
+        </where>
+        ORDER BY sort DESC, gmt_create DESC
+    </select>
+</mapper>

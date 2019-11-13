@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @author zhr 创建时间 2017-09-02 16:54:19-->
+<mapper namespace="sysResourceRole_ext">
+    <!--baseresult-->
+
+    <resultMap id="BaseResultMap"   type="com.shytong.modules.sys.role.model.SysResourceRoleDo">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+        <result column="resource_id" property="resourceId" jdbcType="VARCHAR" />
+        <result column="info" property="info" jdbcType="VARCHAR" />
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+        <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+        <result column="editor_id" property="editorId" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+    </resultMap>
+
+
+    <select id="selectList" parameterType="java.util.Map" resultType="java.util.Map"  >
+        SELECT                     
+            id as id,            
+            role_id as roleId,            
+            resource_id as resourceId,            
+            info as info,
+            gmt_create as gmtCreate,
+            creator_id as creatorId,
+            gmt_modified as gmtModified,
+            editor_id as editorId,
+            is_deleted as isDeleted
+        from sy_sys_resource_role where 1=1  and is_deleted=0
+
+
+</select>
+
+    <select id="selectRoleResources" parameterType="java.util.Map"
+            resultType="com.shytong.sys.authorization.CommResource"  >
+
+       SELECT
+    r.id,
+    r.code,
+    r.type_code as typeCode,
+    r.type,
+    r.sub_type as subType,
+    r.parent_id as parentId,
+    r.name,
+    r.param,
+    r.op_type as opType,
+    l.valid_type as validType,
+    l.valid_value as validValue,
+    case when  r.type=1 and r.sub_type=1 then r.info else
+    l.info end as info
+
+    FROM
+    sy_sys_resource_role l
+    INNER JOIN sy_sys_resource r ON l.resource_id = r.id
+    where l.is_deleted=0 and r.is_deleted=0 
+    and
+    l.role_id=#{roleId}
+
+
+    </select>
+    <select id="selectRoleResourcesToDo" parameterType="java.util.Map"
+            resultType="java.util.Map"  >
+
+        SELECT
+        l.resource_id as resourceId,
+         l.id,
+        l.valid_type as validType,
+        l.valid_value as validValue,
+        l.info
+
+        FROM
+        sy_sys_resource_role l
+
+        where l.is_deleted=0
+        and
+        l.role_id=#{roleId}
+
+
+    </select>
+    <select id="selectRoleChannelToDo" parameterType="java.util.Map"
+            resultType="java.util.Map"  >
+
+        SELECT
+        l.channel_id as chaId,
+        l.scr_id as scrId,
+        l.valid_type as validType,
+        l.valid_value as validValue,
+        l.info
+
+        FROM
+        sy_sys_channel_role l
+
+        where l.is_deleted=0
+        and
+        l.role_id=#{roleId}
+
+
+    </select>
+    <select id="getPersonRoleChannel" parameterType="java.util.Map"
+            resultType="java.util.Map"  >
+
+        SELECT
+        l.channel_id as chaId,
+        l.scr_id as scrId,
+        l.valid_type as validType,
+        l.valid_value as validValue,
+        l.info as info,
+        a.cha_name as chaName
+
+        FROM
+        sy_sys_channel_role l inner join sy_channel a
+        on l.channel_id = a.cha_id
+
+        where l.is_deleted=0
+        and
+        l.role_id=#{roleId}
+
+
+    </select>
+
+        </mapper>
