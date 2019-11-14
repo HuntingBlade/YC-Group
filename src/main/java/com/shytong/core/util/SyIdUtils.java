@@ -16,6 +16,7 @@ public class SyIdUtils {
     public static long nextId(){
         return  snowflakeIdWorker.nextId();
     }
+
     public static String uuid(){
 
         return UUID.randomUUID().toString().replace("-","");

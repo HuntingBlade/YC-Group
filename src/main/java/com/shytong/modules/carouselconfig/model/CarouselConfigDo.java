@@ -9,10 +9,16 @@ import java.util.Date;
  * @date 2019/11/13
  */
 public class CarouselConfigDo implements Serializable {
+    private static final long serialVersionUID = 4223091754066499665L;
+
     /**
      * 编号
      */
     private String id;
+    /**
+     * 所属轮播编号
+     */
+    private Integer carouselId;
     /**
      * 样式
      */
@@ -28,7 +34,7 @@ public class CarouselConfigDo implements Serializable {
     /**
      * 循环类型
      */
-    private String cycleTyle;
+    private String cycleType;
     /**
      * 最大展示图片数量
      */
@@ -74,6 +80,14 @@ public class CarouselConfigDo implements Serializable {
         this.id = id;
     }
 
+    public Integer getCarouselId() {
+        return carouselId;
+    }
+
+    public void setCarouselId(Integer carouselId) {
+        this.carouselId = carouselId;
+    }
+
     public String getStyle() {
         return style;
     }
@@ -98,12 +112,12 @@ public class CarouselConfigDo implements Serializable {
         this.intervalTime = intervalTime;
     }
 
-    public String getCycleTyle() {
-        return cycleTyle;
+    public String getCycleType() {
+        return cycleType;
     }
 
-    public void setCycleTyle(String cycleTyle) {
-        this.cycleTyle = cycleTyle;
+    public void setCycleType(String cycleType) {
+        this.cycleType = cycleType;
     }
 
     public Integer getMaxShowCount() {
@@ -182,10 +196,11 @@ public class CarouselConfigDo implements Serializable {
     public String toString() {
         return "CarouselConfigDo{" +
                 "id='" + id + '\'' +
+                ", carouselId=" + carouselId +
                 ", style='" + style + '\'' +
                 ", startIndex=" + startIndex +
                 ", intervalTime='" + intervalTime + '\'' +
-                ", cycleTyle='" + cycleTyle + '\'' +
+                ", cycleType='" + cycleType + '\'' +
                 ", maxShowCount=" + maxShowCount +
                 ", isUp=" + isUp +
                 ", sort=" + sort +

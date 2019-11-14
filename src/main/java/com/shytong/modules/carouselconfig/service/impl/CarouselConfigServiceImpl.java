@@ -3,11 +3,14 @@ package com.shytong.modules.carouselconfig.service.impl;
 import com.github.pagehelper.PageInfo;
 import com.shytong.common.exception.ApiBizException;
 import com.shytong.common.model.SyMap;
+import com.shytong.core.util.SyIdUtils;
 import com.shytong.modules.carouselconfig.dao.ICarouselConfigDao;
 import com.shytong.modules.carouselconfig.model.CarouselConfigDo;
 import com.shytong.modules.carouselconfig.service.ICarouselConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * @Author CL
@@ -24,6 +27,8 @@ public class CarouselConfigServiceImpl implements ICarouselConfigService {
         if (carouselConfigDo == null) {
             throw new ApiBizException(-1, "参数错误");
         }
+        String id = String.valueOf(SyIdUtils.nextId());
+        carouselConfigDo.setId(id);
         Integer result = carouselConfigDao.addCarouselConfig(carouselConfigDo);
         if (result < 0) {
             throw new RuntimeException();
@@ -33,11 +38,12 @@ public class CarouselConfigServiceImpl implements ICarouselConfigService {
 
     @Override
     public Integer deletedCarouselConfig(SyMap params) throws ApiBizException {
-        int id = params.getInteger("id");
-        if (id <= 0) {
+        String id = params.getString("id");
+        if (id.isEmpty()) {
             throw new ApiBizException(-1, "参数错误");
         }
         CarouselConfigDo carouselConfigDo = new CarouselConfigDo();
+        carouselConfigDo.setId(id);
         carouselConfigDo.setIsDeleted(1);
         Integer result = carouselConfigDao.updateCarouselConfig(carouselConfigDo);
         if (result < 0) {

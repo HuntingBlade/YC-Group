@@ -3,9 +3,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CarouselMapper">
     <!--  添加轮播项  -->
-    <insert id="insert" parameterType="com.shytong.modules.carousel.model.CarouselDo">
+    <insert id="insertCarousel" parameterType="com.shytong.modules.carousel.model.CarouselDo">
         INSERT INTO sy_carousel
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
             <if test="title != null and title != ''">
                 title,
             </if>
@@ -20,6 +26,9 @@
             </if>
             <if test="sort != null ">
                 sort,
+            </if>
+            <if test="isUp != null ">
+                is_up,
             </if>
             <if test="status != null and status != ''">
                 `status`,
@@ -42,6 +51,12 @@
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=INTEGER},
+            </if>
             <if test="title != null and title != ''">
                 #{title,jdbcType=VARCHAR},
             </if>
@@ -56,6 +71,9 @@
             </if>
             <if test="sort != null ">
                 #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="isUp != null ">
+                #{isUp,jdbcType=INTEGER},
             </if>
             <if test="status != null and status != ''">
                 #{status,jdbcType=VARCHAR},
@@ -79,7 +97,7 @@
     </insert>
 
     <!--  删除轮播项(批量删除)  -->
-    <update id="deleted" parameterType="java.util.List">
+    <update id="deletedCarousel" parameterType="java.util.List">
         update sy_carousel
         set is_deleted = '1'
         where id in
@@ -89,9 +107,12 @@
     </update>
 
     <!--  修改轮播项  -->
-    <update id="update" parameterType="com.shytong.modules.carousel.model.CarouselDo">
+    <update id="updateCarousel" parameterType="com.shytong.modules.carousel.model.CarouselDo">
         UPDATE sy_carousel
         <trim prefix="set" suffixOverrides=",">
+            <if test="channelId != null ">
+                channel_id = #{channelId,jdbcType=INTEGER},
+            </if>
             <if test="title != null and title != ''">
                 title = #{title,jdbcType=VARCHAR},
             </if>
@@ -106,6 +127,9 @@
             </if>
             <if test="sort != null ">
                 sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="isUp != null ">
+                is_up = #{isUp,jdbcType=INTEGER},
             </if>
             <if test="status != null and status != ''">
                 status = #{status,jdbcType=VARCHAR},
@@ -127,26 +151,31 @@
             </if>
         </trim>
         WHERE
-        id = #{id,jdbcType = INTEGER}
+        id = #{id,jdbcType = VARCHAR}
+        AND is_deleted = 0
     </update>
 
     <!--  获取轮播列表  -->
-    <select id="select" parameterType="java.util.Map" resultType="java.util.Map">
+    <select id="selectCarouselList" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
             id,
+            channel_id AS channelId,
             title,
             source,
             type,
             url,
             sort,
+            is_up AS isUp,
             status,
-            sort,
-            gmt_modified AS gmtModified,
+            gmt_modified AS gmtModified
         FROM
             sy_carousel
         <where>
-            <if test="id != null">
-                id = #{id,jdbcType=INTEGER},
+            <if test="id != null and id != ''">
+                AND id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="channelId != null">
+                AND channel_id = #{channelId,jdbcType=INTEGER}
             </if>
             <if test="title != null and title != ''">
                 AND title = #{title,jdbcType=VARCHAR}
@@ -159,6 +188,9 @@
             </if>
             <if test="sort != null ">
                 AND sort = #{sort,jdbcType=INTEGER}
+            </if>
+            <if test="isUp != null ">
+                AND is_up = #{isUp,jdbcType=INTEGER}
             </if>
             <if test="status != null and status != ''">
                 AND status = #{status,jdbcType=VARCHAR}

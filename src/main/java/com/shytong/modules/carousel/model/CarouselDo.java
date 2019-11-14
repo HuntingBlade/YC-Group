@@ -9,11 +9,15 @@ import java.util.Date;
  * @Date: 2019/11/12 20:15
  */
 public class CarouselDo implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -9142055067436900946L;
     /**
      * 轮播编号
      */
     private String id;
+    /**
+     * 所属栏目编号
+     */
+    private Integer channelId;
     /**
      * 轮播标题
      */
@@ -31,22 +35,6 @@ public class CarouselDo implements Serializable {
      */
     private String url;
     /**
-     * 轮播显示时间
-     */
-    private String showTime;
-    /**
-     * 轮播默认下标开始播放
-     */
-    private Integer defaultIndex;
-    /**
-     * 轮播间隔时间
-     */
-    private String interval;
-    /**
-     * 轮播循环状态
-     */
-    private Integer cycleType;
-    /**
      * 排序
      */
     private Integer sort;
@@ -57,7 +45,7 @@ public class CarouselDo implements Serializable {
     /**
      * 是否启用(1-是 / 0-否)
      */
-    private Integer enable;
+    private Integer isUp;
     /**
      * 创建时间
      */
@@ -85,6 +73,14 @@ public class CarouselDo implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Integer channelId) {
+        this.channelId = channelId;
     }
 
     public String getTitle() {
@@ -119,38 +115,6 @@ public class CarouselDo implements Serializable {
         this.url = url;
     }
 
-    public String getShowTime() {
-        return showTime;
-    }
-
-    public void setShowTime(String showTime) {
-        this.showTime = showTime;
-    }
-
-    public Integer getDefaultIndex() {
-        return defaultIndex;
-    }
-
-    public void setDefaultIndex(Integer defaultIndex) {
-        this.defaultIndex = defaultIndex;
-    }
-
-    public String getInterval() {
-        return interval;
-    }
-
-    public void setInterval(String interval) {
-        this.interval = interval;
-    }
-
-    public Integer getCycleType() {
-        return cycleType;
-    }
-
-    public void setCycleType(Integer cycleType) {
-        this.cycleType = cycleType;
-    }
-
     public Integer getSort() {
         return sort;
     }
@@ -167,12 +131,12 @@ public class CarouselDo implements Serializable {
         this.status = status;
     }
 
-    public Integer getEnable() {
-        return enable;
+    public Integer getIsUp() {
+        return isUp;
     }
 
-    public void setEnable(Integer enable) {
-        this.enable = enable;
+    public void setIsUp(Integer isUp) {
+        this.isUp = isUp;
     }
 
     public Date getGmtCreate() {
@@ -219,17 +183,14 @@ public class CarouselDo implements Serializable {
     public String toString() {
         return "CarouselDo{" +
                 "id='" + id + '\'' +
+                ", channelId=" + channelId +
                 ", title='" + title + '\'' +
                 ", source='" + source + '\'' +
                 ", type='" + type + '\'' +
                 ", url='" + url + '\'' +
-                ", showTime='" + showTime + '\'' +
-                ", defaultIndex=" + defaultIndex +
-                ", interval='" + interval + '\'' +
-                ", cycleType=" + cycleType +
                 ", sort=" + sort +
                 ", status='" + status + '\'' +
-                ", enable=" + enable +
+                ", isUp=" + isUp +
                 ", gmtCreate=" + gmtCreate +
                 ", gmtModified=" + gmtModified +
                 ", creatorId='" + creatorId + '\'' +

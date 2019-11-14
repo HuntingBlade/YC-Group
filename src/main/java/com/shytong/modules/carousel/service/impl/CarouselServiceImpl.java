@@ -3,6 +3,7 @@ package com.shytong.modules.carousel.service.impl;
 import com.github.pagehelper.PageInfo;
 import com.shytong.common.exception.ApiBizException;
 import com.shytong.common.model.SyMap;
+import com.shytong.core.util.SyIdUtils;
 import com.shytong.modules.carousel.dao.ICarouselDao;
 import com.shytong.modules.carousel.model.CarouselDo;
 import com.shytong.modules.carousel.service.ICarouselService;
@@ -25,9 +26,11 @@ public class CarouselServiceImpl implements ICarouselService {
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public Integer insertCarousel(CarouselDo carouselDo) throws ApiBizException {
+        String id = String.valueOf(SyIdUtils.nextId());
         if (carouselDo == null) {
             throw new ApiBizException(-1, "参数错误");
         }
+        carouselDo.setId(id);
         Integer result = carouselDao.insertCarousel(carouselDo);
         if (result < 0) {
             throw new RuntimeException();

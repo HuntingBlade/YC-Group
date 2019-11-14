@@ -51,8 +51,8 @@ public class CarouselController extends BaseController {
      * @return
      * @throws ApiBizException
      */
-    @RequestMapping(value = "/deleted", method = RequestMethod.POST)
-    public String deletedCarousel(HttpServletRequest servletRequest, @RequestParam Map map) throws ApiBizException {
+    @RequestMapping(value = "/deleted", method = RequestMethod.POST,consumes = "*")
+    public String deletedCarousel(HttpServletRequest servletRequest, @RequestBody Map map) throws ApiBizException {
         List list = (List) map.get("id");
         Integer result = carouselService.deletedCarousel(list);
         return this.normalResp(result);
@@ -67,7 +67,7 @@ public class CarouselController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateCarousel(HttpServletRequest servletRequest, @RequestParam CarouselDo carouselDo) throws ApiBizException {
+    public String updateCarousel(HttpServletRequest servletRequest, @RequestBody CarouselDo carouselDo) throws ApiBizException {
         SyValidationUtils.valid()
                 .len(carouselDo.getTitle(), 255, true, "轮播标题格式错误")
                 .len(carouselDo.getUrl(), 255, true, "轮播标题格式错误");
@@ -84,13 +84,13 @@ public class CarouselController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public String selectCarouselList(HttpServletRequest servletRequest, @RequestParam Map map) throws ApiBizException {
+    public String selectCarouselList(HttpServletRequest servletRequest, @RequestBody Map map) throws ApiBizException {
         SyMap params = new SyMap(map);
         SyValidationUtils.valid()
                 .isInt(params.getInteger("pageNum"), 11, true, "页码格式错误")
                 .isInt(params.getInteger("pageSize"), 11, true, "每页大小格式错误");
         PageInfo result = carouselService.selectCarouselList(params);
-        return this.normalResp(result);
+        return this.normalRespPage(result);
     }
 
 }

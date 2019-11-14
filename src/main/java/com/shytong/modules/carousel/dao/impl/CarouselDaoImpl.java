@@ -22,21 +22,21 @@ public class CarouselDaoImpl implements ICarouselDao {
 
     @Override
     public Integer insertCarousel(CarouselDo carouselDo) {
-        return baseDao.insert("CarouselMapper.insert", carouselDo);
+        return baseDao.insert("CarouselMapper.insertCarousel", carouselDo);
     }
 
     @Override
     public Integer deletedCarousel(List list) {
-        return baseDao.delete("CarouselMapper.deleted", list);
+        return baseDao.delete("CarouselMapper.deletedCarousel", list);
     }
 
     @Override
     public Integer updateCarousel(CarouselDo carouselDo) {
-        return baseDao.update("CarouselMapper.update", carouselDo);
+        return baseDao.update("CarouselMapper.updateCarousel", carouselDo);
     }
 
     @Override
     public PageInfo selectCarouselList(Integer pageNum, Integer pageSize, SyMap params) {
-        return baseDao.commlistOfPage("CarouselMapper.select", pageNum, pageSize, params);
+        return baseDao.commlistOfPage("CarouselMapper.selectCarouselList", pageNum, pageSize, params);
     }
 }
