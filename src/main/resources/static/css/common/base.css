@@ -3,7 +3,9 @@ html, body {
     height: 100%;
     padding: 0;
     margin: 0;
+    min-width: 1200px;
     font-size: 12px;
+    line-height: 1.45;
     font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
     color: #585858;
 }
@@ -16,66 +18,52 @@ html, body {
 
 .top-nav {
     width: 100%;
+    min-width: 1200px;
     height: 87px;
     display: flex;
-    position: relative;
     background: white;
 }
 
 .top-nav-inner {
     height: 100%;
-    margin: 0 auto;
-    width: 1632px;
+    margin: 0 7%;
+    width: 100%;
     /*background: #00F7DE;*/
     display: flex;
-    flex-direction: row;
-}
-
-.top-nav-inner .top-nav-inner-div {
-    /*width: 50%;*/
-    height: 100%;
 }
 
 .top-nav-inner-left {
-    width: 60%;
+    width: 30%;
     /*background: #0000FF;*/
-}
-
-.top-nav-inner-right {
-    /*background: red;*/
-    width: 40%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.logo {
-    width: 150px;
-    height: 90px;
-    margin: 0 5%;
+    justify-content: center;
 }
 
 .logo-img {
     width: 150px;
     height: 85px;
     display: block;
-    float: left;
+    cursor: pointer;
 }
 
-.nav-channel {
-    width: 100%;
-    position: absolute;
+.top-nav-inner-right {
+    /*background: red;*/
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    width: 67%;
 }
 
 .top-nav-inner a {
     color: #333333;
     font-weight: bold;
-    text-decoration: none;
     border-radius: 20px;
-    padding: 0.5em 2em;
+    padding: 0.5em 2.1em;
+}
+
+.top-nav-inner .active{
+    background-color: #002d7b;
+    border-radius: 20px;
+    color: white;
 }
 
 .top-nav-inner .nav-a:hover {
@@ -85,3 +73,4 @@ html, body {
     border-radius: 20px;
     color: white;
 }
+

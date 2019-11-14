@@ -20,7 +20,7 @@ public class FrontServiceImpl implements IFrontService {
     @Override
     public void setHtml(ModelMap model) {
         // logo图片
-        frontDao.getSysConfig("logo","");
-        model.addAttribute("logoImg","");
+        // 栏目
+        // 轮播图
     }
 }
