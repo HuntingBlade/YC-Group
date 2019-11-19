@@ -1,0 +1,154 @@
+.content-title-nav {
+    text-align: center;
+    width: 100%;
+    padding-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.content-title-nav ul {
+    width: 100%;
+}
+
+.content-title-nav ul li:first-child {
+    margin-left: 0;
+}
+
+.content-title-nav ul li {
+    display: inline;
+    margin-left: 1em;
+}
+
+.content-title-nav ul li a {
+    padding: 8px 16px;
+    border: 1px solid #d2d2d2;
+    margin-right: 2px;
+    display: inline-block;
+    transition: all 0.3s ease-out 0s;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.content-title-nav ul li a:hover {
+    background: #353535;
+    color: #ffffff;
+}
+
+.active {
+    background: #353535;
+    border-radius: 0;
+    color: #fff;
+}
+
+.content-main {
+    background-color: #ffffff;
+    width: 85%;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.content-img-list {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.banimg {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    align-content: space-between;
+}
+
+.content-img-list ul li {
+    float: left;
+    padding-bottom: 2%;
+    text-align: -webkit-match-parent;
+}
+
+.content-img-list ul li a {
+    border-bottom: 2px solid #fff;
+    display: inline-block;
+    width: 96%;
+    text-decoration: none;
+    color: #585858;
+    cursor: pointer;
+}
+
+.case-img {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+.flag {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    width: 0;
+}
+
+.case-img img {
+    width: 100%;
+    border: 0;
+    transition: all 0.3s ease-out 0s;
+}
+
+.case-img img:hover {
+    transform: scale(1.2);
+}
+
+.case-info {
+    width: 100%;
+    transition: all 0.3s ease-out 0s;
+}
+
+.case-info h1 {
+    font-weight: normal;
+    font-size: 14px;
+    color: #333333;
+    display: block;
+    padding: 10px 0;
+    line-height: 18px;
+}
+
+
+.content-main1 {
+    width: 85%;
+    background: url("/img/upload/mian1bg.png") no-repeat bottom center;
+    background-size: 100% auto;
+    display: block;
+    position: relative;
+    padding-top: 42%;
+    margin: 0 auto;
+}
+
+.content-main1-child {
+    position: absolute;
+    top: 8%;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.content-main1 h2 {
+    font-size: 30px;
+    text-align: center;
+    margin: 0 auto 2%;
+    color: #002d7b;
+    font-weight: normal;
+}
+
+.content-main1 i {
+    width: 5%;
+    background: #cccccc;
+    height: 1px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.content-main1 h3 {
+    font-size: 15px;
+    text-align: left;
+    width: 75%;
+    margin: 0 auto;
+    font-weight: bold;
+}

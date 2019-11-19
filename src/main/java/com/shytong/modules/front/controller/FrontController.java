@@ -30,7 +30,7 @@ public class FrontController {
         String title = "首页-亿创电力集团";
         model.addAttribute("logoImg","/img/upload/logo.png");
         model.addAttribute("title", title);
-        return "/index/index";
+        return "/index/news";
     }
 
 

@@ -14,7 +14,8 @@ html, body {
     top:0;
     width: 100%;
     height: 87px;
-    background: wheat;
+    background: #fff;
+    box-shadow: 0 0 5px #ccc;
     z-index: 9999;
 }
 
@@ -23,7 +24,7 @@ html, body {
     min-width: 1200px;
     height: 87px;
     display: flex;
-    background: white;
+    background: #fff;
 }
 
 .top-nav-inner {

@@ -5,6 +5,9 @@
     <title>^{title}</title>
     <link rel="stylesheet" href="/third/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/common/base.css">
+    <link rel="stylesheet" href="/css/index/introduction.css">
+    <link rel="stylesheet" href="/css/index/qualification.css">
+    <link rel="stylesheet" href="/css/index/news.css">
     <script type="text/javascript" src="/third/js/jq/jquery.min.js"></script>
     <script type="text/javascript" src="/third/layui/layui.js"></script>
 </head>
@@ -12,7 +15,7 @@
 <div class="main-div">
     <div class="top-nav">
         <div class="top-nav-inner">
-            <div class="top-nav-inner-left" >
+            <div class="top-nav-inner-left">
                 <img class="logo-img" src="^{logoImg}"/>
             </div>
             <div class="top-nav-inner-right">
@@ -28,5 +31,52 @@
     </div>
 </div>
 ^{layoutContent}
+<div style="height: 190px;width: 100%; display:flex;background: url(/img/upload/footbg.jpg) no-repeat center top">
+    <div style="width: 65%; margin: 55px 0 0 170px ">
+        <div style="display: flex; width: 100%; padding: 25px 0;font-size: 13px">
+            <select name="1" id="1"
+                    style="width:232px;height: 30px;border: none;padding: 0 5px;margin-right: 1%;margin-bottom: 1%;">
+                <option aria-checked="true"
+                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
+                    政府机构
+                </option>
+            </select>
+            <select name="2" id="2"
+                    style="width:232px;height:30px;line-height: 30px;border: none;padding: 0 5px;margin-right: 1%;margin-bottom: 1%;">
+                <option aria-checked="true"
+                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
+                    行业链接
+                </option>
+            </select>
+            <select name="3" id="3"
+                    style="width:86px;height: 30px;line-height: 30px;border: none;padding: 0 5px;margin-right: 1%;margin-bottom: 1%;">
+                <option aria-checked="true"
+                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
+                    新闻媒体111
+                </option>
+                <option aria-checked="true"
+                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
+                    新闻媒体
+                </option>
+                <option aria-checked="true"
+                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
+                    新闻媒体
+                </option>
+            </select>
+        </div>
+        <div>
+            <div style="margin-top: 0;color: white">COPYRIGHT © 2016 亿创电力建设集团 All rights reserved<br>
+                <a href="http://www.miitbeian.gov.cn" target="_blank" style="color: white">闽ICP备19012103号</a>
+                技术支持：
+                <a href="http://www.shytong.com/" target="_blank" style="color: white">福州数语网络科技有限公司</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="min-width: 35%;width: 35%;height: 190px;text-align: center">
+        <img src="/img/upload/footlogo.png" alt="" style="width:230px;height:140px;padding:25px 0;">
+    </div>
+</div>
+
 </body>
 </html>
