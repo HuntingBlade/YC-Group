@@ -8,6 +8,9 @@ import com.shytong.modules.channel.model.ChannelDo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Author: CL
  * @Date: 2019/11/12 17:25
@@ -31,5 +34,15 @@ public class ChannelDao implements IChannelDao {
     @Override
     public PageInfo<ChannelDo> selectList(Integer pageNum, Integer pageSize, SyMap params) {
         return baseDao.commlistOfPage("ChannelMapper.select", pageNum, pageSize, params);
+    }
+
+    @Override
+    public List getChannelListByPId(Integer parentId) {
+        return baseDao.selectList("ChannelMapper.getChannelListByPId", parentId);
+    }
+
+    @Override
+    public List<Map> getChannelListByParentChannelId(Integer parentId) {
+        return baseDao.selectList("ChannelMapper.getChannelListByParentChannelId", parentId);
     }
 }

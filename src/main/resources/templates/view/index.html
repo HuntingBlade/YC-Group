@@ -1,0 +1,115 @@
+@#
+layout("../common/base.html",{title:'首页-亿创电力集团',nav:'index',header_css:""}){
+#@
+<!--轮播-->
+<div class="warp-carousel">
+    <div class="layui-carousel" id="test1">
+        <div carousel-item>
+            @# for(carousel in carouselList) { #@
+            <div>
+                <img class="carousel-img" src=^{carousel.sysValue}/>
+            </div>
+            @#}#@
+        </div>
+    </div>
+</div>
+
+<!--内容-->
+<div class="wrap-content">
+    <div>
+        <span>总裁寄语</span>
+        <h2>
+            <i></i>
+            ^{articleList.title}
+            <i></i>
+        </h2>
+        <h3>各界新老朋友：<br>
+            ^{articleList.content}
+            <br>
+            <div>集团总裁:<img src=^{signature.sysValue}></div>
+        </h3>
+    </div>
+</div>
+
+@# for(item in indexContentModel) {
+if(item.sort == 1){
+#@
+<!--业务范围-->
+<div class="wrapper-content-service">
+    <div class="content-service-title">
+        <h1>^{item.pageName}</h1>
+        <span>^{item.name}</span>
+    </div>
+
+    <div class="content-service-item">
+        <ul>
+            @# for(children in item.children!) { #@
+            <li>
+                <a href="javascript:void(this)">
+                    <img src=^{children.sysValue}/>
+                    <h4>^{children.name}</h4>
+                </a>
+            </li>
+            @# } #@
+        </ul>
+    </div>
+</div>
+@#} else if(item.sort == 2){#@
+<!--新闻中心-->
+<div class="warp-news-model">
+    <div class="news-channel">
+        <a href=^{item.indexName}>
+            <h2>^{item.name}</h2>
+            <h3>^{item.pageName}</h3>
+        </a>
+    </div>
+    <div class="news-channel-content">
+        <div class="news-channel-content1">
+            <img src=^{item.sysValue}>
+        </div>
+        <div class="news-channel-content2">
+            <img src=^{recommendArticleImg.sysValue}>
+            <h3 id="recommendArticleTitle">^{recommendArticle.title}</h3>
+            <span id="recommendArticleSummary">^{recommendArticle.summary}</span>
+            <h2><a href="">MORE+</a></h2>
+        </div>
+    </div>
+    <div class="news-channel-content3">
+        <ul>
+            @# for(list in newsArticleList) {
+                if(list.artId == null){
+                    continue;
+                }
+            #@
+            <li>
+                <h3>
+                    <span>^{list.postTime}</span><span>^{list.postTime}</span>
+                </h3>
+                <div class="index-news-list">
+                    <h2>
+                        <a href="news_ny.php?classid=194&amp;infoid=996">亿创集团应邀参加2019海峡两岸能源合作平...</a>
+                    </h2>
+                </div>
+            </li>
+            @# }  #@
+        </ul>
+    </div>
+</div>
+@# } else { #@
+<div></div>
+
+@# }}} #@
+
+<script>
+    layui.use('carousel', function () {
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1',
+            width: '100%', //设置容器宽度
+            height: '100%',
+            arrow: 'always' //始终显示箭头
+            // ,anim: 'updown' //切换动画方式
+        });
+    });
+</script>

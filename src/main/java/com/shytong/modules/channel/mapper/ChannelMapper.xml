@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ChannelMapper">
+
+    <sql id="select_sql_part">
+        id,
+        `name`,
+        parent_id AS parentId,
+        "group",
+        page_name AS pageName,
+        index_name AS indexName,
+        index_count AS indexCount,
+        page_template AS pageTemplate,
+        list_name AS listName,
+        list_count AS listCount,
+        list_template AS listTemplate,
+        sort,
+        gmt_modified AS gmtModified
+    </sql>
+
     <!--  添加栏目项  -->
     <insert id="insert" parameterType="com.shytong.modules.channel.model.ChannelDo">
         INSERT INTO sy_channel
@@ -173,21 +190,9 @@
 
     <!--  获取栏目列表  -->
     <select id="select" parameterType="java.util.Map" resultType="com.shytong.modules.channel.model.ChannelDo">
-        select
-        id,
-        name,
-        parent_id AS parentId,
-        "group",
-        page_name AS pageName,
-        index_name AS indexName,
-        index_count AS indexCount,
-        page_template AS pageTemplate,
-        list_name AS listName,
-        list_count AS listCount,
-        list_template AS listTemplate,
-        sort,
-        gmt_modified AS gmtModified
-        from
+        SELECT
+        <include refid="select_sql_part"/>
+        FROM
         sy_channel
         <where>
             <if test="name != null and name != ''">
@@ -238,5 +243,50 @@
             and is_deleted = 0
         </where>
         ORDER BY sort
+    </select>
+
+    <!--  获取栏目id下的子栏目  -->
+    <select id="getChannelListByPId" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+        <include refid="select_sql_part"/>
+        FROM
+        sy_channel
+        WHERE
+        parent_id = #{parentId,jdbcType=INTEGER}
+        AND is_deleted = 0
+        ORDER BY sort
+    </select>
+
+    <!--  获取栏目id下的子栏目及图片等信息  -->
+    <select id="getChannelListByParentChannelId" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+            a.id,
+            a.`name`,
+            a.parent_id AS parentId,
+            a.`group`,
+            a.page_name AS pageName,
+            a.index_name AS indexName,
+            a.index_count AS indexCount,
+            a.page_template AS pageTemplate,
+            a.list_name AS listName,
+            a.list_count AS listCount,
+            a.list_template AS listTemplate,
+            a.sort,
+            a.gmt_modified AS gmtModified,
+            b.sys_key AS  sysKey,
+            b.sys_value AS sysValue,
+            b.sys_name AS sysName,
+            c.id AS artId,
+            c.channel_id AS channelId,
+            c.post_time AS postTime,
+            c.title AS title
+        FROM
+            sy_channel a
+                LEFT JOIN sy_sys_config b on a.id = b.sys_key AND b.is_deleted = 0
+                LEFT JOIN sy_article c ON c.channel_id = a.id AND c.is_deleted = 0
+        WHERE
+        a.parent_id = #{parentId,jdbcType=INTEGER}
+        AND a.is_deleted = 0
+        ORDER BY c.post_time
     </select>
 </mapper>

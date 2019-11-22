@@ -4,77 +4,73 @@
     <meta charset="UTF-8">
     <title>^{title}</title>
     <link rel="stylesheet" href="/third/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/common/comm.css">
     <link rel="stylesheet" href="/css/common/base.css">
+    <link rel="stylesheet" href="/css/index/index.css">
     <link rel="stylesheet" href="/css/index/introduction.css">
     <link rel="stylesheet" href="/css/index/qualification.css">
     <link rel="stylesheet" href="/css/index/news.css">
+    <link rel="stylesheet" href="/css/index/contact.css">
     <script type="text/javascript" src="/third/js/jq/jquery.min.js"></script>
     <script type="text/javascript" src="/third/layui/layui.js"></script>
+    <script type="text/javascript" src="/js/base.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
 </head>
 <body>
+
+<!--顶部-->
 <div class="main-div">
     <div class="top-nav">
         <div class="top-nav-inner">
             <div class="top-nav-inner-left">
-                <img class="logo-img" src="^{logoImg}"/>
+                <img class="logo-img" src="^{logoImg.sysValue}"/>
             </div>
-            <div class="top-nav-inner-right">
-                <a class="nav-a active">首页</a>
-                <a class="nav-a">集团简介</a>
-                <a class="nav-a">资质荣誉</a>
-                <a class="nav-a">工程业绩</a>
-                <a class="nav-a">新闻中心</a>
-                <a class="nav-a">诚聘英才</a>
-                <a class="nav-a">联系我们</a>
+            <div id="channelList" class="top-nav-inner-right">
+                @# for(channel in channelList){ #@
+                <a class="nav-a" href=^{channel.indexName} id="chaId^{channelLP.dataIndex}">^{channel.name}</a>
+                @# } #@
             </div>
         </div>
     </div>
 </div>
+
+<!--内容-->
 ^{layoutContent}
-<div style="height: 190px;width: 100%; display:flex;background: url(/img/upload/footbg.jpg) no-repeat center top">
-    <div style="width: 65%; margin: 55px 0 0 170px ">
-        <div style="display: flex; width: 100%; padding: 25px 0;font-size: 13px">
-            <select name="1" id="1"
-                    style="width:232px;height: 30px;border: none;padding: 0 5px;margin-right: 1%;margin-bottom: 1%;">
-                <option aria-checked="true"
-                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
-                    政府机构
-                </option>
+
+<!--底部-->
+<div class="footer-main">
+    <div class="footer-warp">
+        <div class="footer-warp-content">
+            <select class="footer-select" name="selectOne" id="selectOne">
+                <option value="0" selected>政府机构</option>
+                @# for(one in footInputOne) { #@
+                <option value=^{one.urlAddress}>^{one.urlName}</option>
+                @# } #@
             </select>
-            <select name="2" id="2"
-                    style="width:232px;height:30px;line-height: 30px;border: none;padding: 0 5px;margin-right: 1%;margin-bottom: 1%;">
-                <option aria-checked="true"
-                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
-                    行业链接
-                </option>
+            <select class="footer-select" name="selectTwo" id="selectTwo">
+                <option value="0" selected>行业链接</option>
+                @# for(two in footInputTwo) { #@
+                <option value=^{two.urlAddress}>^{two.urlName}</option>
+                @# } #@
             </select>
-            <select name="3" id="3"
-                    style="width:86px;height: 30px;line-height: 30px;border: none;padding: 0 5px;margin-right: 1%;margin-bottom: 1%;">
-                <option aria-checked="true"
-                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
-                    新闻媒体111
-                </option>
-                <option aria-checked="true"
-                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
-                    新闻媒体
-                </option>
-                <option aria-checked="true"
-                        style="font-weight: normal;display: block;white-space: pre;min-height: 1.2em;padding: 0 2px 1px;">
-                    新闻媒体
-                </option>
+            <select class="footer-select narrow" name="selectThree" id="selectThree">
+                <option value="0" selected>新闻媒体</option>
+                @# for(three in footInputThree) { #@
+                <option value=^{three.urlAddress}>^{three.urlName}</option>
+                @# } #@
             </select>
         </div>
         <div>
-            <div style="margin-top: 0;color: white">COPYRIGHT © 2016 亿创电力建设集团 All rights reserved<br>
-                <a href="http://www.miitbeian.gov.cn" target="_blank" style="color: white">闽ICP备19012103号</a>
+            <div class="footer-copyright">^{copyright.sysValue}<br>
+                <a href=^{footICP.sysValue} target="_blank">^{footICP.sysName}</a>
                 技术支持：
-                <a href="http://www.shytong.com/" target="_blank" style="color: white">福州数语网络科技有限公司</a>
+                <a href=^{company.sysValue} target="_blank">^{company.sysName}</a>
             </div>
         </div>
     </div>
 
-    <div style="min-width: 35%;width: 35%;height: 190px;text-align: center">
-        <img src="/img/upload/footlogo.png" alt="" style="width:230px;height:140px;padding:25px 0;">
+    <div class="footer-logo">
+        <img class="logo" src=^{footLogoImg.sysValue}/>
     </div>
 </div>
 

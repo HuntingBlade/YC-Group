@@ -4,6 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.shytong.common.model.SyMap;
 import com.shytong.modules.channel.model.ChannelDo;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Author: CL
  * @Date: 2019/11/12 17:46
@@ -11,6 +14,7 @@ import com.shytong.modules.channel.model.ChannelDo;
 public interface IChannelDao {
     /**
      * 添加栏目项
+     *
      * @param channelDo
      * @return
      */
@@ -33,4 +37,18 @@ public interface IChannelDao {
      * @return
      */
     PageInfo<ChannelDo> selectList(Integer pageNum, Integer pageSize, SyMap params);
+
+    /**
+     * 获取栏目id下的子栏目
+     * @param parentId
+     * @return
+     */
+    List getChannelListByPId(Integer parentId);
+
+    /**
+     * 获取栏目id下的子栏目及图片等信息
+     * @param parentId
+     * @return
+     */
+    List<Map> getChannelListByParentChannelId(Integer parentId);
 }

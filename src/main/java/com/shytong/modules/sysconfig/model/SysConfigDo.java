@@ -38,12 +38,10 @@ public class SysConfigDo{
      * 排序
      */
     private Integer sort;
-
     /**
      * 是否启用（1-是 / 0-否）
      */
     private Integer enable;
-
     /**
      * 创建时间
      */
@@ -60,7 +58,6 @@ public class SysConfigDo{
      * 修改者ID
      */
     private String editorId;
-
     /**
      * 是否删除（1-是 / 0-否）
      */

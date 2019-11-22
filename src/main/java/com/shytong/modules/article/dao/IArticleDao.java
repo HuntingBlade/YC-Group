@@ -14,6 +14,7 @@ public interface IArticleDao {
 
     /**
      * 添加文章
+     *
      * @param articleDo
      * @return
      */
@@ -21,6 +22,7 @@ public interface IArticleDao {
 
     /**
      * 删除文章(批量删除)
+     *
      * @param list
      * @return
      */
@@ -28,6 +30,7 @@ public interface IArticleDao {
 
     /**
      * 修改文章
+     *
      * @param articleDo
      * @return
      */
@@ -35,10 +38,25 @@ public interface IArticleDao {
 
     /**
      * 获取文章列表
+     *
      * @param pageNum
      * @param pageSize
      * @param params
      * @return
      */
     PageInfo<ArticleDo> selectArticleList(Integer pageNum, Integer pageSize, SyMap params);
+
+    /**
+     * 根据栏目编号查找文章
+     * @param channelId
+     * @return
+     */
+    List getArticleByChannelId(Integer channelId);
+
+    /**
+     * 获取推荐文章
+     * @param channelId
+     * @return
+     */
+    Object getRecommendArticle(Integer channelId);
 }

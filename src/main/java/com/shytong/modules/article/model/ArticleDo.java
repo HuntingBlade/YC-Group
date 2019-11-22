@@ -32,6 +32,10 @@ public class ArticleDo implements Serializable {
      */
     private String titleImg;
     /**
+     * 文章摘要
+     */
+    private String summary;
+    /**
      * 类型（图片，视频，外链）
       */
     private String type;
@@ -134,6 +138,14 @@ public class ArticleDo implements Serializable {
 
     public void setTitleImg(String titleImg) {
         this.titleImg = titleImg;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public String getType() {
@@ -272,6 +284,7 @@ public class ArticleDo implements Serializable {
                 ", postTime=" + postTime +
                 ", title='" + title + '\'' +
                 ", titleImg='" + titleImg + '\'' +
+                ", summary='" + summary + '\'' +
                 ", type='" + type + '\'' +
                 ", author='" + author + '\'' +
                 ", source='" + source + '\'' +

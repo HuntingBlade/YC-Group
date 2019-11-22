@@ -21,16 +21,32 @@ public class SysConfigDaoImpl implements ISysConfigDao {
 
     @Override
     public Integer insert(SysConfigDo sysConfigDo) {
-        return baseDao.insert("sysConfig.insert", sysConfigDo);
+        return baseDao.insert("sysConfigMapper.insert", sysConfigDo);
     }
 
     @Override
     public Integer update(SysConfigDo sysConfigDo) {
-        return baseDao.update("sysConfig.update", sysConfigDo);
+        return baseDao.update("sysConfigMapper.update", sysConfigDo);
     }
 
     @Override
     public List getList(SyMap params) {
-        return baseDao.selectList("sysConfig.selectList", params);
+        return baseDao.selectList("sysConfigMapper.selectList", params);
+    }
+
+    @Override
+    public Object getSysConfig(String sysKey, String sysGroup) {
+        SyMap syMap = new SyMap();
+        syMap.put("sysKey", sysKey);
+        syMap.put("sysGroup", sysGroup);
+        return baseDao.selectOne("sysConfigMapper.findSysConfigByKeyAndGroup", syMap);
+    }
+
+    @Override
+    public List getSysConfigList(String sysKey, String sysGroup) {
+        SyMap syMap = new SyMap();
+        syMap.put("sysKey", sysKey);
+        syMap.put("sysGroup", sysGroup);
+        return baseDao.selectList("sysConfigMapper.findSysConfigByKeyAndGroup", syMap);
     }
 }

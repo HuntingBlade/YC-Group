@@ -47,6 +47,10 @@
     height: 100%;
 }
 
+.flex {
+    display: flex;
+}
+
 .content-img-list {
     width: 85%;
     margin: 0 auto;

@@ -37,16 +37,16 @@ public class SysConfigController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
+//    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
     public String addSysConfig(HttpServletRequest servletRequest, @RequestBody SysConfigDo sysConfigDo) throws ApiBizException {
         SyValidationUtils.valid()
                 .len(sysConfigDo.getSysGroup(), 32, true, "分组格式错误")
                 .len(sysConfigDo.getSysKey(), 64, true, "键格式错误")
-                .len(sysConfigDo.getSysValue(), 512, true, "值格式错误")
+                .len(sysConfigDo.getSysValue(), 512, false, "值格式错误")
                 .len(sysConfigDo.getSysName(), 255, true, "名称格式错误")
                 .len(sysConfigDo.getType(), 255, false, "类型格式错误")
-                .isInt(sysConfigDo.getSort(), 11, true, "排序格式错误")
-                .isInt(sysConfigDo.getEnable(), 3, true, "启用格式错误");
+                .isInt(sysConfigDo.getSort(), 11, false, "排序格式错误")
+                .isInt(sysConfigDo.getEnable(), 3, false, "启用格式错误");
         Integer result = sysConfigService.insert(sysConfigDo);
         return this.normalResp(result);
     }

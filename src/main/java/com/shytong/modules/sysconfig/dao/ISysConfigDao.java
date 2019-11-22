@@ -13,6 +13,7 @@ public interface ISysConfigDao {
 
     /**
      * 添加系统配置
+     *
      * @param sysConfigDo
      * @return
      * @author CL
@@ -21,6 +22,7 @@ public interface ISysConfigDao {
 
     /**
      * 更新系统配置
+     *
      * @param sysConfigDo
      * @return
      */
@@ -28,8 +30,28 @@ public interface ISysConfigDao {
 
     /**
      * 获取参数列表
+     *
      * @param params
      * @return
      */
     List getList(SyMap params);
+
+
+    /**
+     * 获取参数表的参数值
+     *
+     * @param sysKey
+     * @param sysGroup
+     * @return
+     */
+    Object getSysConfig(String sysKey, String sysGroup);
+
+    /**
+     * 根据ID获取参数表的参数值
+     *
+     * @param sysKey
+     * @param sysGroup
+     * @return
+     */
+    List getSysConfigList(String sysKey, String sysGroup);
 }

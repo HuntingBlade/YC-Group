@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="sysConfig">
+<mapper namespace="sysConfigMapper">
     <!--  添加系统配置  -->
     <insert id="insert" parameterType="com.shytong.modules.sysconfig.model.SysConfigDo">
         INSERT INTO sy_sys_config
@@ -147,6 +147,30 @@
                 and sys_group = #{sysGroup,jdbcType=VARCHAR}
             </if>
             and is_deleted = 0
+        </where>
+        ORDER BY sort
+    </select>
+
+
+    <!--  获取参数表的参数值  -->
+    <select id="findSysConfigByKeyAndGroup" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        sys_group as sysGroup,
+        sys_key as sysKey,
+        sys_value as sysValue,
+        sys_name as sysName,
+        type,
+        sort
+        FROM
+        sy_sys_config
+        <where>
+            <if test="sysGroup != null and sysGroup != ''">
+                AND sys_group = #{sysGroup,jdbcType = VARCHAR}
+            </if>
+            <if test="sysKey != null and sysKey != ''">
+                AND sys_key = #{sysKey,jdbcType = VARCHAR}
+            </if>
+            AND is_deleted = 0
         </where>
         ORDER BY sort
     </select>

@@ -11,7 +11,7 @@ html, body {
 
 .main-div {
     position: fixed;
-    top:0;
+    top: 0;
     width: 100%;
     height: 87px;
     background: #fff;
@@ -64,7 +64,7 @@ html, body {
     padding: 0.5em 2em;
 }
 
-.top-nav-inner .active{
+.top-nav-inner .active {
     background-color: #002d7b;
     border-radius: 20px;
     color: white;
@@ -78,3 +78,69 @@ html, body {
     color: white;
 }
 
+.footer-main {
+    height: 190px;
+    width: 100%;
+    display: flex;
+    background: url(/img/upload/footbg.jpg) no-repeat center top
+}
+
+.footer-logo {
+    min-width: 35%;
+    width: 35%;
+    height: 190px;
+    text-align: center;
+}
+
+.footer-logo .logo {
+    width: 230px;
+    height: 140px;
+    padding: 40px 0 0 30px;
+}
+
+.footer-warp {
+    width: 65%;
+    margin: 45px 0 0 170px
+}
+
+.footer-warp-content {
+    display: flex;
+    width: 100%;
+    padding: 25px 0;
+    font-size: 13px
+}
+
+.footer-select {
+    width: 232px;
+    height: 30px;
+    border: none;
+    padding: 0 5px;
+    margin-right: 1%;
+    margin-bottom: 1%;
+}
+
+.narrow {
+    width: 85px;
+}
+
+.footer-select option {
+    font-weight: normal;
+    display: block;
+    white-space: pre;
+    min-height: 1.2em;
+    padding: 0 2px 1px;
+}
+
+.footer-copyright {
+    margin-top: 0;
+    color: white;
+    font-size: 13px;
+}
+
+.footer-copyright a {
+    color: #ffffff;
+}
+
+.footer-copyright a:hover {
+    color: #000000;
+}
