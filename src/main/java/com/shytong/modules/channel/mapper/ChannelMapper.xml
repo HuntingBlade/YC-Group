@@ -287,6 +287,19 @@
         WHERE
         a.parent_id = #{parentId,jdbcType=INTEGER}
         AND a.is_deleted = 0
-        ORDER BY a.sort ASC, c.post_time
+        GROUP BY a.id
+        ORDER BY a.sort ASC, c.post_time DESC
+    </select>
+
+    <!--  根据id查找栏目  -->
+    <select id="getChannelById" parameterType="java.lang.Integer"
+            resultType="com.shytong.modules.channel.model.ChannelDo">
+        SELECT
+        <include refid="select_sql_part"/>
+        FROM
+        sy_channel
+        WHERE
+        id = #{channelId,jdbcType=INTEGER}
+        AND is_deleted = 0
     </select>
 </mapper>

@@ -43,9 +43,10 @@ public class FrontController {
      * @return
      */
     @RequestMapping(value = "/about", method = RequestMethod.GET)
-    public String groupProfile(HttpServletRequest servletRequest, ModelMap model) {
+    public String groupProfile(HttpServletRequest servletRequest, ModelMap model, Integer channelId) {
         frontService.setHtml(model);
-        return "/view/introduction";
+        frontService.setAboutContent(model, channelId);
+        return "/view/about";
     }
 
     /**
@@ -56,8 +57,9 @@ public class FrontController {
      * @return
      */
     @RequestMapping(value = "/qualification", method = RequestMethod.GET)
-    public String qualification(HttpServletRequest servletRequest, ModelMap model) {
+    public String qualification(HttpServletRequest servletRequest, ModelMap model, Integer channelId) {
         frontService.setHtml(model);
+        frontService.setQualificationContent(model, channelId);
         return "/view/qualification";
     }
 
@@ -111,5 +113,18 @@ public class FrontController {
     public String contactUs(HttpServletRequest servletRequest, ModelMap model) {
         frontService.setHtml(model);
         return "/view/news";
+    }
+
+    /**
+     * 文章详情
+     *
+     * @param servletRequest
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String detail(HttpServletRequest servletRequest, ModelMap model) {
+        frontService.setHtml(model);
+        return "/view/detail";
     }
 }

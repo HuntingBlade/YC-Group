@@ -1,7 +1,10 @@
 package com.shytong.modules.front.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shytong.modules.article.dao.IArticleDao;
 import com.shytong.modules.channel.dao.IChannelDao;
+import com.shytong.modules.channel.dao.impl.ChannelDao;
+import com.shytong.modules.channel.model.ChannelDo;
 import com.shytong.modules.front.service.IFrontService;
 import com.shytong.modules.sysconfig.dao.ISysConfigDao;
 import com.shytong.modules.urlconfig.dao.IUrlConfigDao;
@@ -78,12 +81,27 @@ public class FrontServiceImpl implements IFrontService {
         List<Map> channelListByParentChannelId = channelDao.getChannelListByParentChannelId(pId);
         channelListByParentChannelId.forEach(channelMap -> {
             Integer sonId = MapUtils.getInteger(channelMap, "id", null);
+            System.out.println(sonId);
             List sonChannelList = this.getSonChannelList(sonId);
             if (sonChannelList != null && sonChannelList.size() > 0) {
                 channelMap.put("children", sonChannelList);
             }
         });
         return channelListByParentChannelId;
+    }
+
+
+    /**
+     * 设置顶部图片和标题
+     *
+     * @param model
+     * @param channelId
+     */
+    public void setTopImgAndTitle(ModelMap model, Integer channelId) {
+        // 栏目顶部图片
+        model.addAttribute("channelTopImg", sysConfigDao.getSysConfig(channelId.toString(), "yc"));
+        // 栏目标题
+        model.addAttribute("channelTitle", channelDao.getChannelById(channelId));
     }
 
     @Override
@@ -119,12 +137,41 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("signature", sysConfigDao.getSysConfig("signature", "yc"));
         // 模块
         model.addAttribute("indexContentModel", this.getSonChannelList(channelId));
-        // 首页推荐文章
-        model.addAttribute("recommendArticle", articleDao.getRecommendArticle(17));
         // 首页推荐文章配图
         model.addAttribute("recommendArticleImg", sysConfigDao.getSysConfig("newsRecommendImg", "yc"));
+        // 首页推荐文章
+        model.addAttribute("recommendArticle", articleDao.getRecommendArticle(17));
+        // 首页新闻中心更多按钮
+        model.addAttribute("newsMoreBtn", sysConfigDao.getSysConfig("newsMoreBtn", "yc"));
         // 首页新闻文章
         model.addAttribute("newsArticleList", this.getSonChannelList(15));
+    }
+
+    @Override
+    public void setAboutContent(ModelMap model, Integer channelId) {
+        this.setTopImgAndTitle(model, channelId);
+        model.addAttribute("content", articleDao.getArticleByChannelId(channelId));
+    }
+
+    @Override
+    public void setQualificationContent(ModelMap model, Integer channelId) {
+        this.setTopImgAndTitle(model, channelId);
+
+        List<Map> sonChannelList = this.getSonChannelList(channelId);
+        int maxId = Integer.MAX_VALUE;
+        if (sonChannelList != null && sonChannelList.size() > 0) {
+            for (int i = 0; i < sonChannelList.size(); i++) {
+                int cid = (int) sonChannelList.get(i).get("sort");
+                // 越小的越大
+                if (cid < maxId) {
+                    maxId = cid;
+                }
+            }
+        }
+        // 获取栏目下的子栏目
+        model.addAttribute("navList", sonChannelList);
+        // 子栏目内容
+        model.addAttribute("content", articleDao.getArticleByChannelId(maxId));
     }
 
 }

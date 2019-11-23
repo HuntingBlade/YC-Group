@@ -45,4 +45,9 @@ public class ChannelDao implements IChannelDao {
     public List<Map> getChannelListByParentChannelId(Integer parentId) {
         return baseDao.selectList("ChannelMapper.getChannelListByParentChannelId", parentId);
     }
+
+    @Override
+    public ChannelDo getChannelById(Integer channelId) {
+        return baseDao.selectOne("ChannelMapper.getChannelById", channelId);
+    }
 }

@@ -71,7 +71,7 @@ if(item.sort == 1){
             <img src=^{recommendArticleImg.sysValue}>
             <h3 id="recommendArticleTitle">^{recommendArticle.title}</h3>
             <span id="recommendArticleSummary">^{recommendArticle.summary}</span>
-            <h2><a href="">MORE+</a></h2>
+            <h2><a href="/front/public/detail?channelId=^{recommendArticle.channelId}&articleId=^{recommendArticle.id}">^{newsMoreBtn.sysName}</a></h2>
         </div>
     </div>
     <div class="news-channel-content3">
@@ -81,15 +81,17 @@ if(item.sort == 1){
             for(list in newsArticleList) {
             if(list.artId != null){
             index ++;
+            if(index > 5){
+            break;
+            }
             #@
             <li>
                 <h3>
-                    <i id=“dayFormat^{index}”>^{list.postTime}</i>
-                    <i id="yearFormat^{index}">^{list.postTime}</i>
+                    <span>^{list.postTime,"MM-dd"}</span>^{list.postTime,"yyyy"}
                 </h3>
                 <div class="index-news-list">
                     <h2>
-                        <a href="news_ny.php?classid=194&amp;infoid=996">亿创集团应邀参加2019海峡两岸能源合作平...</a>
+                        <a id="newsListTitle^{index}" href="/front/public/detail?channelId=^{list.id}&articleId=^{list.artId}">^{list.title}</a>
                     </h2>
                 </div>
             </li>
@@ -99,19 +101,4 @@ if(item.sort == 1){
 </div>
 @# } else { #@
 <div></div>
-
 @# }}} #@
-
-<script>
-    layui.use('carousel', function () {
-        var carousel = layui.carousel;
-        //建造实例
-        carousel.render({
-            elem: '#test1',
-            width: '100%', //设置容器宽度
-            height: '100%',
-            arrow: 'always' //始终显示箭头
-            // ,anim: 'updown' //切换动画方式
-        });
-    });
-</script>

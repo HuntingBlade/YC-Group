@@ -1,85 +1,41 @@
 @#
 layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:""}){
 #@
-<div style="padding-top: 87px">
-    <div class="wrapper-img">
-        <div class="img"></div>
+<div class="comm-warp-position">
+    <div class="comm-wrapper-img">
+        <div style="background: url(^{channelTopImg.sysValue!}) no-repeat center bottom;"></div>
     </div>
-
-    <div class="wrapper-content" style="z-index: 99999">
-        <div class="content-title">
-            <div class="title">资质荣誉</div>
-            <div class="subtitle">QUALIFICATION</div>
+    <div class="comm-wrapper-content">
+        <div class="comm-content-title">
+            <div class="title">^{channelTitle.name}</div>
+            <div>^{channelTitle.pageName}</div>
         </div>
 
-        <div class="content-title-nav">
-            <ul>
-                <li>
-                    <a class="active" href="">企业资质</a>
+        <div class="comm-content-title-nav">
+            <ul id="nav_list">
+                @#for(nav in navList){#@
+                <li id="nav^{navLP.dataIndex}">
+                    <a href=^{nav.indexName}?channelId=^{nav.id}>^{nav.name}</a>
                 </li>
-                <li>
-                    <a href="">企业荣誉</a>
-                </li>
+                @#}#@
             </ul>
         </div>
 
         <div class="content-main">
             <div class="content-img-list">
                 <ul class="banimg">
+                    @#for(item in content){#@
                     <li>
-                        <a href="">
+                        <a>
                             <div class="case-img">
-                                <img src="/upfiles/case/201806280855435792.jpg" alt="">
+                                <img src=^{item.titleImg} alt="">
                             </div>
                             <div class="case-info">
-                                <h1>营业执照</h1>
+                                <h1>^{item.title}</h1>
                             </div>
                         </a>
                     </li>
-
-                    <li>
-                        <a href="">
-                            <div class="case-img">
-                                <img src="/upfiles/case/201806280855435792.jpg" alt="">
-                            </div>
-                            <div class="case-info">
-                                <h1>承装（修、试）电力设施许可证</h1>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="">
-                            <div class="case-img">
-                                <img src="/upfiles/case/201806280855435792.jpg" alt="">
-                            </div>
-                            <div class="case-info">
-                                <h1>建筑业企业资质证书</h1>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="">
-                            <div class="case-img">
-                                <img src="/upfiles/case/201806280855435792.jpg" alt="">
-                            </div>
-                            <div class="case-info">
-                                <h1>质量管理体系认证证书（副本）</h1>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="">
-                            <div class="case-img">
-                                <img src="/upfiles/case/201806280855435792.jpg" alt="">
-                            </div>
-                            <div class="case-info">
-                                <h1>质量管理体系认证证书（副本）</h1>
-                            </div>
-                        </a>
-                    </li>
+                    @#}#@
                 </ul>
                 <!-- 分页 -->
                 <div id="test1" style="text-align: center"></div>

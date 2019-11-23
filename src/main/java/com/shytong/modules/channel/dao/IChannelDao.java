@@ -51,4 +51,11 @@ public interface IChannelDao {
      * @return
      */
     List<Map> getChannelListByParentChannelId(Integer parentId);
+
+    /**
+     * 根据id查找栏目
+     * @param channelId
+     * @return
+     */
+    ChannelDo getChannelById(Integer channelId);
 }

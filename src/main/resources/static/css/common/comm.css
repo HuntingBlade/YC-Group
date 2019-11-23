@@ -5,3 +5,84 @@
     min-height: 480px;
     margin-top: 87px
 }
+
+.comm-warp-position {
+    padding-top: 87px;
+}
+
+.comm-wrapper-img {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+.comm-wrapper-img div {
+    position: fixed;
+    width: 100%;
+    height: 300px;
+}
+
+.comm-wrapper-content {
+    background-color: #ffffff;
+    position: relative;
+    padding-bottom: 50px;
+    min-height: 600px;
+    z-index: 2;
+}
+
+.comm-content-title {
+    padding-bottom: 50px;
+    padding-top: 80px;
+    text-align: center;
+}
+
+.comm-content-title .title {
+    color: #444;
+    font-size: 26px;
+}
+
+.comm-content-main {
+    width: 85%;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.comm-content-title-nav {
+    text-align: center;
+    width: 100%;
+    padding-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.comm-content-title-nav ul {
+    width: 100%;
+}
+
+.comm-content-title-nav ul li:first-child {
+    margin-left: 0;
+}
+
+.comm-content-title-nav ul li {
+    display: inline;
+    margin-left: 1em;
+}
+
+.comm-content-title-nav ul li a {
+    padding: 8px 16px;
+    border: 1px solid #d2d2d2;
+    margin-right: 2px;
+    display: inline-block;
+    transition: all 0.3s ease-out 0s;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.comm-content-title-nav ul li a:hover {
+    background: #353535;
+    color: #ffffff;
+}
+
+

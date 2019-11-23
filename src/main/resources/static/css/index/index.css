@@ -216,7 +216,7 @@
     width: 110px;
     font-weight: normal;
     height: 60px;
-    padding-top: 25px;
+    padding-top: 15px;
     padding-right: 30px;
 }
 
@@ -243,4 +243,8 @@
 .index-news-list h2 a {
     color: #333;
     text-decoration: none;
+}
+
+.index-news-list h2 a:hover{
+    color: #002d7b;
 }

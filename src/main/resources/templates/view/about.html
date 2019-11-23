@@ -1,0 +1,20 @@
+@#
+layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index',header_css:""}){
+#@
+<div class="comm-warp-position">
+    <div class="comm-wrapper-img">
+        <div style="background: url(^{channelTopImg.sysValue!}) no-repeat 20% 15%;"></div>
+    </div>
+    <div class="comm-wrapper-content">
+        <div class="comm-content-title">
+            <div class="title">^{channelTitle.name}</div>
+            <div>^{channelTitle.pageName}</div>
+        </div>
+        <div class="comm-content-main">
+            @#for(item in content){#@
+                ^{item.content}
+            @#}#@
+        </div>
+    </div>
+</div>
+@# } #@

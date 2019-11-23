@@ -1,13 +1,17 @@
 $(function () {
-    var url = window.location.href;
-    var defaultUrl = "http://" + location.host + "/";
-    if (url == defaultUrl) {
+    /**
+     * 导航栏选中判断
+     * @type {string}
+     */
+    var url = window.location.pathname;
+    if (url == "/") {
         $("#chaId0").addClass("active");
     }
     var length = $("#channelList").children("a").length;
     for (var i = 0; i < length; i++) {
-        var href = "http://" + window.location.host + $("#chaId" + i).attr('href');
-        if (url === href) {
+        var href = $("#chaId" + i).attr('href');
+        var _href = href.substring(0,href.indexOf("?"));
+        if (url === _href) {
             $("#chaId" + i).addClass("active");
             break;
         }
