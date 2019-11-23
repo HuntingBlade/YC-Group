@@ -309,7 +309,7 @@
             </if>
             AND is_deleted = 0
         </where>
-        ORDER BY sort DESC,  post_time DESC
+        ORDER BY sort DESC ,  post_time DESC
     </select>
 
     <!--  根据栏目编号查找文章  -->

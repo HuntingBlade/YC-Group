@@ -1,13 +1,7 @@
 package com.shytong.modules.front.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.shytong.common.model.SyMap;
-import com.shytong.core.util.SyMapUtils;
 import com.shytong.modules.article.dao.IArticleDao;
-import com.shytong.modules.article.model.ArticleDo;
 import com.shytong.modules.channel.dao.IChannelDao;
-import com.shytong.modules.channel.dao.impl.ChannelDao;
-import com.shytong.modules.channel.model.ChannelDo;
 import com.shytong.modules.front.service.IFrontService;
 import com.shytong.modules.sysconfig.dao.ISysConfigDao;
 import com.shytong.modules.urlconfig.dao.IUrlConfigDao;
@@ -16,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +68,24 @@ public class FrontServiceImpl implements IFrontService {
         return obj;
     }
 
+    /**
+     * 递归查找子栏目编号
+     *
+     * @param pId
+     * @return
+     */
+    public List getSonChannelList(Integer pId) {
+        List<Map> channelListByParentChannelId = channelDao.getChannelListByParentChannelId(pId);
+        channelListByParentChannelId.forEach(channelMap -> {
+            Integer sonId = MapUtils.getInteger(channelMap, "id", null);
+            List sonChannelList = this.getSonChannelList(sonId);
+            if (sonChannelList != null && sonChannelList.size() > 0) {
+                channelMap.put("children", sonChannelList);
+            }
+        });
+        return channelListByParentChannelId;
+    }
+
     @Override
     public void setHtml(ModelMap model) {
         // logo图片
@@ -114,25 +125,6 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("recommendArticleImg", sysConfigDao.getSysConfig("newsRecommendImg", "yc"));
         // 首页新闻文章
         model.addAttribute("newsArticleList", this.getSonChannelList(15));
-    }
-
-
-    /**
-     * 递归查找子栏目编号
-     *
-     * @param pId
-     * @return
-     */
-    public List getSonChannelList(Integer pId) {
-        List<Map> channelListByParentChannelId = channelDao.getChannelListByParentChannelId(pId);
-        channelListByParentChannelId.forEach(channelMap -> {
-            Integer sonId = MapUtils.getInteger(channelMap, "id", null);
-            List sonChannelList = this.getSonChannelList(sonId);
-            if (sonChannelList != null && sonChannelList.size() > 0) {
-                channelMap.put("children", sonChannelList);
-            }
-        });
-        return channelListByParentChannelId;
     }
 
 }

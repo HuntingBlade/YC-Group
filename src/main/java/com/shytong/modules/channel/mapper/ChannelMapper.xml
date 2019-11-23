@@ -287,6 +287,6 @@
         WHERE
         a.parent_id = #{parentId,jdbcType=INTEGER}
         AND a.is_deleted = 0
-        ORDER BY c.post_time
+        ORDER BY a.sort ASC, c.post_time
     </select>
 </mapper>

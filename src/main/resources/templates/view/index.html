@@ -75,15 +75,17 @@ if(item.sort == 1){
         </div>
     </div>
     <div class="news-channel-content3">
-        <ul>
-            @# for(list in newsArticleList) {
-                if(list.artId == null){
-                    continue;
-                }
+        <ul id="newsList">
+            @#
+            var index = 0;
+            for(list in newsArticleList) {
+            if(list.artId != null){
+            index ++;
             #@
             <li>
                 <h3>
-                    <span>^{list.postTime}</span><span>^{list.postTime}</span>
+                    <i id=“dayFormat^{index}”>^{list.postTime}</i>
+                    <i id="yearFormat^{index}">^{list.postTime}</i>
                 </h3>
                 <div class="index-news-list">
                     <h2>
@@ -91,7 +93,7 @@ if(item.sort == 1){
                     </h2>
                 </div>
             </li>
-            @# }  #@
+            @# }} #@
         </ul>
     </div>
 </div>
