@@ -71,7 +71,8 @@ if(item.sort == 1){
             <img src=^{recommendArticleImg.sysValue}>
             <h3 id="recommendArticleTitle">^{recommendArticle.title}</h3>
             <span id="recommendArticleSummary">^{recommendArticle.summary}</span>
-            <h2><a href="/front/public/detail?channelId=^{recommendArticle.channelId}&articleId=^{recommendArticle.id}">^{newsMoreBtn.sysName}</a></h2>
+            <h2><a href="/front/public/detail?channelId=^{recommendArticle.channelId}&articleId=^{recommendArticle.id}">^{newsMoreBtn.sysName}</a>
+            </h2>
         </div>
     </div>
     <div class="news-channel-content3">
@@ -87,11 +88,12 @@ if(item.sort == 1){
             #@
             <li>
                 <h3>
-                    <span>^{list.postTime,"MM-dd"}</span>^{list.postTime,"yyyy"}
+                    <span id="span^{listLP.dataIndex}">^{list.postTime}</span><p id="i^{listLP.dataIndex}"></p>
                 </h3>
                 <div class="index-news-list">
                     <h2>
-                        <a id="newsListTitle^{index}" href="/front/public/detail?channelId=^{list.id}&articleId=^{list.artId}">^{list.title}</a>
+                        <a id="newsListTitle^{index}"
+                           href="/front/public/detail?channelId=^{list.id}&articleId=^{list.artId}">^{list.title}</a>
                     </h2>
                 </div>
             </li>

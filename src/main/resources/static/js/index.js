@@ -8,7 +8,7 @@ $(function () {
     var len = $("#newsList").children("li").length;
     for (var i = 1; i <= len; i++) {
         var newsTitle = $("#newsListTitle" + i).text();
-        if (newsTitle.length > 19){
+        if (newsTitle.length > 19) {
             $("#newsListTitle" + i).text(newsTitle.substring(0, 20) + "...");
         }
     }
@@ -24,4 +24,18 @@ $(function () {
             // ,anim: 'updown' //切换动画方式
         });
     });
+
+    for (var i = 0; i < len; i++) {
+        var date = timeTransform("#span" + i);
+        $("#span" + i).text(date.substring(5, 10));
+        $("#i" + i).text(date.substring(0, 4));
+    }
 });
+
+
+function timeTransform(ele) {
+    var time = $(ele).text();
+    var d = new Date(time);
+    var times = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes()
+    return times;
+}

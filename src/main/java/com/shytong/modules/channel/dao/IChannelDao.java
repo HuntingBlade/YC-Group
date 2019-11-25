@@ -39,14 +39,32 @@ public interface IChannelDao {
     PageInfo<ChannelDo> selectList(Integer pageNum, Integer pageSize, SyMap params);
 
     /**
-     * 获取栏目id下的子栏目
+     * 根据栏目编号获取子栏目
      * @param parentId
      * @return
      */
-    List getChannelListByPId(Integer parentId);
+    List<ChannelDo> getSonChannelListById(Integer parentId);
+
+
+    /**
+     * 获取栏目id下的子栏目
+     *
+     * @param parentId
+     * @return
+     */
+    List<Map> getChannelListByPId(Integer parentId);
+
+    /**
+     * 获取子栏目对应的父栏目
+     *
+     * @param sonId
+     * @return
+     */
+    List<Map> getChannelListBySonChannelId(Integer sonId);
 
     /**
      * 获取栏目id下的子栏目及图片等信息
+     *
      * @param parentId
      * @return
      */
@@ -54,6 +72,7 @@ public interface IChannelDao {
 
     /**
      * 根据id查找栏目
+     *
      * @param channelId
      * @return
      */

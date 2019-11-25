@@ -13,9 +13,11 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
 
         <div class="comm-content-title-nav">
             <ul id="nav_list">
-                @#for(nav in navList){#@
+                @#for(nav in navList){
+                #@
                 <li id="nav^{navLP.dataIndex}">
-                    <a href=^{nav.indexName}?channelId=^{nav.id}>^{nav.name}</a>
+                    <!--                    href=^{nav.indexName}?channelId=^{nav.id}&pageNum=1-->
+                    <a>^{nav.name}</a>
                 </li>
                 @#}#@
             </ul>
@@ -24,11 +26,11 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
         <div class="content-main">
             <div class="content-img-list">
                 <ul class="banimg">
-                    @#for(item in content){#@
+                    @#for(item in content.list){#@
                     <li>
                         <a>
                             <div class="case-img">
-                                <img src=^{item.titleImg} alt="">
+                                <img src=^{item.titleImg}>
                             </div>
                             <div class="case-info">
                                 <h1>^{item.title}</h1>
@@ -40,16 +42,17 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
                 <!-- 分页 -->
                 <div id="test1" style="text-align: center"></div>
             </div>
-
-            <div class="content-main1">
+            @#for(article in qualificationArticleList) { #@
+            <div class="content-main1"
+                 style="background: url(^{article.titleImg!}) no-repeat bottom center; background-size: 100% auto;">
                 <div class="content-main1-child">
                     <h2>
                         <i></i>
-                        让光明成就您的事业 让光明实现您的梦想
+                        ^{article.title}
                         <i></i>
                     </h2>
-                    <h3>
-                        亿创电力建设集团是以电力工程施工建设、水电开发与投资、风电投资、电力设备检修、售电、设备制造等多产业的股份制企业。集团注册资本叁亿叁仟多万元人民币，具备建设部颁发的电力工程施工总承包叁级、机电工程施工总承包叁级、输变电工程专业承包叁级资质和国家能源局颁发的承装（修、试）电力设施叁级资质。</h3>
+                    ^{article.content}
+                    @# }#@
                 </div>
             </div>
         </div>
@@ -58,7 +61,69 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
 
 <script>
     $(function () {
+        var href = window.location.search;
+        var pageNum = href.indexOf("pageNum=");
+        var channelId = href.indexOf("channelId");
+        var current_channelId = href.substring(channelId + 9);
+        var current_page = href.substring(pageNum + 8);
         setWid();
+        layui.use('laypage', function () {
+            var laypage = layui.laypage;
+            var totals = "^{content.total!}";
+            //执行一个laypage实例
+            laypage.render({
+                theme: "#0d2e3d",
+                elem: 'test1', //注意，这里的 test1 是 ID，不用加 # 号
+                count: totals, //数据总数，从服务端得到
+                curr: current_page,
+                limit: 8,
+                jump: function (obj, first) {
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+                    //首次不执行
+                    if (!first) {
+                        window.location.href = "/front/public/qualification?channelId=3&pageNum=" + obj.curr;
+                    }
+                }
+            });
+        });
+
+        var navLen = $("#nav_list").children("li").length;
+        if (navLen > 0) {
+            $("#nav0 a").addClass("active");
+        }
+        console.log(window.location.host);
+        $("#nav_list li").on("click", function () {
+            var hurl = window.location.protocol + "//" + window.location.host + "/front/public/channelInfo";
+            var data = {
+                "channelId": 20,
+                "pageNum": 1,
+                "pageSize": 8
+            };
+            $.ajax({
+                type: "POST",
+                url: hurl,
+                async: false,
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    console.log(res);
+                }
+            })
+            ;
+
+            var id = $(this).attr("id");
+            for (var i = 0; i < navLen; i++) {
+                var cid = $("#nav" + i).attr("id");
+                if (id != cid) {
+                    $("#nav" + i + " a").removeClass("active");
+                }
+                $("#" + id + " a").addClass("active");
+                continue;
+            }
+
+        });
     });
 
     function setWid() {
@@ -73,14 +138,5 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
         console.log(wid);
     }
 
-    layui.use('laypage', function () {
-        var laypage = layui.laypage;
-        //执行一个laypage实例
-        laypage.render({
-            theme: "#0d2e3d",
-            elem: 'test1', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 20 //数据总数，从服务端得到
-        });
-    });
 </script>
 @# } #@

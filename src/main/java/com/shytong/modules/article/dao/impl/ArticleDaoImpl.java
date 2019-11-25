@@ -41,8 +41,8 @@ public class ArticleDaoImpl implements IArticleDao {
     }
 
     @Override
-    public List getArticleByChannelId(Integer channelId) {
-        return baseDao.selectList("ArticleMapper.getArticleByChannelId", channelId);
+    public PageInfo getArticleByChannelId(SyMap params, Integer pageNum, Integer pageSize) {
+        return baseDao.commlistOfPage("ArticleMapper.getArticleByChannelId", pageNum, pageSize, params);
     }
 
     @Override

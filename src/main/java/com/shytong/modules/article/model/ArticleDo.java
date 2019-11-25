@@ -22,7 +22,7 @@ public class ArticleDo implements Serializable {
     /**
      * 文章发布时间
      */
-    private Date postTime;
+    private String postTime;
     /**
      * 文章标题
      */
@@ -116,11 +116,11 @@ public class ArticleDo implements Serializable {
         this.channelId = channelId;
     }
 
-    public Date getPostTime() {
+    public String getPostTime() {
         return postTime;
     }
 
-    public void setPostTime(Date postTime) {
+    public void setPostTime(String postTime) {
         this.postTime = postTime;
     }
 
@@ -281,7 +281,7 @@ public class ArticleDo implements Serializable {
         return "ArticleDo{" +
                 "id='" + id + '\'' +
                 ", channelId=" + channelId +
-                ", postTime=" + postTime +
+                ", postTime='" + postTime + '\'' +
                 ", title='" + title + '\'' +
                 ", titleImg='" + titleImg + '\'' +
                 ", summary='" + summary + '\'' +

@@ -245,8 +245,9 @@
         ORDER BY sort
     </select>
 
-    <!--  获取栏目id下的子栏目  -->
-    <select id="getChannelListByPId" parameterType="java.lang.Integer" resultType="java.util.Map">
+    <!--  根据栏目编号获取子栏目  -->
+    <select id="getSonChannelListById" parameterType="java.util.Map"
+            resultType="com.shytong.modules.channel.model.ChannelDo">
         SELECT
         <include refid="select_sql_part"/>
         FROM
@@ -254,7 +255,35 @@
         WHERE
         parent_id = #{parentId,jdbcType=INTEGER}
         AND is_deleted = 0
+        ORDER BY sort ASC
+    </select>
+
+
+    <!--  获取栏目id下的子栏目  -->
+    <select id="getChannelListByPId" parameterType="java.lang.Integer"
+            resultType="java.util.Map">
+        SELECT
+        <include refid="select_sql_part"/>
+        FROM
+        sy_channel
+        WHERE
+        parent_id = #{parentId,jdbcType=INTEGER}
+        AND is_deleted = 0
+        GROUP BY id
         ORDER BY sort
+    </select>
+
+    <!--  获取栏目id的父栏目  -->
+    <select id="getChannelListBySonChannelId" parameterType="java.lang.Integer"
+            resultType="com.shytong.modules.channel.model.ChannelDo">
+        SELECT
+        <include refid="select_sql_part"/>
+        FROM
+        sy_channel
+        WHERE
+        id = #{channelId,jdbcType=INTEGER}
+        AND is_deleted = 0
+        GROUP BY id
     </select>
 
     <!--  获取栏目id下的子栏目及图片等信息  -->
@@ -283,11 +312,10 @@
         FROM
             sy_channel a
                 LEFT JOIN sy_sys_config b on a.id = b.sys_key AND b.is_deleted = 0
-                LEFT JOIN sy_article c ON c.channel_id = a.id AND c.is_deleted = 0
+                LEFT JOIN sy_article c ON c.channel_id = a.id AND c.is_deleted = 0 AND c.id is NOT NULL
         WHERE
         a.parent_id = #{parentId,jdbcType=INTEGER}
         AND a.is_deleted = 0
-        GROUP BY a.id
         ORDER BY a.sort ASC, c.post_time DESC
     </select>
 

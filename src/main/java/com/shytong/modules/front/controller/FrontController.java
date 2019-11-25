@@ -1,13 +1,20 @@
 package com.shytong.modules.front.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.shytong.common.model.SyMap;
+import com.shytong.common.web.BaseController;
 import com.shytong.modules.front.service.IFrontService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @description: 默认index页面前端控制类
@@ -16,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping(value = "/front/public", produces = "text/plain;charset=Utf-8")
-public class FrontController {
+public class FrontController extends BaseController {
 
     @Autowired
     private IFrontService frontService;
@@ -57,10 +64,27 @@ public class FrontController {
      * @return
      */
     @RequestMapping(value = "/qualification", method = RequestMethod.GET)
-    public String qualification(HttpServletRequest servletRequest, ModelMap model, Integer channelId) {
+    public String qualification(HttpServletRequest servletRequest, ModelMap model, Integer channelId, Integer pageNum) {
         frontService.setHtml(model);
-        frontService.setQualificationContent(model, channelId);
+        frontService.setQualificationContent(model, channelId, pageNum);
         return "/view/qualification";
+    }
+
+    /**
+     * 栏目详情
+     * @param servletRequest
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/channelInfo", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String getSonChannelInfo(HttpServletRequest servletRequest, @RequestBody Map map) {
+        SyMap params = new SyMap(map);
+        Integer channelId = params.getInteger("channelId");
+        Integer pageNum = params.getInteger("pageNum");
+        Integer pageSize = params.getInteger("pageSize");
+        List list = frontService.getSonChannelInfo(channelId, pageNum, pageSize);
+        return JSON.toJSONString(list);
     }
 
     /**
@@ -71,6 +95,7 @@ public class FrontController {
      * @return
      */
     @RequestMapping(value = "/case", method = RequestMethod.GET)
+    @ResponseBody
     public String projectCase(HttpServletRequest servletRequest, ModelMap model) {
         frontService.setHtml(model);
         return "/view/case";

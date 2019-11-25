@@ -1,9 +1,9 @@
 package com.shytong.modules.front.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
+import com.shytong.common.model.SyMap;
 import com.shytong.modules.article.dao.IArticleDao;
 import com.shytong.modules.channel.dao.IChannelDao;
-import com.shytong.modules.channel.dao.impl.ChannelDao;
 import com.shytong.modules.channel.model.ChannelDo;
 import com.shytong.modules.front.service.IFrontService;
 import com.shytong.modules.sysconfig.dao.ISysConfigDao;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +64,10 @@ public class FrontServiceImpl implements IFrontService {
      * @return
      */
     public Object getIndexArticle(Integer channelId) {
-        List articleList = articleDao.getArticleByChannelId(channelId);
+        SyMap params = new SyMap();
+        params.put("channelId", channelId);
+        PageInfo articleByChannelId = articleDao.getArticleByChannelId(params, 1, 1);
+        List articleList = articleByChannelId.getList();
         Object obj = null;
         for (int i = 0; i < 1; i++) {
             obj = articleList.get(i);
@@ -72,7 +76,7 @@ public class FrontServiceImpl implements IFrontService {
     }
 
     /**
-     * 递归查找子栏目编号
+     * 递归查找子栏目编号及文章信息
      *
      * @param pId
      * @return
@@ -81,7 +85,6 @@ public class FrontServiceImpl implements IFrontService {
         List<Map> channelListByParentChannelId = channelDao.getChannelListByParentChannelId(pId);
         channelListByParentChannelId.forEach(channelMap -> {
             Integer sonId = MapUtils.getInteger(channelMap, "id", null);
-            System.out.println(sonId);
             List sonChannelList = this.getSonChannelList(sonId);
             if (sonChannelList != null && sonChannelList.size() > 0) {
                 channelMap.put("children", sonChannelList);
@@ -90,6 +93,23 @@ public class FrontServiceImpl implements IFrontService {
         return channelListByParentChannelId;
     }
 
+    /**
+     * 递归查找子栏目编号信息
+     *
+     * @param pId
+     * @return
+     */
+    public List getSonInfoChannelList(Integer pId) {
+        List<Map> channelListByPId = channelDao.getChannelListByPId(pId);
+        channelListByPId.forEach(channelMap -> {
+            Integer sonId = MapUtils.getInteger(channelMap, "parentId", null);
+            List sonChannelList = this.getSonChannelList(sonId);
+            if (sonChannelList != null && sonChannelList.size() > 0) {
+                channelMap.put("children", sonChannelList);
+            }
+        });
+        return channelListByPId;
+    }
 
     /**
      * 设置顶部图片和标题
@@ -111,7 +131,7 @@ public class FrontServiceImpl implements IFrontService {
         // 底部logo
         model.addAttribute("footLogoImg", sysConfigDao.getSysConfig("footLogo", "yc"));
         // 栏目
-        model.addAttribute("channelList", channelDao.getChannelListByPId(0));
+        model.addAttribute("channelList", channelDao.getSonChannelListById(0));
         // 底部下拉框一
         model.addAttribute("footInputOne", this.getUrlConfigListByGroup("1"));
         // 底部下拉框二
@@ -148,30 +168,59 @@ public class FrontServiceImpl implements IFrontService {
     }
 
     @Override
+    public List getSonChannelInfo(Integer channelId, Integer pageNum, Integer pageSize) {
+        SyMap params = new SyMap();
+        params.put("channelId", channelId);
+        return articleDao.getArticleByChannelId(params, pageNum, pageSize).getList();
+    }
+
+
+    @Override
     public void setAboutContent(ModelMap model, Integer channelId) {
         this.setTopImgAndTitle(model, channelId);
-        model.addAttribute("content", articleDao.getArticleByChannelId(channelId));
+        SyMap params = new SyMap();
+        params.put("channelId", channelId);
+        model.addAttribute("content", articleDao.getArticleByChannelId(params, 1, 1).getList());
     }
 
     @Override
-    public void setQualificationContent(ModelMap model, Integer channelId) {
+    public void setQualificationContent(ModelMap model, Integer channelId, Integer pageNum) {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        SyMap params = new SyMap();
+        params.put("channelId", channelId);
+        // 栏目头部图片和标题
         this.setTopImgAndTitle(model, channelId);
-
-        List<Map> sonChannelList = this.getSonChannelList(channelId);
-        int maxId = Integer.MAX_VALUE;
+        // 栏目文章
+        model.addAttribute("qualificationArticleList", articleDao.getArticleByChannelId(params, 1, 1).getList());
+        // 获取栏目下的子栏目
+        model.addAttribute("navList", channelDao.getChannelListByPId(channelId));
+        // 子栏目内容
+        int temp = Integer.MAX_VALUE;
+        int maxId = 0;
+        List<Map> sonChannelList = channelDao.getChannelListByPId(channelId);
         if (sonChannelList != null && sonChannelList.size() > 0) {
             for (int i = 0; i < sonChannelList.size(); i++) {
-                int cid = (int) sonChannelList.get(i).get("sort");
-                // 越小的越大
-                if (cid < maxId) {
-                    maxId = cid;
+                Integer sort = (Integer) sonChannelList.get(i).get("sort");
+                Integer id = (Integer) sonChannelList.get(i).get("id");
+                if (sort < temp) {
+                    temp = sort;
+                    maxId = id;
                 }
             }
+        } else {
+            maxId = channelId;
         }
-        // 获取栏目下的子栏目
-        model.addAttribute("navList", sonChannelList);
-        // 子栏目内容
-        model.addAttribute("content", articleDao.getArticleByChannelId(maxId));
+        params.put("channelId", maxId);
+        PageInfo articleByChannelId = articleDao.getArticleByChannelId(params, pageNum, 8);
+        long total = articleByChannelId.getTotal();
+        List list = articleByChannelId.getList();
+        Map map = new HashMap(16);
+        map.put("list", list);
+        map.put("total", total);
+        model.addAttribute("content", map);
     }
+
 
 }

@@ -16,7 +16,7 @@
 }
 
 .content-img-list {
-    width: 85%;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -24,7 +24,7 @@
     display: flex;
     flex-direction: row;
     flex-flow: wrap;
-    align-content: space-between;
+    align-content: space-around;
 }
 
 .content-img-list ul li {
@@ -34,17 +34,19 @@
 }
 
 .content-img-list ul li a {
-    border-bottom: 2px solid #fff;
+    border-bottom: 10px solid #fff;
     display: inline-block;
-    width: 96%;
     text-decoration: none;
     color: #585858;
     cursor: pointer;
+    z-index: 3333;
 }
 
 .case-img {
+    padding: 0 8px;
     display: inline-block;
     vertical-align: middle;
+    width: 380px;
     overflow: hidden;
 }
 
@@ -67,6 +69,7 @@
 
 .case-info {
     width: 100%;
+    padding: 0 8px;
     transition: all 0.3s ease-out 0s;
 }
 
@@ -81,9 +84,8 @@
 
 
 .content-main1 {
-    width: 85%;
-    background: url("/img/upload/mian1bg.png") no-repeat bottom center;
-    background-size: 100% auto;
+    width: 100%;
+
     display: block;
     position: relative;
     padding-top: 42%;
@@ -111,12 +113,4 @@
     height: 1px;
     display: inline-block;
     margin: 10px;
-}
-
-.content-main1 h3 {
-    font-size: 15px;
-    text-align: left;
-    width: 75%;
-    margin: 0 auto;
-    font-weight: bold;
 }

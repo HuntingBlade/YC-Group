@@ -48,13 +48,16 @@ public interface IArticleDao {
 
     /**
      * 根据栏目编号查找文章
-     * @param channelId
+     * @param params
+     * @param pageNum
+     * @param pageSize
      * @return
      */
-    List getArticleByChannelId(Integer channelId);
+    PageInfo getArticleByChannelId(SyMap params, Integer pageNum, Integer pageSize);
 
     /**
      * 获取推荐文章
+     *
      * @param channelId
      * @return
      */

@@ -35,7 +35,7 @@
             <if test="channelId != null">
                 channel_id,
             </if>
-            <if test="postTime != null">
+            <if test="postTime != null and postTime != ''">
                 post_time,
             </if>
             <if test="title != null and title != ''">
@@ -101,8 +101,8 @@
             <if test="channelId != null">
                 #{channelId,jdbcType=INTEGER},
             </if>
-            <if test="postTime != null">
-                #{postTime,jdbcType=TIMESTAMP},
+            <if test="postTime != null and postTime != ''">
+                #{postTime,jdbcType=VARCHAR},
             </if>
             <if test="title != null and title != ''">
                 #{title,jdbcType=VARCHAR},
@@ -178,8 +178,8 @@
             <if test="channelId != null">
                 channel_id = #{channelId,jdbcType=INTEGER},
             </if>
-            <if test="postTime != null">
-                post_time = #{postTime,jdbcType=TIMESTAMP},
+            <if test="postTime != null and postTime != ''">
+                post_time = #{postTime,jdbcType=VARCHAR},
             </if>
             <if test="title != null and title != ''">
                 title = #{title,jdbcType=VARCHAR},
@@ -253,8 +253,8 @@
             <if test="channelId != null">
                 AND channel_id = #{channelId,jdbcType=INTEGER},
             </if>
-            <if test="postTime != null">
-                AND post_time = #{postTime,jdbcType=TIMESTAMP},
+            <if test="postTime != null and postTime != ''">
+                AND post_time = #{postTime,jdbcType=VARCHAR},
             </if>
             <if test="title != null and title != ''">
                 AND title = #{title,jdbcType=VARCHAR},
@@ -309,11 +309,11 @@
             </if>
             AND is_deleted = 0
         </where>
-        ORDER BY sort DESC ,  post_time DESC
+        ORDER BY sort DESC , post_time DESC
     </select>
 
     <!--  根据栏目编号查找文章  -->
-    <select id="getArticleByChannelId" parameterType="java.lang.Integer" resultType="java.util.Map">
+    <select id="getArticleByChannelId" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
         <include refid="select_sql_part"/>
         FROM
@@ -321,6 +321,7 @@
         where
         channel_id = #{channelId,jdbcType=INTEGER}
         AND is_deleted = 0
+        ORDER BY sort ASC
     </select>
 
     <!--  获取推荐文章  -->
@@ -336,4 +337,5 @@
         ORDER BY sort ASC
         LIMIT 1
     </select>
+
 </mapper>
