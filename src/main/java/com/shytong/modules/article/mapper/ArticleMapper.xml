@@ -63,6 +63,9 @@
                 recommend,
             </if>
             <if test="sort != null">
+                sort,
+            </if>
+            <if test="keyword != null and keyword != ''">
                 keyword,
             </if>
             <if test="clickCount != null">
@@ -130,6 +133,9 @@
             </if>
             <if test="sort != null">
                 #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="keyword != null and keyword != ''">
+                #{keyword,jdbcType=VARCHAR},
             </if>
             <if test="clickCount != null">
                 #{clickCount,jdbcType=INTEGER},

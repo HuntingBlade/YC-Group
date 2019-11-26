@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalLong;
 
 /**
  * @description:
@@ -94,34 +95,21 @@ public class FrontServiceImpl implements IFrontService {
     }
 
     /**
-     * 递归查找子栏目编号信息
-     *
-     * @param pId
-     * @return
-     */
-    public List getSonInfoChannelList(Integer pId) {
-        List<Map> channelListByPId = channelDao.getChannelListByPId(pId);
-        channelListByPId.forEach(channelMap -> {
-            Integer sonId = MapUtils.getInteger(channelMap, "parentId", null);
-            List sonChannelList = this.getSonChannelList(sonId);
-            if (sonChannelList != null && sonChannelList.size() > 0) {
-                channelMap.put("children", sonChannelList);
-            }
-        });
-        return channelListByPId;
-    }
-
-    /**
      * 设置顶部图片和标题
      *
      * @param model
      * @param channelId
      */
     public void setTopImgAndTitle(ModelMap model, Integer channelId) {
+        // 如果有父栏目 就用父栏目的id
+        Integer parentId = channelDao.getParentChannelId(channelId);
+        if (parentId == null || parentId == 0) {
+            parentId = channelId;
+        }
         // 栏目顶部图片
-        model.addAttribute("channelTopImg", sysConfigDao.getSysConfig(channelId.toString(), "yc"));
+        model.addAttribute("channelTopImg", sysConfigDao.getSysConfig(parentId.toString(), "yc"));
         // 栏目标题
-        model.addAttribute("channelTitle", channelDao.getChannelById(channelId));
+        model.addAttribute("channelTitle", channelDao.getChannelById(parentId));
     }
 
     @Override
@@ -164,14 +152,20 @@ public class FrontServiceImpl implements IFrontService {
         // 首页新闻中心更多按钮
         model.addAttribute("newsMoreBtn", sysConfigDao.getSysConfig("newsMoreBtn", "yc"));
         // 首页新闻文章
-        model.addAttribute("newsArticleList", this.getSonChannelList(15));
+        model.addAttribute("newsArticleList", this.getSonChannelList(5));
     }
 
     @Override
-    public List getSonChannelInfo(Integer channelId, Integer pageNum, Integer pageSize) {
+    public Map getSonChannelInfo(Integer channelId, Integer pageNum, Integer pageSize) {
         SyMap params = new SyMap();
         params.put("channelId", channelId);
-        return articleDao.getArticleByChannelId(params, pageNum, pageSize).getList();
+        PageInfo articleByChannelId = articleDao.getArticleByChannelId(params, pageNum, pageSize);
+        long total = articleByChannelId.getTotal();
+        List list = articleByChannelId.getList();
+        Map map = new HashMap();
+        map.put("list", list);
+        map.put("total", total);
+        return map;
     }
 
 
@@ -196,31 +190,53 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("qualificationArticleList", articleDao.getArticleByChannelId(params, 1, 1).getList());
         // 获取栏目下的子栏目
         model.addAttribute("navList", channelDao.getChannelListByPId(channelId));
-        // 子栏目内容
-        int temp = Integer.MAX_VALUE;
-        int maxId = 0;
-        List<Map> sonChannelList = channelDao.getChannelListByPId(channelId);
-        if (sonChannelList != null && sonChannelList.size() > 0) {
-            for (int i = 0; i < sonChannelList.size(); i++) {
-                Integer sort = (Integer) sonChannelList.get(i).get("sort");
-                Integer id = (Integer) sonChannelList.get(i).get("id");
-                if (sort < temp) {
-                    temp = sort;
-                    maxId = id;
-                }
-            }
-        } else {
-            maxId = channelId;
-        }
-        params.put("channelId", maxId);
-        PageInfo articleByChannelId = articleDao.getArticleByChannelId(params, pageNum, 8);
-        long total = articleByChannelId.getTotal();
-        List list = articleByChannelId.getList();
-        Map map = new HashMap(16);
-        map.put("list", list);
-        map.put("total", total);
-        model.addAttribute("content", map);
     }
 
+    @Override
+    public void setProjectCaseContent(ModelMap model, Integer channelId, Integer pageNum) {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        SyMap params = new SyMap();
+        params.put("channelId", channelId);
+        // 栏目头部图片和标题
+        this.setTopImgAndTitle(model, channelId);
+        // 栏目文章
+        model.addAttribute("projectArticleList", articleDao.getArticleByChannelId(params, 1, 1).getList());
+        // 获取栏目下的子栏目
+        model.addAttribute("navList", channelDao.getChannelListByPId(channelId));
+    }
 
+    @Override
+    public void setNewsCenterCaseContent(ModelMap model, Integer channelId, Integer pageNum) {
+        if (channelId == null || pageNum == null) {
+            throw new RuntimeException();
+        }
+        // 栏目头部图片和标题
+        this.setTopImgAndTitle(model, channelId);
+        // 获取栏目下的子栏目
+        List<ChannelDo> newsChannel = channelDao.getSonChannelListByGroup("news");
+        model.addAttribute("navList", newsChannel);
+        // 查找是否存在子栏目
+        SyMap params = new SyMap();
+        List<ChannelDo> sonChannelListById = channelDao.getSonChannelListById(channelId);
+        if (sonChannelListById != null && sonChannelListById.size() > 0) {
+            params.put("channelId", channelId);
+            model.addAttribute("navList", newsChannel);
+            Integer maxValue = Integer.MAX_VALUE;
+            int index = -1;
+            for (int i = 0; i < newsChannel.size(); i++) {
+                Integer sort = newsChannel.get(i).getSort();
+                if (sort < maxValue) {
+                    maxValue = sort;
+                    index = i;
+                }
+            }
+            params.put("channelId", newsChannel.get(index).getId());
+            model.addAttribute("newsContentList", articleDao.getArticleByChannelId(params, pageNum, 6).getList());
+        } else {
+            params.put("channelId", channelId);
+            model.addAttribute("newsContentList", articleDao.getArticleByChannelId(params, pageNum, 6).getList());
+        }
+    }
 }

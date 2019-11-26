@@ -61,5 +61,15 @@ public class ChannelDao implements IChannelDao {
         return baseDao.selectOne("ChannelMapper.getChannelById", channelId);
     }
 
+    @Override
+    public List<ChannelDo> getSonChannelListByGroup(String group) {
+        return baseDao.selectList("ChannelMapper.getSonChannelListByGroup", group);
+    }
+
+    @Override
+    public Integer getParentChannelId(Integer channelId) {
+        return baseDao.selectOne("ChannelMapper.getParentChannelId", channelId);
+    }
+
 
 }

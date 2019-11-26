@@ -45,7 +45,6 @@ public interface IChannelDao {
      */
     List<ChannelDo> getSonChannelListById(Integer parentId);
 
-
     /**
      * 获取栏目id下的子栏目
      *
@@ -77,4 +76,18 @@ public interface IChannelDao {
      * @return
      */
     ChannelDo getChannelById(Integer channelId);
+
+    /**
+     * 根据分组获取栏目列表
+     * @param group
+     * @return
+     */
+    List<ChannelDo> getSonChannelListByGroup(String group);
+
+    /**
+     * 根据子栏目id找父栏目id
+     * @param channelId
+     * @return
+     */
+    Integer getParentChannelId(Integer channelId);
 }

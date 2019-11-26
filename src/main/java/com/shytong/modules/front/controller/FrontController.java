@@ -72,6 +72,7 @@ public class FrontController extends BaseController {
 
     /**
      * 栏目详情
+     *
      * @param servletRequest
      * @param map
      * @return
@@ -83,8 +84,8 @@ public class FrontController extends BaseController {
         Integer channelId = params.getInteger("channelId");
         Integer pageNum = params.getInteger("pageNum");
         Integer pageSize = params.getInteger("pageSize");
-        List list = frontService.getSonChannelInfo(channelId, pageNum, pageSize);
-        return JSON.toJSONString(list);
+        Map data = frontService.getSonChannelInfo(channelId, pageNum, pageSize);
+        return JSON.toJSONString(data);
     }
 
     /**
@@ -95,9 +96,9 @@ public class FrontController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/case", method = RequestMethod.GET)
-    @ResponseBody
-    public String projectCase(HttpServletRequest servletRequest, ModelMap model) {
+    public String projectCase(HttpServletRequest servletRequest, ModelMap model, Integer channelId, Integer pageNum) {
         frontService.setHtml(model);
+        frontService.setProjectCaseContent(model, channelId, pageNum);
         return "/view/case";
     }
 
@@ -109,8 +110,9 @@ public class FrontController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/news", method = RequestMethod.GET)
-    public String newsCenter(HttpServletRequest servletRequest, ModelMap model) {
+    public String newsCenter(HttpServletRequest servletRequest, ModelMap model, Integer channelId, Integer pageNum) {
         frontService.setHtml(model);
+        frontService.setNewsCenterCaseContent(model, channelId, pageNum);
         return "/view/news";
     }
 

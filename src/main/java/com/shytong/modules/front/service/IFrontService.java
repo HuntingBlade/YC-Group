@@ -3,6 +3,7 @@ package com.shytong.modules.front.service;
 import org.springframework.ui.ModelMap;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author:CL
@@ -42,11 +43,30 @@ public interface IFrontService {
     void setQualificationContent(ModelMap model, Integer channelId, Integer pageNum);
 
     /**
+     * 设置工程业绩内容
+     * @param model
+     * @param channelId
+     * @param pageNum
+     */
+    void setProjectCaseContent(ModelMap model, Integer channelId, Integer pageNum);
+
+    /**
+     * 设置工程业绩内容
+     * @param model
+     * @param channelId
+     * @param pageNum
+     */
+    void setNewsCenterCaseContent(ModelMap model, Integer channelId, Integer pageNum);
+
+    /**
      * 获取子栏目信息
      * @param channelId
      * @param pageNum
      * @param pageSize
      * @return
      */
-    List getSonChannelInfo(Integer channelId, Integer pageNum, Integer pageSize);
+    Map getSonChannelInfo(Integer channelId, Integer pageNum, Integer pageSize);
+
+
+
 }

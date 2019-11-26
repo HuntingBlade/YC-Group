@@ -15,9 +15,8 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
             <ul id="nav_list">
                 @#for(nav in navList){
                 #@
-                <li id="nav^{navLP.dataIndex}">
-                    <!--                    href=^{nav.indexName}?channelId=^{nav.id}&pageNum=1-->
-                    <a>^{nav.name}</a>
+                <li>
+                    <a id="nav^{navLP.dataIndex}" value="^{nav.id}">^{nav.name}</a>
                 </li>
                 @#}#@
             </ul>
@@ -25,20 +24,7 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
 
         <div class="content-main">
             <div class="content-img-list">
-                <ul class="banimg">
-                    @#for(item in content.list){#@
-                    <li>
-                        <a>
-                            <div class="case-img">
-                                <img src=^{item.titleImg}>
-                            </div>
-                            <div class="case-info">
-                                <h1>^{item.title}</h1>
-                            </div>
-                        </a>
-                    </li>
-                    @#}#@
-                </ul>
+                <ul id="qualification-content" class="banimg"></ul>
                 <!-- 分页 -->
                 <div id="test1" style="text-align: center"></div>
             </div>
@@ -61,70 +47,128 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
 
 <script>
     $(function () {
-        var href = window.location.search;
-        var pageNum = href.indexOf("pageNum=");
-        var channelId = href.indexOf("channelId");
-        var current_channelId = href.substring(channelId + 9);
-        var current_page = href.substring(pageNum + 8);
         setWid();
-        layui.use('laypage', function () {
-            var laypage = layui.laypage;
-            var totals = "^{content.total!}";
-            //执行一个laypage实例
-            laypage.render({
-                theme: "#0d2e3d",
-                elem: 'test1', //注意，这里的 test1 是 ID，不用加 # 号
-                count: totals, //数据总数，从服务端得到
-                curr: current_page,
-                limit: 8,
-                jump: function (obj, first) {
-                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                    console.log(obj.limit); //得到每页显示的条数
-                    //首次不执行
-                    if (!first) {
-                        window.location.href = "/front/public/qualification?channelId=3&pageNum=" + obj.curr;
-                    }
-                }
-            });
-        });
-
+        var pageNum = 1;
+        var pageSize = 8;
+        var total = 0;
+        var channelId = 0;
         var navLen = $("#nav_list").children("li").length;
-        if (navLen > 0) {
-            $("#nav0 a").addClass("active");
+        if (navLen < 0) {
+            return;
         }
-        console.log(window.location.host);
-        $("#nav_list li").on("click", function () {
-            var hurl = window.location.protocol + "//" + window.location.host + "/front/public/channelInfo";
-            var data = {
-                "channelId": 20,
-                "pageNum": 1,
-                "pageSize": 8
-            };
-            $.ajax({
-                type: "POST",
-                url: hurl,
-                async: false,
-                dataType: "json",
-                contentType: 'application/json',
-                data: JSON.stringify(data),
-                success: function (res) {
-                    console.log(res);
-                }
-            })
-            ;
-
+        $("#nav0").addClass("active");
+        channelId = $("#nav0").attr("value");
+        total = setSonChannelContent(channelId, pageNum, pageSize);
+        page(channelId, total, pageNum, pageSize);
+        $("#nav_list a").on("click", function () {
             var id = $(this).attr("id");
             for (var i = 0; i < navLen; i++) {
                 var cid = $("#nav" + i).attr("id");
                 if (id != cid) {
-                    $("#nav" + i + " a").removeClass("active");
+                    $("#nav" + i).removeClass("active");
                 }
-                $("#" + id + " a").addClass("active");
+                $("#" + id).addClass("active");
                 continue;
             }
-
+            var hurl = window.location.protocol + "//" + window.location.host + "/front/public/channelInfo";
+            channelId = $(this).attr("value");
+            var data = {
+                "channelId": channelId,
+                "pageNum": pageNum,
+                "pageSize": pageSize
+            };
+            $.ajax({
+                type: "POST",
+                url: hurl,
+                async: true,
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    $("#qualification-content").empty();
+                    total = res.total;
+                    for (var i = 0; i < res.list.length; i++) {
+                        $("#qualification-content").append("<li>" +
+                            "<a>" +
+                            "<div class='case-img'>" +
+                            "<img src='" + res.list[i].titleImg + "'>" +
+                            "</div>" +
+                            "<div class='case-info'>" +
+                            "<h1 id='h1" + i + "'></h1>" +
+                            "</div>" +
+                            "</a>" +
+                            "</li>");
+                        $("#h1" + i).text(res.list[i].title);
+                    }
+                    page(channelId, total, pageNum, pageSize);
+                }
+            });
         });
     });
+
+
+    function page(channelId, total, pageNum, pageSize) {
+        layui.use('laypage', function () {
+            var laypage = layui.laypage;
+            //执行一个laypage实例
+            laypage.render({
+                theme: "#0d2e3d",
+                elem: 'test1', //注意，这里的 test1 是 ID，不用加 # 号
+                count: total, //数据总数，从服务端得到
+                curr: pageNum,
+                limit: pageSize,
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        $("#qualification-content").empty();
+                        setSonChannelContent(channelId, obj.curr, obj.limit);
+                    }
+                }
+            });
+        });
+    }
+
+    /**
+     * 获取指定栏目的内容
+     * @param channelId
+     * @param pageNum
+     * @param pageSize
+     */
+    function setSonChannelContent(channelId, pageNum, pageSize) {
+        var hurl = window.location.protocol + "//" + window.location.host + "/front/public/channelInfo";
+        var _total = 0;
+        var data = {
+            "channelId": channelId,
+            "pageNum": pageNum,
+            "pageSize": pageSize
+        };
+        $.ajax({
+            type: "POST",
+            url: hurl,
+            async: false,
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (res) {
+                var _length = res.list.length;
+                _total = res.total;
+                for (var i = 0; i < _length; i++) {
+                    $("#qualification-content").append("<li>" +
+                        "<a>" +
+                        "<div class='case-img'>" +
+                        "<img src='" + res.list[i].titleImg + "'>" +
+                        "</div>" +
+                        "<div class='case-info'>" +
+                        "<h1 id='h1" + i + "'></h1>" +
+                        "</div>" +
+                        "</a>" +
+                        "</li>");
+                    $("#h1" + i).text(res.list[i].title);
+                }
+            }
+        });
+        return _total;
+    }
 
     function setWid() {
         var wid = $(".banimg").width();
@@ -135,7 +179,6 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
         var wid_img = wid_li * 0.96;
         var h_img = wid_img * 1.4;
         $(".banimg .case-img").height(h_img);
-        console.log(wid);
     }
 
 </script>

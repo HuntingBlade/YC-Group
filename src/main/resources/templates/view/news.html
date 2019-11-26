@@ -1,152 +1,88 @@
 @#
-layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:""}){
+layout("../common/base.html",{title:'新闻中心-亿创电力集团',nav:'index',header_css:""}){
 #@
-<!--轮播-->
-<div style="padding-top: 87px;">
-    <div class="wrapper-img">
-        <div class="img"></div>
+
+<div class="comm-warp-position">
+    <div class="comm-wrapper-img">
+        <div style="background: url(^{channelTopImg.sysValue!}) no-repeat center bottom;"></div>
     </div>
-</div>
-<!---->
-<div class="wrapper-content">
-    <div class="content-title">
-        <div class="title">新闻中心</div>
-        <div class="subtitle">NEWS CENTER</div>
-    </div>
-    <div class="content-title-nav">
-        <ul>
-            <li>
-                <a class="active" href="">行业资讯</a>
-            </li>
-            <li>
-                <a href="">企业新闻</a>
-            </li>
-            <li>
-                <a href="">媒体报道</a>
-            </li>
-        </ul>
-    </div>
-    <div class="content-main">
-        <div class="news-list">
-            <div class="news-item">
-                <div class="news-one">
-                    <a class="news-content" href="news_ny.php?classid=194&amp;infoid=996">
-                        <div class="news-wrapper">
-                            <div class="news-body">
-                                <p class="date">
-                                    <span class="md">2019<span>-</span></span><span
-                                        class="year">10-24</span>
-                                </p>
-                                <p class="title">福建省电力企业协会三届一次会员大会在福州召开，我司作为副理... </p>
-                                <div class="separator"></div>
-                                <p class="description"></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
 
-            <div class="news-item">
-                <div class="news-one">
-                    <a class="news-content" href="news_ny.php?classid=194&amp;infoid=996">
-                        <div class="news-wrapper">
-                            <div class="news-body">
-                                <p class="date">
-                                    <span class="md">2019<span>-</span></span><span
-                                        class="year">10-24</span>
-                                </p>
-                                <p class="title">福建省电力企业协会三届一次会员大会在福州召开，我司作为副理... </p>
-                                <div class="separator"></div>
-                                <p class="description"></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-one">
-                    <a class="news-content" href="news_ny.php?classid=194&amp;infoid=996">
-                        <div class="news-wrapper">
-                            <div class="news-body">
-                                <p class="date">
-                                    <span class="md">2019<span>-</span></span><span
-                                        class="year">10-24</span>
-                                </p>
-                                <p class="title">福建省电力企业协会三届一次会员大会在福州召开，我司作为副理... </p>
-                                <div class="separator"></div>
-                                <p class="description"></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-one">
-                    <a class="news-content" href="news_ny.php?classid=194&amp;infoid=996">
-                        <div class="news-wrapper">
-                            <div class="news-body">
-                                <p class="date">
-                                    <span class="md">2019<span>-</span></span><span
-                                        class="year">10-24</span>
-                                </p>
-                                <p class="title">福建省电力企业协会三届一次会员大会在福州召开，我司作为副理... </p>
-                                <div class="separator"></div>
-                                <p class="description"></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!--            <div class="news-item">-->
-            <!--                <div class="news-one">-->
-            <!--                    <a class="news-content" href="news_ny.php?classid=194&amp;infoid=996">-->
-            <!--                        <div class="news-wrapper">-->
-            <!--                            <div class="news-body">-->
-            <!--                                <p class="date">-->
-            <!--                                    <span class="md">2019<span>-</span></span><span class="year">10-24</span>-->
-            <!--                                </p>-->
-            <!--                                <p class="title">福建省电力企业协会三届一次会员大会在福州召开，我司作为副理... </p>-->
-            <!--                                <div class="separator"></div>-->
-            <!--                                <p class="description"></p>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-            <!--                    </a>-->
-            <!--                </div>-->
-            <!--            </div>-->
-
-            <div class="news-item">
-                <div class="news-one">
-                    <a class="news-content" href="news_ny.php?classid=194&amp;infoid=996">
-                        <div class="news-wrapper">
-                            <div class="news-body">
-                                <p class="date">
-                                    <span class="md">2019<span>-</span></span><span
-                                        class="year">10-24</span>
-                                </p>
-                                <p class="title">福建省电力企业协会三届一次会员大会在福州召开，我司作为副理... </p>
-                                <div class="separator"></div>
-                                <p class="description"></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+    <div class="comm-wrapper-content">
+        <div class="comm-content-title">
+            <div class="title">^{channelTitle.name}</div>
+            <div>^{channelTitle.pageName}</div>
         </div>
-        <div id="test1" style="margin:0 auto;width: 85%;text-align: center"></div>
+
+        <div class="comm-content-title-nav">
+            <ul id="nav_list">
+                @#for(nav in navList){ #@
+                <li>
+                    <a href="/front/public/news?channelId=^{nav.id}&pageNum=1" id="nav^{navLP.dataIndex}"
+                       value="^{nav.id}">^{nav.name}</a>
+                </li>
+                @#}#@
+            </ul>
+        </div>
+
+        <div class="content-main">
+            <div class="news-list">
+                @# for(news in newsContentList) { #@
+                <div class="news-item">
+                    <div class="news-one">
+                        <a class="news-content" href="news_ny.php?classid=194&amp;infoid=996">
+                            <div class="news-wrapper">
+                                <div class="news-body">
+                                    <p class="date">
+                                        <span class="md">^{news.postTime}<span>-</span></span><span class="year">^{news.postTime}</span>
+                                    </p>
+                                    <p class="title">^{news.title}</p>
+                                    <div class="separator"></div>
+                                    <p class="description">^{news.summary}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                @# } #@
+            </div>
+            <div id="test1" style="margin:0 auto;width: 85%;text-align: center"></div>
+        </div>
     </div>
 </div>
+
 
 <script type="text/javascript">
-    layui.use('laypage', function () {
-        var laypage = layui.laypage;
-        //执行一个laypage实例
-        laypage.render({
-            theme: "#0d2e3d",
-            elem: 'test1', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 20 //数据总数，从服务端得到
+    $(function () {
+        // url
+        var search = window.location.search;
+        // 从url中获取栏目id和页码
+        var channelId = search.substring(search.indexOf("channelId=") + "channelId=".length, search.indexOf("&"));
+        var pageNum = search.substring(search.indexOf("pageNum=") + "pageNum=".length);
+        console.log("channelId", channelId);
+        console.log("pageNum", pageNum);
+
+        var navLength = $("#nav_list").children("li").length;
+        for (var i = 0; i < navLength; i++) {
+            var navId = $("#nav" + i).attr("value");
+            console.log("navId", navId);
+            if (navId == channelId) {
+                $("#nav0").removeClass("active");
+                $("#nav" + i).addClass("active");
+                break;
+            } else {
+                $("#nav" + i).removeClass("active");
+                $("#nav0").addClass("active");
+            }
+        }
+
+        layui.use('laypage', function () {
+            var laypage = layui.laypage;
+            //执行一个laypage实例
+            laypage.render({
+                theme: "#0d2e3d",
+                elem: 'test1', //注意，这里的 test1 是 ID，不用加 # 号
+                count: 20 //数据总数，从服务端得到
+            });
         });
     });
 </script>

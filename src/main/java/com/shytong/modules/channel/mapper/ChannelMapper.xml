@@ -330,4 +330,28 @@
         id = #{channelId,jdbcType=INTEGER}
         AND is_deleted = 0
     </select>
+
+    <!--  根据分组获取栏目列表  -->
+    <select id="getSonChannelListByGroup" parameterType="java.lang.String"
+            resultType="com.shytong.modules.channel.model.ChannelDo">
+        SELECT
+        <include refid="select_sql_part"/>
+        FROM
+        sy_channel
+        WHERE
+        `group` = #{group,jdbcType=VARCHAR}
+        AND is_deleted = 0
+        ORDER BY sort ASC
+    </select>
+
+    <!--  根据子栏目找父栏目id  -->
+    <select id="getParentChannelId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select
+            parent_id AS parentId
+        from
+            sy_channel
+        where
+            id = #{channelId,jdbcType=INTEGER}
+            AND is_deleted = 0
+    </select>
 </mapper>
