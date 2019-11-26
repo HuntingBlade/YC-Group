@@ -90,4 +90,11 @@ public interface IChannelDao {
      * @return
      */
     Integer getParentChannelId(Integer channelId);
+
+    /**
+     * 栏目是否存在
+     * @param channelId
+     * @return
+     */
+    Integer channelIsExist(Integer channelId);
 }

@@ -45,7 +45,7 @@ if(item.sort == 1){
         <ul>
             @# for(children in item.children!) { #@
             <li>
-                <a href="javascript:void(this)">
+                <a href=^{children.indexName}>
                     <img src=^{children.sysValue}/>
                     <h4>^{children.name}</h4>
                 </a>

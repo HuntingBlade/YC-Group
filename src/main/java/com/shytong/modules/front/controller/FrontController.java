@@ -50,9 +50,9 @@ public class FrontController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/about", method = RequestMethod.GET)
-    public String groupProfile(HttpServletRequest servletRequest, ModelMap model) {
+    public String groupProfile(HttpServletRequest servletRequest, ModelMap model, Integer channelId) {
         frontService.setHtml(model);
-        frontService.setAboutContent(model);
+        frontService.setContent(model, 2, 1, 1, "about");
         return "/view/about";
     }
 
@@ -66,9 +66,24 @@ public class FrontController extends BaseController {
     @RequestMapping(value = "/qualification", method = RequestMethod.GET)
     public String qualification(HttpServletRequest servletRequest, ModelMap model, Integer channelId, Integer pageNum) {
         frontService.setHtml(model);
-        frontService.setQualificationContent(model, channelId, pageNum);
+        frontService.setContent(model, channelId, pageNum, 8, "qualification");
         return "/view/qualification";
     }
+
+    /**
+     * 工程业绩
+     *
+     * @param servletRequest
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/case", method = RequestMethod.GET)
+    public String projectCase(HttpServletRequest servletRequest, ModelMap model, Integer channelId, Integer pageNum) {
+        frontService.setHtml(model);
+        frontService.setContent(model, channelId, pageNum, 8, "case");
+        return "/view/case";
+    }
+
 
     /**
      * 栏目详情
@@ -88,19 +103,7 @@ public class FrontController extends BaseController {
         return JSON.toJSONString(data);
     }
 
-    /**
-     * 工程业绩
-     *
-     * @param servletRequest
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/case", method = RequestMethod.GET)
-    public String projectCase(HttpServletRequest servletRequest, ModelMap model, Integer channelId, Integer pageNum) {
-        frontService.setHtml(model);
-        frontService.setProjectCaseContent(model, channelId, pageNum);
-        return "/view/case";
-    }
+
 
     /**
      * 新闻中心
@@ -124,8 +127,9 @@ public class FrontController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/join", method = RequestMethod.GET)
-    public String talentsWanted(HttpServletRequest servletRequest, ModelMap model) {
+    public String talentsWanted(HttpServletRequest servletRequest, ModelMap model, Integer channelId, Integer pageNum) {
         frontService.setHtml(model);
+        frontService.talentsWanted(model, channelId, pageNum);
         return "/view/join";
     }
 
@@ -137,9 +141,10 @@ public class FrontController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/contact", method = RequestMethod.GET)
-    public String contactUs(HttpServletRequest servletRequest, ModelMap model) {
+    public String contactUs(HttpServletRequest servletRequest, ModelMap model, Integer channelId, Integer pageNum) {
         frontService.setHtml(model);
-        return "/view/news";
+        frontService.contactUs(model, channelId, pageNum);
+        return "/view/contact";
     }
 
     /**

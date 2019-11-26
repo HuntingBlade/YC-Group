@@ -47,14 +47,14 @@
 
 .case-i a{
     cursor: pointer;
+    margin: auto 0;
 }
 
 .case-img {
+    display: table-cell;
     padding: 0 8px;
-    display: inline-block;
-    vertical-align: middle;
-    width: 380px;
     overflow: hidden;
+    vertical-align: middle;
 }
 
 .flag {
@@ -71,7 +71,7 @@
 }
 
 .case-img img:hover {
-    transform: scale(1.2);
+    transform: scale(1.0);
 }
 
 .case-info {
@@ -101,7 +101,6 @@
 
 .content-main1 {
     width: 100%;
-
     display: block;
     position: relative;
     padding-top: 42%;

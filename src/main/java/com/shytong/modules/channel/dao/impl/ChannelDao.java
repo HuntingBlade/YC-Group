@@ -71,5 +71,10 @@ public class ChannelDao implements IChannelDao {
         return baseDao.selectOne("ChannelMapper.getParentChannelId", channelId);
     }
 
+    @Override
+    public Integer channelIsExist(Integer channelId) {
+        return baseDao.selectOne("ChannelMapper.channelIsExist", channelId);
+    }
+
 
 }

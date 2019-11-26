@@ -354,4 +354,15 @@
             id = #{channelId,jdbcType=INTEGER}
             AND is_deleted = 0
     </select>
+
+    <!--  判断栏目是否存在  -->
+    <select id="channelIsExist" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select
+            count(1)
+        from
+            sy_channel
+        where
+            id = #{channelId,jdbcType=INTEGER}
+            AND is_deleted = 0
+    </select>
 </mapper>

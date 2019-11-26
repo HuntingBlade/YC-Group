@@ -2,7 +2,6 @@ package com.shytong.modules.front.service;
 
 import org.springframework.ui.ModelMap;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,11 +24,18 @@ public interface IFrontService {
     void setIndexContent(ModelMap model);
 
     /**
-     * 设置集团简介内容
-     *
+     * 设置文章内容
      * @param model
+     * @param channelId 栏目编号
+     * @param pageNum 页码
+     * @param pageSize  每页大小
+     * @param group 分组
      */
-    void setAboutContent(ModelMap model);
+    void setContent(ModelMap model, Integer channelId, Integer pageNum, Integer pageSize, String group);
+
+
+
+
 
     /**
      * 设置资质荣誉内容
@@ -42,6 +48,7 @@ public interface IFrontService {
 
     /**
      * 设置工程业绩内容
+     *
      * @param model
      * @param channelId
      * @param pageNum
@@ -50,6 +57,7 @@ public interface IFrontService {
 
     /**
      * 设置工程业绩内容
+     *
      * @param model
      * @param channelId
      * @param pageNum
@@ -58,6 +66,7 @@ public interface IFrontService {
 
     /**
      * 获取子栏目信息
+     *
      * @param channelId
      * @param pageNum
      * @param pageSize
@@ -65,6 +74,24 @@ public interface IFrontService {
      */
     Map getSonChannelInfo(Integer channelId, Integer pageNum, Integer pageSize);
 
+
+    /**
+     * 诚聘英才
+     *
+     * @param model
+     * @param channelId
+     * @param pageNum
+     */
+    void talentsWanted(ModelMap model, Integer channelId, Integer pageNum);
+
+    /**
+     * 联系我们
+     *
+     * @param model
+     * @param channelId
+     * @param pageNum
+     */
+    void contactUs(ModelMap model, Integer channelId, Integer pageNum);
 
 
 }

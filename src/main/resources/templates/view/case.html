@@ -13,171 +13,98 @@ layout("../common/base.html",{title:'工程业绩-亿创电力集团',nav:'index
 
         <div class="comm-content-title-nav">
             <ul id="nav_list">
-                @#for(nav in navList){ #@
+                @#for(nav in navList){#@
                 <li>
-                    <a id="nav^{navLP.dataIndex}" value="^{nav.id}">^{nav.name}</a>
+                    <a id="nav^{navLP.dataIndex}" value="^{nav.id}"
+                       href="/front/public/case?channelId=^{nav.id}&pageNum=1">^{nav.name}</a>
                 </li>
                 @#}#@
             </ul>
         </div>
 
-        <div id="project-content" style="width: 85%;margin: 0 auto"></div>
+        <div id="project-content" style="width: 85%;margin: 0 auto">
+            @#
+            if(template! == "textType" || template == null ){
+            for(item in content.list){#@
+            ^{item.content}
+            @#}}else if(template! == "imgType"){#@
+            <ul class="banimg">
+                @#for(item in content.list){#@
+                <li style="width: 25%">
+                    <a>
+                        <div class='case-img'>
+                            <img src=^{item.titleImg}>
+                        </div>
+                        <div class='case-info'>
+                            <h1>^{item.title}</h1>
+                            <h3 id="bottom-title^{itemLP.dataIndex}" class='case-title'></h3>
+                        </div>
+                    </a>
+                </li>
+                @#}#@
+            </ul>
+            <!-- 分页 -->
+            <div id="test1" style="text-align: center"></div>
+            @#}#@
+        </div>
     </div>
 </div>
-
+@# } #@
 <script>
     $(function () {
-        var pageNum = 1;
-        var pageSize = 8;
-        var channelId = $("#nav0").attr("value");
-        var total = 0;
-        defaultPage(channelId, pageNum, pageSize);
-        var navLen = $("#nav_list").children("li").length;
-        if (navLen < 0) {
-            return;
-        }
-        $("#nav0").addClass("active");
-        $("#nav_list a").on("click", function () {
-            var id = $(this).attr("id");
-            var title = $(this).text();
-            for (var i = 0; i < navLen; i++) {
-                var cid = $("#nav" + i).attr("id");
-                if (id != cid) {
-                    $("#nav" + i).removeClass("active");
-                }
-                $("#" + id).addClass("active");
-                continue;
-            }
-            var hurl = window.location.protocol + "//" + window.location.host + "/front/public/channelInfo";
-            channelId = $(this).attr("value");
-            var data = {
-                "channelId": channelId,
-                "pageNum": pageNum,
-                "pageSize": pageSize
-            };
-            if (id == "nav0") {
-                defaultPage(channelId, pageNum, pageSize);
-                return;
-            }
-            $.ajax({
-                type: "POST",
-                url: hurl,
-                async: false,
-                dataType: "json",
-                contentType: 'application/json',
-                data: JSON.stringify(data),
-                success: function (res) {
-                    $("#project-content").empty();
-                    $("#project-content").append("<ul id=\"project-content-ul\" class=\"banimg\"></ul>");
-                    total = res.total;
-                    for (var i = 0; i < res.list.length; i++) {
-                        $("#project-content-ul").append("<li class='case-i'>" +
-                            "<a>" +
-                            "<div class='case-img'>" +
-                            "<img src='" + res.list[i].titleImg + "'>" +
-                            "</div>" +
-                            "<div class='case-info'>" +
-                            "<h1 id='h1" + i + "'></h1>" +
-                            "<h3 id='h3" + i + "' class='case-title' ></h3>" +
-                            "</div>" +
-                            "</a>" +
-                            "</li>");
-                        $("#h1" + i).text(res.list[i].title);
-                        $("#h3" + i).text(title);
-                    }
-                    // 分页
-                    $("#project-content").append("<div id=\"casePage\" style=\"text-align: center\"></div>");
-                    page(channelId, total, pageNum, pageSize);
-                }
-            });
-        });
-    });
+        setWid();
+        var search = window.location.search;
+        var channelId = search.substring(search.indexOf("channelId=") + "channelId=".length, search.indexOf("&"));
+        var pageNum = search.substring(search.indexOf("pageNum=") + "pageNum=".length);
+        var total = "^{content.total}";
+        var navLength = $("#nav_list").children("li").length;
+        var activeChannelId; // 选中栏目的ID
 
-    function page(channelId, total, pageNum, pageSize) {
+        if (pageNum == "" || pageNum == null) {
+            pageNum = 1;
+        }
+        $("#nav0").addClass("active");  // 默认选中第一个
+        for (var i = 0; i < navLength; i++) {
+            var navId = $("#nav" + i).attr("value");
+            if (navId == channelId) {
+                $("#nav0").removeClass("active");
+                $("#nav" + i).addClass("active");
+                activeChannelId = $("#nav" + i).attr("value");
+                break;
+            }
+            var isActive = $("#nav" + i).hasClass("active");
+            if (isActive) {
+                activeChannelId = $("#nav" + i).attr("value");
+            }
+        }
+
+        // 分页
         layui.use('laypage', function () {
             var laypage = layui.laypage;
             //执行一个laypage实例
             laypage.render({
                 theme: "#0d2e3d",
-                elem: 'casePage', //注意，这里的 test1 是 ID，不用加 # 号
+                elem: 'test1', //注意，这里的 test1 是 ID，不用加 # 号
                 count: total, //数据总数，从服务端得到
                 curr: pageNum,
-                limit: pageSize,
+                limit: 8,
                 jump: function (obj, first) {
-                    //首次不执行
                     if (!first) {
-                        $("#project-content-ul").empty();
-                        setSonChannelContent(channelId, obj.curr, obj.limit);
+                        window.location.href = "/front/public/qualification?channelId=" + activeChannelId + "&pageNum=" + obj.curr;
                     }
                 }
             });
         });
-    }
+    });
 
-    /**
-     * 获取指定栏目的内容
-     * @param channelId
-     * @param pageNum
-     * @param pageSize
-     */
-    function setSonChannelContent(channelId, pageNum, pageSize) {
-        var hurl = window.location.protocol + "//" + window.location.host + "/front/public/channelInfo";
-        var _total = 0;
-        var data = {
-            "channelId": channelId,
-            "pageNum": pageNum,
-            "pageSize": pageSize
-        };
-        $.ajax({
-            type: "POST",
-            url: hurl,
-            async: false,
-            dataType: "json",
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (res) {
-                var _length = res.list.length;
-                _total = res.total;
-                for (var i = 0; i < _length; i++) {
-                    $("#project-content-ul").append("<li class='case-i'>" +
-                        "<a>" +
-                        "<div class='case-img'>" +
-                        "<img src='" + res.list[0].titleImg + "'>" +
-                        "</div>" +
-                        "<div class='case-info'>" +
-                        "<h1 id='h1" + i + "'></h1>" +
-                        "<h3 class='case-title'>安全生产</h3>" +
-                        "</div>" +
-                        "</a>" +
-                        "</li>");
-                    $("#h1" + i).text(res.list[0].title);
-                }
-            }
-        });
-        return _total;
-    }
-
-    function defaultPage(channelId, pageNum, pageSize) {
-        var hurl = window.location.protocol + "//" + window.location.host + "/front/public/channelInfo";
-        var data = {
-            "channelId": channelId,
-            "pageNum": pageNum,
-            "pageSize": pageSize
-        };
-        $.ajax({
-            type: "POST",
-            url: hurl,
-            async: true,
-            dataType: "json",
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (res) {
-                for (var i = 0; i < res.list.length; i++) {
-                    $("#project-content").empty();
-                    $("#project-content").append(res.list[i].content);
-                }
-            }
-        });
+    function setWid() {
+        var wid = $(".banimg").width();
+        var wid_li = wid / 4.1;
+        var h_li = wid_li * 1.52;
+        $(".banimg li").width(wid_li);
+        $(".banimg li").height(h_li);
+        var wid_img = wid_li * 0.96;
+        var h_img = wid_img * 1.4;
+        $(".banimg .case-img").height(h_img);
     }
 </script>
-@# } #@

@@ -1,4 +1,5 @@
 .carousel-img {
+    top: 10px;
     width: auto;
     height: 480px;
     max-height: 480px;
@@ -215,8 +216,8 @@
     text-align: right;
     width: 110px;
     font-weight: normal;
-    height: 60px;
-    padding-top: 15px;
+    height: 50px;
+    padding-top: 25px;
     padding-right: 30px;
 }
 
