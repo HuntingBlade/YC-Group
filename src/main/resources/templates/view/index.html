@@ -68,9 +68,9 @@ if(item.sort == 1){
             <img src=^{item.sysValue}>
         </div>
         <div class="news-channel-content2">
-            <img src=^{recommendArticleImg.sysValue}>
-            <h3 id="recommendArticleTitle">^{recommendArticle.title}</h3>
-            <span id="recommendArticleSummary">^{recommendArticle.summary}</span>
+            <img src=^{recommendArticleImg.sysValue!}>
+            <h3 id="recommendArticleTitle">^{recommendArticle.title!}</h3>
+            <span id="recommendArticleSummary">^{recommendArticle.summary!}</span>
             <h2><a href="/front/public/detail?channelId=^{recommendArticle.channelId}&articleId=^{recommendArticle.id}">^{newsMoreBtn.sysName}</a>
             </h2>
         </div>

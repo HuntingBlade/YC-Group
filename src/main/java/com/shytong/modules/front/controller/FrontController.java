@@ -36,9 +36,9 @@ public class FrontController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index(HttpServletRequest servletRequest, ModelMap model, Integer channelId) {
+    public String index(HttpServletRequest servletRequest, ModelMap model) {
         frontService.setHtml(model);
-        frontService.setIndexContent(model, channelId);
+        frontService.setIndexContent(model);
         return "/view/index";
     }
 
@@ -50,9 +50,9 @@ public class FrontController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/about", method = RequestMethod.GET)
-    public String groupProfile(HttpServletRequest servletRequest, ModelMap model, Integer channelId) {
+    public String groupProfile(HttpServletRequest servletRequest, ModelMap model) {
         frontService.setHtml(model);
-        frontService.setAboutContent(model, channelId);
+        frontService.setAboutContent(model);
         return "/view/about";
     }
 

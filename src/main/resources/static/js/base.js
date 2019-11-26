@@ -1,25 +1,17 @@
 $(function () {
-    /**
-     * 导航栏选中判断
-     * @type {string}
-     */
+    // 判断导航栏选中
     var url = window.location.pathname;
-    if (url == "/") {
-        $("#chaId0").addClass("active");
-    }
     var length = $("#channelList").children("a").length;
+    $("#chaId0").addClass("active");
     for (var i = 0; i < length; i++) {
         var href = $("#chaId" + i).attr('href');
-        var _href = href.substring(0,href.indexOf("?"));
-        if (url === _href) {
+        if (url == href){
+            $("#chaId0").removeClass("active");
             $("#chaId" + i).addClass("active");
-            break;
         }
     }
 
-    /**
-     * 第一个下拉框
-     */
+    // 第一个下拉框
     $("#selectOne").on("change", function () {
         var value = $("option:selected", this).val();
         if (value == 0) {
@@ -28,9 +20,7 @@ $(function () {
         window.open(value);
     });
 
-    /**
-     * 第二个下拉框
-     */
+    // 第二个下拉框
     $("#selectTwo").on("change", function () {
         var value = $("option:selected", this).val();
         if (value == 0) {
@@ -39,9 +29,7 @@ $(function () {
         window.open(value);
     });
 
-    /**
-     * 第三个下拉框
-     */
+    // 第三个下拉框
     $("#selectThree").on("change", function () {
         var value = $("option:selected", this).val();
         if (value == 0) {
@@ -50,4 +38,3 @@ $(function () {
         window.open(value);
     })
 });
-

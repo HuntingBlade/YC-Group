@@ -26,10 +26,10 @@ layout("../common/base.html",{title:'新闻中心-亿创电力集团',nav:'index
 
         <div class="content-main">
             <div class="news-list">
-                @# for(news in newsContentList) { #@
+                @# for(news in newsContentList.list) { #@
                 <div class="news-item">
                     <div class="news-one">
-                        <a class="news-content" href="news_ny.php?classid=194&amp;infoid=996">
+                        <a class="news-content" href="/front/public/detailed?articleId=^{news.id}">
                             <div class="news-wrapper">
                                 <div class="news-body">
                                     <p class="date">
@@ -53,25 +53,18 @@ layout("../common/base.html",{title:'新闻中心-亿创电力集团',nav:'index
 
 <script type="text/javascript">
     $(function () {
-        // url
         var search = window.location.search;
-        // 从url中获取栏目id和页码
         var channelId = search.substring(search.indexOf("channelId=") + "channelId=".length, search.indexOf("&"));
         var pageNum = search.substring(search.indexOf("pageNum=") + "pageNum=".length);
-        console.log("channelId", channelId);
-        console.log("pageNum", pageNum);
-
         var navLength = $("#nav_list").children("li").length;
+
+        $("#nav0").addClass("active");  // 默认选中第一个
         for (var i = 0; i < navLength; i++) {
             var navId = $("#nav" + i).attr("value");
-            console.log("navId", navId);
             if (navId == channelId) {
                 $("#nav0").removeClass("active");
                 $("#nav" + i).addClass("active");
                 break;
-            } else {
-                $("#nav" + i).removeClass("active");
-                $("#nav0").addClass("active");
             }
         }
 
@@ -81,7 +74,16 @@ layout("../common/base.html",{title:'新闻中心-亿创电力集团',nav:'index
             laypage.render({
                 theme: "#0d2e3d",
                 elem: 'test1', //注意，这里的 test1 是 ID，不用加 # 号
-                count: 20 //数据总数，从服务端得到
+                count: "^{newsContentList.total}", //数据总数，从服务端得到
+                curr: pageNum,
+                limit: 6,
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        $("#project-content-ul").empty();
+                        setSonChannelContent(channelId, obj.curr, obj.limit);
+                    }
+                }
             });
         });
     });

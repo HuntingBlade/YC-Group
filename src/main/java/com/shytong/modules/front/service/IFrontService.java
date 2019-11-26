@@ -21,17 +21,15 @@ public interface IFrontService {
      * 设置首页页面的内容
      *
      * @param model
-     * @param channelId
      */
-    void setIndexContent(ModelMap model, Integer channelId);
+    void setIndexContent(ModelMap model);
 
     /**
      * 设置集团简介内容
      *
      * @param model
-     * @param channelId
      */
-    void setAboutContent(ModelMap model, Integer channelId);
+    void setAboutContent(ModelMap model);
 
     /**
      * 设置资质荣誉内容
