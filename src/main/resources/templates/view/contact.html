@@ -13,7 +13,7 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
 
         <div class="content-main flex">
             <div class="contzi">
-                @#for(item in content){#@
+                @#for(item in content.list){#@
                 ^{item.content}
                 @#}#@
             </div>

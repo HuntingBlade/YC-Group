@@ -49,4 +49,9 @@ public class ArticleDaoImpl implements IArticleDao {
     public Object getRecommendArticle(Integer channelId) {
         return baseDao.selectOne("ArticleMapper.getRecommendArticle", channelId);
     }
+
+    @Override
+    public Object getArticleInfoById(String articleId) {
+        return baseDao.selectOne("ArticleMapper.getArticleInfoById", articleId);
+    }
 }

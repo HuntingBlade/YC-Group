@@ -97,4 +97,11 @@ public interface IChannelDao {
      * @return
      */
     Integer channelIsExist(Integer channelId);
+
+    /**
+     * 根据id获取id所处一致的分组
+     * @param channelId
+     * @return
+     */
+    List<ChannelDo> getChannelGroupById(Integer channelId);
 }

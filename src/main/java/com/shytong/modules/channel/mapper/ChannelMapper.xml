@@ -365,4 +365,16 @@
             id = #{channelId,jdbcType=INTEGER}
             AND is_deleted = 0
     </select>
+
+    <!--  根据id获取id所处一致的分组  -->
+    <select id="getChannelGroupById" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+        <include refid="select_sql_part"/>
+        FROM
+        sy_channel a
+        INNER JOIN sy_channel b on a.`group` = b.`group` AND b.is_deleted = 0
+        WHERE
+        id = #{channelId,jdbcType=INTEGER}
+        AND is_deleted = 0
+    </select>
 </mapper>

@@ -344,4 +344,15 @@
         LIMIT 1
     </select>
 
+    <!--  根据文章id获取文章信息  -->
+    <select id="getArticleInfoById" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+        <include refid="select_sql_part"/>
+        FROM
+        sy_article
+        where
+        id = #{articleId,jdbcType=VARCHAR}
+        AND is_deleted = 0
+        LIMIT 1
+    </select>
 </mapper>

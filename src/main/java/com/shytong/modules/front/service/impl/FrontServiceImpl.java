@@ -3,10 +3,13 @@ package com.shytong.modules.front.service.impl;
 import com.github.pagehelper.PageInfo;
 import com.shytong.common.model.SyMap;
 import com.shytong.modules.article.dao.IArticleDao;
+import com.shytong.modules.article.model.ArticleDo;
+import com.shytong.modules.channel.comm.TemplateType;
 import com.shytong.modules.channel.dao.IChannelDao;
 import com.shytong.modules.channel.model.ChannelDo;
 import com.shytong.modules.front.service.IFrontService;
 import com.shytong.modules.sysconfig.dao.ISysConfigDao;
+import com.shytong.modules.sysconfig.model.SysConfigDo;
 import com.shytong.modules.urlconfig.dao.IUrlConfigDao;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ import org.springframework.ui.ModelMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.shytong.modules.channel.comm.TemplateType.*;
 
 /**
  * @description:
@@ -152,138 +157,39 @@ public class FrontServiceImpl implements IFrontService {
         }
     }
 
-
-    /**
-     * 根据分组获取链接配置列表项
-     *
-     * @param urlGroup
-     * @return
-     */
-    public List getUrlConfigListByGroup(String urlGroup) {
-        return urlConfigDao.getUrlConfigListByGroup(urlGroup);
-    }
-
-
-    /**
-     * 递归查找子栏目编号及文章信息
-     *
-     * @param pId
-     * @return
-     */
-    public List getSonChannelList(Integer pId) {
-        List<Map> channelListByParentChannelId = channelDao.getChannelListByParentChannelId(pId);
-        channelListByParentChannelId.forEach(channelMap -> {
-            Integer sonId = MapUtils.getInteger(channelMap, "id", null);
-            List sonChannelList = this.getSonChannelList(sonId);
-            if (sonChannelList != null && sonChannelList.size() > 0) {
-                channelMap.put("children", sonChannelList);
-            }
-        });
-        return channelListByParentChannelId;
-    }
-
     @Override
-    public Map getSonChannelInfo(Integer channelId, Integer pageNum, Integer pageSize) {
-        SyMap params = new SyMap();
-        params.put("channelId", channelId);
-        PageInfo articleByChannelId = articleDao.getArticleByChannelId(params, pageNum, pageSize);
-        long total = articleByChannelId.getTotal();
-        List list = articleByChannelId.getList();
-        Map map = new HashMap(16);
-        map.put("list", list);
-        map.put("total", total);
-        return map;
-    }
-
-    @Override
-    public void talentsWanted(ModelMap model, Integer channelId, Integer pageNum) {
-        SyMap params = new SyMap();
-        // 栏目头部图片和标题
-        this.setTopImgAndTitle(model, 6);
-        params.put("channelId", 6);
-        model.addAttribute("joinContent", articleDao.getArticleByChannelId(params, 1, 1).getList());
-    }
-
-    @Override
-    public void contactUs(ModelMap model, Integer channelId, Integer pageNum) {
-        SyMap params = new SyMap();
-        // 栏目头部图片和标题
-        this.setTopImgAndTitle(model, 7);
-        params.put("channelId", 7);
-        model.addAttribute("content", articleDao.getArticleByChannelId(params, 1, 1).getList());
-    }
-
-
-    @Override
-    public void setQualificationContent(ModelMap model, Integer channelId, Integer pageNum) {
-        if (channelId == null) {
-            channelId = 3;
-        }
-        SyMap params = new SyMap();
-        // 栏目头部图片和标题
+    public void getArticleDetail(ModelMap model, Integer channelId, String articleId) {
         this.setTopImgAndTitle(model, channelId);
-        params.put("channelId", channelId);
-        // 获取栏目下的子栏目
-        model.addAttribute("navList", channelDao.getChannelListByPId(channelId));
-        // 栏目文章
-        model.addAttribute("qualificationContent", articleDao.getArticleByChannelId(params, 1, 1).getList());
-
-    }
-
-    @Override
-    public void setProjectCaseContent(ModelMap model, Integer channelId, Integer pageNum) {
-        channelId = 4;
-        // 栏目头部图片和标题
-        this.setTopImgAndTitle(model, channelId);
-        SyMap params = new SyMap();
-        params.put("channelId", channelId);
-        // 栏目文章
-        model.addAttribute("projectArticleList", articleDao.getArticleByChannelId(params, 1, 1).getList());
-        // 获取栏目下的子栏目
-        model.addAttribute("navList", channelDao.getChannelListByPId(channelId));
-    }
-
-    @Override
-    public void setNewsCenterCaseContent(ModelMap model, Integer channelId, Integer pageNum) {
-        if (channelId == null) {
-            channelId = 5;
-            pageNum = 1;
+        Integer parentChannelId = channelDao.getParentChannelId(channelId);
+        if (parentChannelId != null) {
+            // 父栏目的id 用于判断当前选中的栏目
+            model.addAttribute("parentChannelId", parentChannelId);
+            model.addAttribute("childrenChannelId", channelId);
         }
-        // 栏目头部图片和标题
-        this.setTopImgAndTitle(model, channelId);
-        // 获取栏目下的子栏目
-        List<ChannelDo> newsChannel = channelDao.getSonChannelListByGroup("news");
-        model.addAttribute("navList", newsChannel);
-        // 查找是否存在子栏目
-        SyMap params = new SyMap();
-        Map map = new HashMap(16);
-        PageInfo pageList;
-        List<ChannelDo> sonChannelListById = channelDao.getSonChannelListById(channelId);
-        if (sonChannelListById != null && sonChannelListById.size() > 0) {
-            params.put("channelId", channelId);
-            model.addAttribute("navList", newsChannel);
-            Integer maxValue = Integer.MAX_VALUE;
-            int index = -1;
-            for (int i = 0; i < newsChannel.size(); i++) {
-                Integer sort = newsChannel.get(i).getSort();
-                if (sort < maxValue) {
-                    maxValue = sort;
-                    index = i;
-                }
-            }
-            params.put("channelId", newsChannel.get(index).getId());
-            pageList = articleDao.getArticleByChannelId(params, pageNum, 6);
-            map.put("total", pageList.getTotal());
-            map.put("list", pageList.getList());
-            model.addAttribute("newsContentList", map);
-        } else {
-            params.put("channelId", channelId);
-            pageList = articleDao.getArticleByChannelId(params, pageNum, 6);
-            map.put("total", pageList.getTotal());
-            map.put("list", pageList.getList());
-            model.addAttribute("newsContentList", map);
+        // 获取此栏目的模板类型
+        TemplateType template = valueOf(channelDao.getChannelById(channelId).getListTemplate());
+        switch (template) {
+            case IMG_TYPE_ONE:
+                // 图片一类型模板
+                model.addAttribute("templateType", IMG_TYPE_ONE.toString());
+                break;
+            case IMG_TYPE_TWO:
+                // 图片二类型模板(有顶部图片和栏目标题、子栏目)
+                model.addAttribute("templateType", IMG_TYPE_TWO.toString());
+                break;
+            case TITLE_TYPE:
+                this.setTopImgAndTitle(model, channelId);
+                model.addAttribute("navList", channelDao.getChannelGroupById(channelId));
+                model.addAttribute("templateType", TITLE_TYPE.toString());
+                break;
+            case RICH_TYPE:
+            default:
+                break;
         }
+        // 文章详细内容
+        model.addAttribute("detailContent", articleDao.getArticleInfoById(articleId));
     }
+
 
     // -----------------------------------------------------------------------------------------
 
@@ -305,7 +211,6 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("channelTitle", channelDao.getChannelById(parentId));
     }
 
-
     /**
      * 获取首页文章
      *
@@ -322,5 +227,33 @@ public class FrontServiceImpl implements IFrontService {
             obj = articleList.get(i);
         }
         return obj;
+    }
+
+    /**
+     * 根据分组获取链接配置列表项
+     *
+     * @param urlGroup
+     * @return
+     */
+    public List getUrlConfigListByGroup(String urlGroup) {
+        return urlConfigDao.getUrlConfigListByGroup(urlGroup);
+    }
+
+    /**
+     * 递归查找子栏目编号及文章信息
+     *
+     * @param pId
+     * @return
+     */
+    public List getSonChannelList(Integer pId) {
+        List<Map> channelListByParentChannelId = channelDao.getChannelListByParentChannelId(pId);
+        channelListByParentChannelId.forEach(channelMap -> {
+            Integer sonId = MapUtils.getInteger(channelMap, "id", null);
+            List sonChannelList = this.getSonChannelList(sonId);
+            if (sonChannelList != null && sonChannelList.size() > 0) {
+                channelMap.put("children", sonChannelList);
+            }
+        });
+        return channelListByParentChannelId;
     }
 }

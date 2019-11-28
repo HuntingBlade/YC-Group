@@ -28,7 +28,7 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
                 <ul class="banimg">
                     @#for(item in content.list){#@
                     <li>
-                        <a>
+                        <a href="/front/public/detail?channelId=^{item.channelId}&articleId=^{item.id}">
                             <div class='case-img'>
                                 <img src='^{item.titleImg}'>
                             </div>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/index/qualification.css">
     <link rel="stylesheet" href="/css/index/news.css">
     <link rel="stylesheet" href="/css/index/contact.css">
+    <link rel="stylesheet" href="/css/index/detail.css">
     <script type="text/javascript" src="/third/js/jq/jquery.min.js"></script>
     <script type="text/javascript" src="/third/layui/layui.js"></script>
     <script type="text/javascript" src="/js/base.js"></script>
@@ -27,7 +28,7 @@
             </div>
             <div id="channelList" class="top-nav-inner-right">
                 @# for(channel in channelList){ #@
-                <a class="nav-a" href="^{channel.indexName}" id="chaId^{channelLP.dataIndex}">^{channel.name}</a>
+                <a class="nav-a" href="^{channel.indexName}" id="chaId^{channelLP.dataIndex}" value="^{channel.id}">^{channel.name}</a>
                 @# } #@
             </div>
         </div>

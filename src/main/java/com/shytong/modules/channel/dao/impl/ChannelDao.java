@@ -76,5 +76,10 @@ public class ChannelDao implements IChannelDao {
         return baseDao.selectOne("ChannelMapper.channelIsExist", channelId);
     }
 
+    @Override
+    public List<ChannelDo> getChannelGroupById(Integer channelId) {
+        return baseDao.selectList("ChannelMapper.getChannelGroupById", channelId);
+    }
+
 
 }

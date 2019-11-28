@@ -11,6 +11,8 @@ layout("../common/base.html",{title:'工程业绩-亿创电力集团',nav:'index
             <div>^{channelTitle.pageName}</div>
         </div>
 
+        <!--    导航栏    -->
+        @# if(navList != null ) {#@
         <div class="comm-content-title-nav">
             <ul id="nav_list">
                 @#for(nav in navList){#@
@@ -21,17 +23,19 @@ layout("../common/base.html",{title:'工程业绩-亿创电力集团',nav:'index
                 @#}#@
             </ul>
         </div>
+        @#}#@
 
+        <!--    内容    -->
         <div id="project-content" style="width: 85%;margin: 0 auto">
-            @#
-            if(template! == "textType" || template == null ){
+            @# if(template! == "textType" || template == null ){
             for(item in content.list){#@
             ^{item.content}
-            @#}}else if(template! == "imgType"){#@
-            <ul class="banimg">
+            @#}
+            }else if(template! == "imgType"){#@
+            <ul class="banimg" >
                 @#for(item in content.list){#@
-                <li style="width: 25%">
-                    <a>
+                <li >
+                    <a href="/front/public/detail?channelId=^{item.channelId}&articleId=^{item.id}">
                         <div class='case-img'>
                             <img src=^{item.titleImg}>
                         </div>
@@ -45,6 +49,28 @@ layout("../common/base.html",{title:'工程业绩-亿创电力集团',nav:'index
             </ul>
             <!-- 分页 -->
             <div id="test1" style="text-align: center"></div>
+            @#}else if(template! == "titleType"){#@
+            <div class="news-list">
+                @# for(cases in content.list) { #@
+                <div class="news-item">
+                    <div class="news-one">
+                        <a class="news-content" href="/front/public/case?articleId=^{cases.id}">
+                            <div class="news-wrapper">
+                                <div class="news-body">
+                                    <p class="date">
+                                        <span class="md">^{cases.postTime}<span>-</span></span><span
+                                            class="year">^{cases.postTime}</span>
+                                    </p>
+                                    <p class="title">^{cases.title}</p>
+                                    <div class="separator"></div>
+                                    <p class="description">^{cases.summary}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                @# } #@
+            </div>
             @#}#@
         </div>
     </div>

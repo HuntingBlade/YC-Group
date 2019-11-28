@@ -11,7 +11,7 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
             <div>^{channelTitle.pageName}</div>
         </div>
         <div class="comm-content-main">
-            @#for(item in joinContent){#@
+            @#for(item in content.list){#@
             ^{item.content}
             @#}#@
         </div>

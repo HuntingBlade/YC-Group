@@ -62,4 +62,11 @@ public interface IArticleDao {
      * @return
      */
     Object getRecommendArticle(Integer channelId);
+
+    /**
+     * 根据id获取文章信息
+     * @param articleId
+     * @return
+     */
+    Object getArticleInfoById(String articleId);
 }

@@ -1,0 +1,85 @@
+@#
+layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index',header_css:""}){
+#@
+<div class="comm-warp-position">
+    @#if(templateType == "titleType" ){#@
+    <!--  标题模板  -->
+    <div class="comm-wrapper-img">
+        <div style="background: url(^{channelTopImg.sysValue!}) no-repeat center top;"></div>
+    </div>
+    <div class="comm-wrapper-content">
+        <div class="comm-content-title">
+            <div class="title">^{channelTitle.name}</div>
+            <div>^{channelTitle.pageName}</div>
+        </div>
+        <!--    导航栏    -->
+        @# if(navList != null ) {#@
+        <div class="comm-content-title-nav">
+            <ul id="nav_list">
+                @#for(nav in navList){#@
+                <li>
+                    <a id="nav^{navLP.dataIndex}" value="^{nav.id}"
+                       href="/front/public/case?channelId=^{nav.id}&pageNum=1">^{nav.name}</a>
+                </li>
+                @#}#@
+            </ul>
+        </div>
+        @#}#@
+        <div class="content">
+            <div class="header">
+                <p class="title">^{detailContent.title}</p>
+            </div>
+            <div class="abbgcont">
+                <div>
+                    ^{detailContent.content!}
+                </div>
+            </div>
+        </div>
+    </div>
+    @#}else if(templateType == "IMG_TYPE_ONE"){#@
+    <!--  图片一模板  -->
+    <div class="content">
+        <div class="header">
+            <p class="title">^{detailContent.title}</p>
+        </div>
+        <div class="abbgcont">
+            <div style="text-align: center">
+                <img src="^{detailContent.titleImg}">
+            </div>
+            <div></div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    @#} else if(templateType == "IMG_TYPE_TWO"){#@
+    <!--  图片二模板  -->
+    <div>22222222222222222</div>
+    @#} else if(templateType == "RICHTYPE" && templateType == null){#@
+    <!--  富文本模板类型或不存在模板类型  -->
+    <div class="content">
+        <div class="header">
+            <p class="title">^{detailContent.title}</p>
+        </div>
+        <div class="abbgcont">
+            <div>
+                ^{detailContent.content!}
+            </div>
+        </div>
+    </div>
+    @#}#@
+</div>
+@# } #@
+
+
+<script>
+    $(function () {
+        var length = $("#channelList").children("a").length;
+        for (var i = 0; i < length; i++) {
+            var _value = $("#chaId" + i).attr('value');
+            if (_value == "^{parentChannelId}") {
+                $("#chaId0").removeClass("active");
+                $("#chaId" + i).addClass("active");
+            }
+        }
+    })
+</script>
