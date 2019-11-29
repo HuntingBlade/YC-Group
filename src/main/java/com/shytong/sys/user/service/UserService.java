@@ -2,10 +2,8 @@ package com.shytong.sys.user.service;
 
 import com.shytong.common.exception.ApiBizException;
 import com.shytong.core.util.SyValidationUtils;
-import com.shytong.modules.verifycode.service.IVerifyCodeService;
 import com.shytong.sys.user.UserDto;
 
-import javax.annotation.Resource;
 
 /**
  * @author sytong
@@ -17,8 +15,8 @@ public abstract  class UserService<T extends UserDto>   {
 
 
     private  UserConfig userConfig;
-    @Resource(name = "verifyCodeService")
-    IVerifyCodeService verifyCodeService;
+//    @Resource(name = "verifyCodeService")
+//    IVerifyCodeService verifyCodeService;
     protected   UserService(){
 
     }
@@ -40,13 +38,13 @@ public abstract  class UserService<T extends UserDto>   {
         //参数校验
         this.check(userDto);
         //注册信息判断
-        if(!verifyCodeService.checkSmsCode(userDto.getPhone()
-                ,userDto.getSmsCode()
-                ,userConfig.getRegType()
-                ,userConfig.getAppId())){
-
-            return;
-        } ;
+//        if(!verifyCodeService.checkSmsCode(userDto.getPhone()
+//                ,userDto.getSmsCode()
+//                ,userConfig.getRegType()
+//                ,userConfig.getAppId())){
+//
+//            return;
+//        } ;
         //验证短信是否正确
         synchronized (this) {
             this.checkUserInfo();

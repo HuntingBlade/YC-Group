@@ -7,9 +7,6 @@ import com.shytong.core.util.SyValidationUtils;
 import com.shytong.core.database.BaseDao;
 import com.shytong.modules.sys.role.model.*;
 import com.shytong.modules.sys.user.model.SysUserDo;
-import com.shytong.modules.user.model.UserDo;
-import com.shytong.sys.authorization.AuthSysUser;
-import com.shytong.sys.authorization.User;
 
 import javax.annotation.Resource;
 

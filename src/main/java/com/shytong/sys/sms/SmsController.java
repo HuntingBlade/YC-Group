@@ -1,6 +1,5 @@
 package com.shytong.sys.sms;
 
-import com.shytong.modules.verifycode.dto.SmsMsg;
 import com.shytong.sys.sms.service.ISmsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,16 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping( value = "/sms", produces = "application/json;charset=UTF-8;",  consumes = "application/json;")
 public class SmsController {
 
-    /**
-     * 获取验证码
-     */
-    @Resource
-    ISmsService smsService;
-    @RequestMapping(value = "/sendCode", method = RequestMethod.POST, produces = "*", consumes = "*")
-    public void valiCode(HttpServletRequest request, HttpServletResponse response, @RequestBody SmsMsg s) {
-
-
-
-
-    }
+//    /**
+//     * 获取验证码
+//     */
+//    @Resource
+//    ISmsService smsService;
+//    @RequestMapping(value = "/sendCode", method = RequestMethod.POST, produces = "*", consumes = "*")
+//    public void valiCode(HttpServletRequest request, HttpServletResponse response, @RequestBody SmsMsg s) {
+//    }
 }

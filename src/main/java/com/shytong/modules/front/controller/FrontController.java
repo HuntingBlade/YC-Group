@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @description: 默认index页面前端控制类
@@ -121,6 +122,7 @@ public class FrontController extends BaseController {
 
     /**
      * 文章详情
+     *
      * @param servletRequest
      * @param model
      * @param channelId
@@ -133,4 +135,17 @@ public class FrontController extends BaseController {
         frontService.getArticleDetail(model, channelId, articleId);
         return "/view/detail";
     }
+
+
+    /**
+     * 管理后台登录页码
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/login")
+    public String adminLoginPage(HttpServletRequest servletRequest) {
+        return "/mgr/login";
+    }
+
 }

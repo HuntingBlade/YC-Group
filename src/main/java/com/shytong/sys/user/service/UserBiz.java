@@ -9,7 +9,6 @@ import com.shytong.core.constant.SyConstant;
 import com.shytong.core.util.SyRequestUtil;
 import com.shytong.core.util.SyValidationUtils;
 import com.shytong.core.util.VerifyCodeUtils;
-import com.shytong.modules.verifycode.service.IVerifyCodeService;
 import com.shytong.sys.user.UserDo;
 import com.shytong.sys.user.UserDto;
 
@@ -26,8 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 public abstract class UserBiz<T extends UserDto,T1 extends UserDo>   {
 
     private  UserConfig userConfig;
-    @Resource(name = "verifyCodeService")
-    IVerifyCodeService verifyCodeService;
+//    @Resource(name = "verifyCodeService")
+//    IVerifyCodeService verifyCodeService;
     protected   UserBiz(){
 
     }
@@ -146,12 +145,12 @@ public abstract class UserBiz<T extends UserDto,T1 extends UserDo>   {
             throw new ApiBizException(1010,"已登陆");
         }
         this.checkSmsLogin(userDto);
-        if(!verifyCodeService.checkSmsCode(userDto.getPhone()
-                ,userDto.getSmsCode()
-                ,userConfig.getLoginType()
-                ,userConfig.getAppId())){
-            throw  new ApiBizException(-1,"短信验证码错误");
-        } ;
+//        if(!verifyCodeService.checkSmsCode(userDto.getPhone()
+//                ,userDto.getSmsCode()
+//                ,userConfig.getLoginType()
+//                ,userConfig.getAppId())){
+//            throw  new ApiBizException(-1,"短信验证码错误");
+//        } ;
 
         T1 o=  this.loginByPhone(userDto);
 
@@ -198,12 +197,12 @@ public abstract class UserBiz<T extends UserDto,T1 extends UserDo>   {
         //参数校验
         this.check(userDto);
         //注册信息判断
-        if(!verifyCodeService.checkSmsCode(userDto.getPhone()
-                ,userDto.getSmsCode()
-                ,userConfig.getRegType()
-                ,userConfig.getAppId())){
-            throw  new ApiBizException(-1,"短信验证码错误");
-        } ;
+//        if(!verifyCodeService.checkSmsCode(userDto.getPhone()
+//                ,userDto.getSmsCode()
+//                ,userConfig.getRegType()
+//                ,userConfig.getAppId())){
+//            throw  new ApiBizException(-1,"短信验证码错误");
+//        } ;
         //验证短信是否正确
         synchronized (this) {
             this.checkUserInfo(userDto);
@@ -234,12 +233,12 @@ public abstract class UserBiz<T extends UserDto,T1 extends UserDo>   {
         SyValidationUtils.checkNull(SyValidationUtils.isNotBlank(userDto.getPassword(),"新密码"));
         SyValidationUtils.checkNull(SyValidationUtils.isNotBlank(userDto.getSmsCode(),"手机验证码"));
         //注册信息判断
-        if(!verifyCodeService.checkSmsCode(t.getPhone()
-                ,userDto.getSmsCode()
-                ,userConfig.getResetPwdType()
-                ,userConfig.getAppId())){
-            throw  new ApiBizException(-1,"短信验证码错误");
-        } ;
+//        if(!verifyCodeService.checkSmsCode(t.getPhone()
+//                ,userDto.getSmsCode()
+//                ,userConfig.getResetPwdType()
+//                ,userConfig.getAppId())){
+//            throw  new ApiBizException(-1,"短信验证码错误");
+//        } ;
         userDto.setId(t.getId());
         this.setPwd(userDto);
 
@@ -251,12 +250,12 @@ public abstract class UserBiz<T extends UserDto,T1 extends UserDo>   {
         SyValidationUtils.checkNull(SyValidationUtils.isNotBlank(userDto.getSmsCode(),"手机验证码"));
         SyValidationUtils.checkNull(SyValidationUtils.isNotBlank(userDto.getPassword(),"新密码"));
         //注册信息判断
-        if(!verifyCodeService.checkSmsCode(userDto.getPhone()
-                ,userDto.getSmsCode()
-                ,userConfig.getResetPwdType()
-                ,userConfig.getAppId())){
-            throw  new ApiBizException(-1,"短信验证码错误");
-        } ;
+//        if(!verifyCodeService.checkSmsCode(userDto.getPhone()
+//                ,userDto.getSmsCode()
+//                ,userConfig.getResetPwdType()
+//                ,userConfig.getAppId())){
+//            throw  new ApiBizException(-1,"短信验证码错误");
+//        } ;
         T1 user= this.loginByPhone(userDto);
         userDto.setId(user.getId());
 //        this.checkPwd( userDto);
