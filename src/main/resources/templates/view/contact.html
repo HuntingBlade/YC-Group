@@ -5,13 +5,13 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
     <div class="comm-wrapper-img">
         <div style="background: url(^{channelTopImg.sysValue!}) no-repeat 20% 15%;"></div>
     </div>
-    <div class="comm-wrapper-content">
+    <div class="comm-wrapper-content" style="min-height: 0px">
         <div class="comm-content-title">
             <div class="title">^{channelTitle.name}</div>
             <div>^{channelTitle.pageName}</div>
         </div>
 
-        <div class="content-main flex">
+        <div class="content-main flex" style="min-height: 0px">
             <div class="contzi">
                 @#for(item in content.list){#@
                 ^{item.content}

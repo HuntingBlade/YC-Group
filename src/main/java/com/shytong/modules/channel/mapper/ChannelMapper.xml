@@ -7,7 +7,7 @@
         id,
         `name`,
         parent_id AS parentId,
-        "group",
+        `group`,
         page_name AS pageName,
         index_name AS indexName,
         index_count AS indexCount,

@@ -10,6 +10,7 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
             <div class="title">^{channelTitle.name}</div>
             <div>^{channelTitle.pageName}</div>
         </div>
+
         @# if(navList != null ) {#@
         <div class="comm-content-title-nav">
             <ul id="nav_list">
@@ -23,17 +24,48 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
         </div>
         @#}#@
 
+        @#if(template! == "TITLE_TYPE"){#@
+        <!-- 标题类型模板 -->
         <div class="content-main">
-            <div class="content-img-list">
-                <ul class="banimg">
-                    @#for(item in content.list){#@
-                    <li>
-                        <a href="/front/public/detail?channelId=^{item.channelId}&articleId=^{item.id}">
-                            <div class='case-img'>
-                                <img src='^{item.titleImg}'>
+            <div class="news-list">
+                @# for(item in content.list) { #@
+                <div class="news-item">
+                    <div class="news-one">
+                        <a class="news-content"
+                           href="/front/public/detail?channelId=^{item.channelId}&articleId=^{item.id}">
+                            <div class="news-wrapper">
+                                <div class="news-body">
+                                    <p class="date">
+                                        <span class="md">^{item.postTime}</span>
+                                    </p>
+                                    <p id="title-tpl-title^{itemLP.dataIndex}" class="title">^{item.title}</p>
+                                    <div class="line"></div>
+                                    <p id="title-tpl-summary^{itemLP.dataIndex}" class="description">^{item.summary}</p>
+                                </div>
                             </div>
-                            <div class='case-info'>
-                                <h1>^{item.title}</h1>
+                        </a>
+                    </div>
+                </div>
+                @# }
+                if(content.list.~size > 0){ #@
+                <!-- 分页 -->
+                <div id="test1" style="text-align: center;margin-top: 50px"></div>
+                @# } #@
+            </div>
+        </div>
+        @#}else if(template! == "IMG_TYPE_ONE"){#@
+        <!-- 图片类型一模板 -->
+        <div class="content-main">
+            <div>
+                <ul class="img-tpl-ul" style="align-items: center">
+                    @#for(item in content.list){#@
+                    <li class="img-tpl-li">
+                        <a href="/front/public/detail?channelId=^{item.channelId}&articleId=^{item.id}">
+                            <div class="li-1-img">
+                                <img src=^{item.titleImg}>
+                            </div>
+                            <div class="li-title">
+                                <h2>^{item.title}</h2>
                             </div>
                         </a>
                     </li>
@@ -42,22 +74,53 @@ layout("../common/base.html",{title:'亿创电力集团',nav:'index',header_css:
                 <!-- 分页 -->
                 <div id="test1" style="text-align: center"></div>
             </div>
-
-            @# if(articleContent! != null){
-            for(article in articleContent) { #@
-            <div class="content-main1"
-                 style="background: url(^{article.titleImg!}) no-repeat bottom center; background-size: 100% auto;">
-                <div class="content-main1-child">
-                    <h2>
-                        <i></i>
-                        ^{article.title}
-                        <i></i>
-                    </h2>
-                    ^{article.content}
-                </div>
-            </div>
-            @#}}#@
         </div>
+        @#}else if(template! == "IMG_TYPE_TWO"){#@
+        <!-- 图片类型二模板 -->
+        <div class="content-main">
+            <div>
+                <ul class="img-tpl-ul">
+                    @#for(item in content.list){#@
+                    <li class="img-tpl-li">
+                        <a href="/front/public/detail?channelId=^{item.channelId}&articleId=^{item.id}">
+                            <div class="li-2-img">
+                                <img src=^{item.titleImg}>
+                            </div>
+                            <div class="li-title">
+                                <h2>^{item.title}</h2>
+                                <h3>^{activeNavName}</h3>
+                            </div>
+                        </a>
+                    </li>
+                    @#}#@
+                </ul>
+                <!-- 分页 -->
+                <div id="test1" style="text-align: center"></div>
+            </div>
+        </div>
+        @#}else if(template! == "RICH_TYPE"){#@
+        <!-- 富文本类型模板 -->
+        <div class="content-main">
+            @# for(item in content.list){#@
+            ^{item.content}
+            @#}#@
+        </div>
+        @#} #@
+
+        @# if(articleContent! != null){
+        for(article in articleContent) { #@
+        <div class="content-main1"
+             style="background: url(^{article.titleImg!}) no-repeat bottom center; background-size: 100% auto;">
+            <div class="content-main1-child">
+                <h2>
+                    <i></i>
+                    ^{article.title}
+                    <i></i>
+                </h2>
+                ^{article.content}
+            </div>
+        </div>
+        @#}}#@
     </div>
 </div>
 <script>

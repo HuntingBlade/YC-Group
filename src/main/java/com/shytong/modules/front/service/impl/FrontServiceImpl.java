@@ -185,6 +185,8 @@ public class FrontServiceImpl implements IFrontService {
             default:
                 break;
         }
+        // 文章子栏目
+        model.addAttribute("navList", channelDao.getSonChannelListById(parentChannelId));
         // 文章详细内容
         model.addAttribute("detailContent", articleDao.getArticleInfoById(articleId));
     }

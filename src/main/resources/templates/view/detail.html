@@ -2,8 +2,7 @@
 layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index',header_css:""}){
 #@
 <div class="comm-warp-position">
-    @#if(templateType == "titleType" ){#@
-    <!--  标题模板  -->
+    @#if(templateType! == "TITLE_TYPE"){#@
     <div class="comm-wrapper-img">
         <div style="background: url(^{channelTopImg.sysValue!}) no-repeat center top;"></div>
     </div>
@@ -12,19 +11,16 @@ layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index
             <div class="title">^{channelTitle.name}</div>
             <div>^{channelTitle.pageName}</div>
         </div>
-        <!--    导航栏    -->
-        @# if(navList != null ) {#@
         <div class="comm-content-title-nav">
             <ul id="nav_list">
                 @#for(nav in navList){#@
                 <li>
                     <a id="nav^{navLP.dataIndex}" value="^{nav.id}"
-                       href="/front/public/case?channelId=^{nav.id}&pageNum=1">^{nav.name}</a>
+                       href="/front/public/^{nav.group}?channelId=^{nav.id}&pageNum=1">^{nav.name}</a>
                 </li>
                 @#}#@
             </ul>
         </div>
-        @#}#@
         <div class="content">
             <div class="header">
                 <p class="title">^{detailContent.title}</p>
@@ -51,7 +47,7 @@ layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index
         </div>
         <div class="clear"></div>
     </div>
-    @#} else if(templateType == "IMG_TYPE_TWO"){#@
+    @#}else if(templateType == "IMG_TYPE_TWO"){#@
     <!--  图片二模板  -->
     <div class="content">
         <div class="header">
@@ -63,7 +59,7 @@ layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index
             </div>
         </div>
     </div>
-    @#} else if(templateType == "RICHTYPE" && templateType == null){#@
+    @#}else if(templateType == "RICHTYPE" && templateType == null){#@
     <!--  富文本模板类型或不存在模板类型  -->
     <div class="content">
         <div class="header">
@@ -82,12 +78,35 @@ layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index
 
 <script>
     $(function () {
+        // 判断导航栏选中
         var length = $("#channelList").children("a").length;
+        $("#chaId0").addClass("active");
         for (var i = 0; i < length; i++) {
             var _value = $("#chaId" + i).attr('value');
-            if (_value == "^{parentChannelId}") {
+            if ("^{parentChannelId}" == _value) {
                 $("#chaId0").removeClass("active");
                 $("#chaId" + i).addClass("active");
+            }
+        }
+
+
+        var search = window.location.search;
+        var channelId = search.substring(search.indexOf("channelId=") + "channelId=".length, search.indexOf("&"));
+        var navLength = $("#nav_list").children("li").length;
+        var activeChannelId; // 选中栏目的ID
+
+        $("#nav0").addClass("active");  // 默认选中第一个
+        for (var i = 0; i < navLength; i++) {
+            var navId = $("#nav" + i).attr("value");
+            if (navId == channelId) {
+                $("#nav0").removeClass("active");
+                $("#nav" + i).addClass("active");
+                activeChannelId = $("#nav" + i).attr("value");
+                break;
+            }
+            var isActive = $("#nav" + i).hasClass("active");
+            if (isActive) {
+                activeChannelId = $("#nav" + i).attr("value");
             }
         }
     })

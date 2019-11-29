@@ -8,7 +8,7 @@
     background-color: #ffffff;
     width: 85%;
     margin: 0 auto;
-    height: 100%;
+    min-height: 807px;
 }
 
 .flex {
@@ -34,7 +34,6 @@ ul {
     margin-block-end: 1em;
     margin-inline-start: 0;
     margin-inline-end: 0;
-    padding-inline-start: 40px;
 }
 
 .content-img-list ul li {
@@ -110,7 +109,7 @@ ul {
 
 
 .content-main1 {
-    width: 100%;
+    width: 85%;
     display: block;
     position: relative;
     padding-top: 42%;

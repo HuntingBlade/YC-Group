@@ -327,7 +327,7 @@
         where
         channel_id = #{channelId,jdbcType=INTEGER}
         AND is_deleted = 0
-        ORDER BY sort ASC
+        ORDER BY sort ASC,DATE_FORMAT(post_time,"%Y-%m-%d %H:%i:%s") DESC
     </select>
 
     <!--  获取推荐文章  -->

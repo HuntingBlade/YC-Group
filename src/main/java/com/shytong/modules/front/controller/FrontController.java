@@ -87,7 +87,7 @@ public class FrontController extends BaseController {
     @RequestMapping(value = "/news", method = RequestMethod.GET)
     public String newsCenter(HttpServletRequest servletRequest, ModelMap model, Integer channelId, Integer pageNum) {
         frontService.setHtml(model);
-        frontService.setContent(model, channelId, pageNum, 8, "news");
+        frontService.setContent(model, channelId, pageNum, 6, "news");
         return "/view/news";
     }
 
