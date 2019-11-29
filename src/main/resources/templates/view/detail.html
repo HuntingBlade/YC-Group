@@ -36,7 +36,7 @@ layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index
             </div>
         </div>
     </div>
-    @#}else if(templateType == "IMG_TYPE_ONE"){#@
+    @#}else if(templateType! == "IMG_TYPE_ONE"){#@
     <!--  图片一模板  -->
     <div class="content">
         <div class="header">
@@ -53,7 +53,16 @@ layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index
     </div>
     @#} else if(templateType == "IMG_TYPE_TWO"){#@
     <!--  图片二模板  -->
-    <div>22222222222222222</div>
+    <div class="content">
+        <div class="header">
+            <p class="title">^{detailContent.title}</p>
+        </div>
+        <div class="abbgcont">
+            <div>
+                ^{detailContent.content!}
+            </div>
+        </div>
+    </div>
     @#} else if(templateType == "RICHTYPE" && templateType == null){#@
     <!--  富文本模板类型或不存在模板类型  -->
     <div class="content">

@@ -3,13 +3,11 @@ package com.shytong.modules.front.service.impl;
 import com.github.pagehelper.PageInfo;
 import com.shytong.common.model.SyMap;
 import com.shytong.modules.article.dao.IArticleDao;
-import com.shytong.modules.article.model.ArticleDo;
 import com.shytong.modules.channel.comm.TemplateType;
 import com.shytong.modules.channel.dao.IChannelDao;
 import com.shytong.modules.channel.model.ChannelDo;
 import com.shytong.modules.front.service.IFrontService;
 import com.shytong.modules.sysconfig.dao.ISysConfigDao;
-import com.shytong.modules.sysconfig.model.SysConfigDo;
 import com.shytong.modules.urlconfig.dao.IUrlConfigDao;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +133,7 @@ public class FrontServiceImpl implements IFrontService {
         map.put("list", pageList.getList());
         this.setTopImgAndTitle(model, channelId);
         model.addAttribute("content", map);
+        model.addAttribute("activeNavName", channelDao.getChannelById(channelId).getName());
 
         // 查找父栏目是否还有其他模块
         int count = 0;

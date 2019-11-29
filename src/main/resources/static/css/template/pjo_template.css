@@ -1,0 +1,74 @@
+/*公共*/
+.img-tpl-ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.li-title {
+    width: 100%;
+    transition: all 0.3s ease-out 0s;
+}
+
+.img-tpl-li {
+    width: 24%;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #ffffff;
+    margin-bottom: 30px;
+}
+
+.img-tpl-li:hover {
+    border-bottom: 2px solid #002d7b;
+}
+
+.li-title h2 {
+    padding-top: 10px;
+    color: #333;
+    font-size: 14px;
+}
+
+.li-title h3 {
+    padding-top: 5px;
+    color: #999;
+    font-size: 12px;
+}
+
+
+/* 图片一模板样式*/
+.img-tpl-li .li-1-img {
+    display: table-cell;
+    height: 50%;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.img-tpl-li .li-1-img img {
+    width: 100%;
+    border: 0;
+    transition: all 0.3s ease-out 0s;
+}
+
+.img-tpl-li .li-1-img img:hover {
+    width: 100%;
+    border: 0;
+    transform: scale(1.2);
+}
+
+
+/* 图片二模板样式*/
+.img-tpl-li .li-2-img {
+    width: 100%;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.img-tpl-li .li-2-img img {
+    width: 100%;
+    transition: all 0.3s ease-out 0s;
+}
+
+.img-tpl-li .li-2-img img:hover {
+    width: 100%;
+    transform: scale(1.2);
+}
+

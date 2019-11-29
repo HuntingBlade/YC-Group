@@ -369,12 +369,24 @@
     <!--  根据id获取id所处一致的分组  -->
     <select id="getChannelGroupById" parameterType="java.lang.Integer" resultType="java.util.Map">
         SELECT
-        <include refid="select_sql_part"/>
+            a.id,
+            a.`name`,
+            a.parent_id AS parentId,
+            a.`group`,
+            a.page_name AS pageName,
+            a.index_name AS indexName,
+            a.index_count AS indexCount,
+            a.page_template AS pageTemplate,
+            a.list_name AS listName,
+            a.list_count AS listCount,
+            a.list_template AS listTemplate,
+            a.sort,
+            a.gmt_modified AS gmtModified
         FROM
         sy_channel a
         INNER JOIN sy_channel b on a.`group` = b.`group` AND b.is_deleted = 0
         WHERE
-        id = #{channelId,jdbcType=INTEGER}
-        AND is_deleted = 0
+        a.id = #{channelId,jdbcType=INTEGER}
+        AND a.is_deleted = 0
     </select>
 </mapper>

@@ -10,7 +10,6 @@ layout("../common/base.html",{title:'工程业绩-亿创电力集团',nav:'index
             <div class="title">^{channelTitle.name}</div>
             <div>^{channelTitle.pageName}</div>
         </div>
-
         <!--    导航栏    -->
         @# if(navList != null ) {#@
         <div class="comm-content-title-nav">
@@ -27,51 +26,74 @@ layout("../common/base.html",{title:'工程业绩-亿创电力集团',nav:'index
 
         <!--    内容    -->
         <div id="project-content" style="width: 85%;margin: 0 auto">
-            @# if(template! == "textType" || template == null ){
-            for(item in content.list){#@
-            ^{item.content}
-            @#}
-            }else if(template! == "imgType"){#@
-            <ul class="banimg" >
-                @#for(item in content.list){#@
-                <li >
-                    <a href="/front/public/detail?channelId=^{item.channelId}&articleId=^{item.id}">
-                        <div class='case-img'>
-                            <img src=^{item.titleImg}>
-                        </div>
-                        <div class='case-info'>
-                            <h1>^{item.title}</h1>
-                            <h3 id="bottom-title^{itemLP.dataIndex}" class='case-title'></h3>
-                        </div>
-                    </a>
-                </li>
-                @#}#@
-            </ul>
-            <!-- 分页 -->
-            <div id="test1" style="text-align: center"></div>
-            @#}else if(template! == "titleType"){#@
+            @# if(template! == "TITLE_TYPE"){ #@
             <div class="news-list">
-                @# for(cases in content.list) { #@
+                @# for(item in content.list) { #@
                 <div class="news-item">
                     <div class="news-one">
-                        <a class="news-content" href="/front/public/case?articleId=^{cases.id}">
+                        <a class="news-content" href="/front/public/case?articleId=^{item.id}">
                             <div class="news-wrapper">
                                 <div class="news-body">
                                     <p class="date">
-                                        <span class="md">^{cases.postTime}<span>-</span></span><span
-                                            class="year">^{cases.postTime}</span>
+                                        <span class="md">^{item.postTime}<span>-</span></span><span
+                                            class="year">^{item.postTime}</span>
                                     </p>
-                                    <p class="title">^{cases.title}</p>
+                                    <p class="title">^{item.title}</p>
                                     <div class="separator"></div>
-                                    <p class="description">^{cases.summary}</p>
+                                    <p class="description">^{item.summary}</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                 </div>
                 @# } #@
+                <!-- 分页 -->
+                <div id="test1" style="text-align: center"></div>
             </div>
-            @#}#@
+            @# }else if(template! == "IMG_TYPE_ONE"){#@
+            <div>
+                <ul class="img-tpl-ul">
+                    @#for(item in content.list){#@
+                    <li class="img-tpl-li">
+                        <a href="/front/public/detail?channelId=^{item.channelId}&articleId=^{item.id}">
+                            <div class="li-1-img">
+                                <img src=^{item.titleImg}>
+                            </div>
+                            <div class="li-title">
+                                <h2>^{item.title}</h2>
+                                <h3>^{activeNavName}</h3>
+                            </div>
+                        </a>
+                    </li>
+                    @#}#@
+                </ul>
+                <!-- 分页 -->
+                <div id="test1" style="text-align: center"></div>
+            </div>
+            @# } else if(template! == "IMG_TYPE_TWO"){#@
+            <div>
+                <ul class="img-tpl-ul">
+                    @#for(item in content.list){#@
+                    <li class="img-tpl-li">
+                        <a href="/front/public/detail?channelId=^{item.channelId}&articleId=^{item.id}">
+                            <div class="li-2-img">
+                                <img src=^{item.titleImg}>
+                            </div>
+                            <div class="li-title">
+                                <h2>^{item.title}</h2>
+                                <h3>^{activeNavName}</h3>
+                            </div>
+                        </a>
+                    </li>
+                    @#}#@
+                </ul>
+                <!-- 分页 -->
+                <div id="test1" style="text-align: center"></div>
+            </div>
+            @#}else if(template! == "RICH_TYPE" || template! == null){
+            for(item in content.list){#@
+            ^{item.content}
+            @#}}#@
         </div>
     </div>
 </div>

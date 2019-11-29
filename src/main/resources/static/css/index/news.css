@@ -24,6 +24,10 @@
     color: #585858;
 }
 
+.news-content:hover {
+    color: #002d7b;
+}
+
 .news-wrapper {
     width: 100%;
 }

@@ -9,6 +9,11 @@ html, body {
     color: #585858;
 }
 
+*{
+    margin: 0;
+    padding: 0;
+}
+
 .main-div {
     position: fixed;
     top: 0;
