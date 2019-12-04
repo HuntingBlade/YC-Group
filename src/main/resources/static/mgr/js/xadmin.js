@@ -29,8 +29,7 @@
   };
 
 	Xadmin.prototype.add_tab = function (title,url,is_refresh) {
-		var id = md5(url);//md5每个url
-
+		var id = md5(url); //md5每个url
 		//重复点击
 		for (var i = 0; i <$('.x-iframe').length; i++) {
             if($('.x-iframe').eq(i).attr('tab-id')==id){
@@ -129,10 +128,8 @@
 	 * @param {[type]} id [description]
 	 */
 	Xadmin.prototype.set_data = function(title,url,id) {
-
 		if(typeof is_remember!="undefined")
         	return false;
-
 		layui.data('tab_list', {
 		  key: id
 		  ,value: {title:title,url:url}

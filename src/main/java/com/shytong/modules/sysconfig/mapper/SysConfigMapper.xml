@@ -153,12 +153,15 @@
 
 
     <!--  获取参数表的参数值  -->
-    <select id="findSysConfigByKeyAndGroup" parameterType="java.util.Map" resultType="java.util.Map">
+    <select id="findSysConfigByKeyAndGroup" parameterType="java.util.Map"
+            resultType="com.shytong.modules.sysconfig.model.SysConfigDo">
         SELECT
         sys_group as sysGroup,
         sys_key as sysKey,
         sys_value as sysValue,
         sys_name as sysName,
+        gmt_create as gmtCreate,
+        gmt_modified as gmtModified,
         type,
         sort
         FROM

@@ -2,7 +2,7 @@
 <html class="x-admin-sm">
 <head>
     <meta charset="UTF-8">
-    <title>亿创电力集团-后台管理</title>
+    <title>登录-亿创电力集团后台管理</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -30,7 +30,7 @@
         <hr class="hr15">
         <div style="display: flex;height: 50px">
             <input name="code" lay-verify="required" placeholder="验证码" class="layui-input" style="height: 50px"
-                   height="50px" maxlength="4">
+                   maxlength="4">
             <img id="codeImg" width="180px;" height="100%" onclick="getCode()">
         </div>
         <hr class="hr15">
@@ -43,10 +43,8 @@
     $(function () {
         // 获取验证码
         getCode();
-
         layui.use('form', function () {
             var form = layui.form;
-            console.log("form:", form);
             //监听提交
             form.on('submit(login)', function (data) {
                 var _data = JSON.stringify(data.field);
@@ -57,14 +55,19 @@
                     data: _data,
                     dataType: "JSON",
                     contentType: "application/json;charset=utf-8",
-                    success: function (result) {
-                        console.log(result);
+                    success: function (res) {
+                        if (res.errCode != 1) {
+                            alert(res.errInfo);
+                        } else {
+                            window.localStorage.setItem("username",data.field.username);
+                            window.location.href = "/front/public/admin/index";
+                        }
                     }
                 });
                 return false;
             });
         });
-    })
+    });
 
     /**
      * 获取验证码
@@ -76,7 +79,6 @@
             url: _url,
             data: {},
             success: function (res) {
-                console.log("结果;", res.url);
                 $("#codeImg").attr("src", res.url);
             }
         })

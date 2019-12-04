@@ -1,5 +1,6 @@
 package com.shytong.modules.sysconfig.dao.impl;
 
+import com.github.pagehelper.PageInfo;
 import com.shytong.common.model.SyMap;
 import com.shytong.core.database.BaseDao;
 import com.shytong.modules.sysconfig.dao.ISysConfigDao;
@@ -43,10 +44,7 @@ public class SysConfigDaoImpl implements ISysConfigDao {
     }
 
     @Override
-    public List getSysConfigList(String sysKey, String sysGroup) {
-        SyMap syMap = new SyMap();
-        syMap.put("sysKey", sysKey);
-        syMap.put("sysGroup", sysGroup);
-        return baseDao.selectList("sysConfigMapper.findSysConfigByKeyAndGroup", syMap);
+    public PageInfo getSysConfigList(SyMap params, Integer pageNum, Integer pageSize) {
+        return baseDao.commlistOfPage("sysConfigMapper.findSysConfigByKeyAndGroup", pageNum, pageSize, params);
     }
 }

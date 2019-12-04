@@ -38,4 +38,12 @@ public interface IFrontService {
      * @param articleId
      */
     void getArticleDetail(ModelMap model, Integer channelId, String articleId);
+
+    /**
+     *  获取配置信息
+     * @param model
+     * @param pageNum
+     * @param pageSize
+     */
+    void getSysConfig(ModelMap model, Integer pageNum, Integer pageSize);
 }

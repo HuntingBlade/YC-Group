@@ -1,9 +1,11 @@
 package com.shytong.modules.sysconfig.dao;
 
+import com.github.pagehelper.PageInfo;
 import com.shytong.common.model.SyMap;
 import com.shytong.modules.sysconfig.model.SysConfigDo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: CL
@@ -49,9 +51,10 @@ public interface ISysConfigDao {
     /**
      * 根据ID获取参数表的参数值
      *
-     * @param sysKey
-     * @param sysGroup
+     * @param params
+     * @param pageNum
+     * @param pageSize
      * @return
      */
-    List getSysConfigList(String sysKey, String sysGroup);
+    PageInfo getSysConfigList(SyMap params, Integer pageNum, Integer pageSize);
 }

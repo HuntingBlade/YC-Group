@@ -8,6 +8,7 @@ import com.shytong.modules.channel.dao.IChannelDao;
 import com.shytong.modules.channel.model.ChannelDo;
 import com.shytong.modules.front.service.IFrontService;
 import com.shytong.modules.sysconfig.dao.ISysConfigDao;
+import com.shytong.modules.sysconfig.model.SysConfigDo;
 import com.shytong.modules.urlconfig.dao.IUrlConfigDao;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,8 @@ public class FrontServiceImpl implements IFrontService {
     @Override
     public void setIndexContent(ModelMap model) {
         // 轮播
-        model.addAttribute("carouselList", sysConfigDao.getSysConfigList("1", "yc"));
+        SyMap params = new SyMap();
+        model.addAttribute("carouselList", sysConfigDao.getSysConfigList(params, 1, 10));
         // 首页文章
         model.addAttribute("articleList", this.getIndexArticle(1));
         // 签字
@@ -189,6 +191,27 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("navList", channelDao.getSonChannelListById(parentChannelId));
         // 文章详细内容
         model.addAttribute("detailContent", articleDao.getArticleInfoById(articleId));
+    }
+
+    @Override
+    public void getSysConfig(ModelMap model, Integer pageNum, Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("carouselPageSize", "yc");
+        if (sysConfigDo == null) {
+            pageSize = 10;
+        } else {
+            pageSize = Integer.parseInt(sysConfigDo.getSysValue());
+        }
+        SyMap params = new SyMap();
+        params.put("sysKey", 1);
+        params.put("sysGroup", "yc");
+        PageInfo carouselList = sysConfigDao.getSysConfigList(params, pageNum, pageSize);
+        model.addAttribute("carouselPageSize", pageSize);
+        model.addAttribute("carouselPageNum", carouselList.getPageNum());
+        model.addAttribute("carouselTotal", carouselList.getTotal());
+        model.addAttribute("carouselList", carouselList.getList());
     }
 
 

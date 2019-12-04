@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.IntegerSyntax;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -146,6 +147,41 @@ public class FrontController extends BaseController {
     @RequestMapping(value = "/admin/login")
     public String adminLoginPage(HttpServletRequest servletRequest) {
         return "/mgr/login";
+    }
+
+    /**
+     * 管理后台首页
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/index")
+    public String adminIndexPage(HttpServletRequest servletRequest) {
+        return "/mgr/index";
+    }
+
+    /**
+     * 首页轮播图
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/settings-carousel", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminIndexCarouselPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+        frontService.getSysConfig(model, pageNum, pageSize);
+        return "/mgr/settings/carousel";
+    }
+
+
+    /**
+     * 添加首页轮播图页面
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/settings-add", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminIndexCarouselPage(HttpServletRequest servletRequest) {
+        return "/mgr/settings/add";
     }
 
 }

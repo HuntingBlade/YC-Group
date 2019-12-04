@@ -5,11 +5,11 @@ import com.shytong.common.resultcode.ResultCode;
 import com.shytong.modules.mgr.dao.IMgrDao;
 import com.shytong.modules.mgr.service.IMgrService;
 import com.shytong.modules.validatecode.commcode.service.IValidateCodeService;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * @Author: CL
@@ -35,7 +35,7 @@ public class MgrServiceImpl implements IMgrService {
         }
         Integer result = mgrDao.login(params);
         if (result != 1) {
-            return ResultCode.ACCOUNT_OR_PWD_ERROR;
+            return ResultCode.USER_ACCOUNT_ERROR;
         }
         return ResultCode.SUCCESS;
     }

@@ -12,6 +12,7 @@ public interface IMgrService {
 
     /**
      * 用户登录
+     *
      * @param params
      * @param session
      * @return
