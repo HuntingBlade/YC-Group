@@ -70,7 +70,9 @@ public class FrontServiceImpl implements IFrontService {
     public void setIndexContent(ModelMap model) {
         // 轮播
         SyMap params = new SyMap();
-        model.addAttribute("carouselList", sysConfigDao.getSysConfigList(params, 1, 10));
+        params.put("sysKey", 1);
+        params.put("sysGroup", "yc");
+        model.addAttribute("carouselList", sysConfigDao.getSysConfigList(params, 1, 10).getList());
         // 首页文章
         model.addAttribute("articleList", this.getIndexArticle(1));
         // 签字
