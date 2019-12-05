@@ -19,13 +19,6 @@ public interface ICarouselDao {
     Integer insertCarousel(CarouselDo carouselDo);
 
     /**
-     * 删除轮播项
-     * @param list
-     * @return
-     */
-    Integer deletedCarousel(List list);
-
-    /**
      * 修改轮播项
      * @param carouselDo
      * @return

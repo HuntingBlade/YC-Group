@@ -189,4 +189,15 @@
         </where>
         ORDER BY sort
     </select>
+
+
+    <!--  根据id批量删除 -->
+    <update id="delSysConfigsById">
+        update sy_sys_config
+        set is_deleted = '1'
+        where id in
+        <foreach collection="array" item="arr" index="index" open="(" separator="," close=")">
+            #{arr,jdbcType = VARCHAR}
+        </foreach>
+    </update>
 </mapper>

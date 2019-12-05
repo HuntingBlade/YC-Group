@@ -96,15 +96,7 @@
         </trim>
     </insert>
 
-    <!--  删除轮播项(批量删除)  -->
-    <update id="deletedCarousel" parameterType="java.util.List">
-        update sy_carousel
-        set is_deleted = '1'
-        where id in
-        <foreach collection="list" item="arr" index="no" open="(" separator="," close=")">
-            #{arr,jdbcType = INTEGER}
-        </foreach>
-    </update>
+
 
     <!--  修改轮播项  -->
     <update id="updateCarousel" parameterType="com.shytong.modules.carousel.model.CarouselDo">
@@ -158,18 +150,18 @@
     <!--  获取轮播列表  -->
     <select id="selectCarouselList" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
-            id,
-            channel_id AS channelId,
-            title,
-            source,
-            type,
-            url,
-            sort,
-            is_up AS isUp,
-            status,
-            gmt_modified AS gmtModified
+        id,
+        channel_id AS channelId,
+        title,
+        source,
+        type,
+        url,
+        sort,
+        is_up AS isUp,
+        status,
+        gmt_modified AS gmtModified
         FROM
-            sy_carousel
+        sy_carousel
         <where>
             <if test="id != null and id != ''">
                 AND id = #{id,jdbcType=VARCHAR}

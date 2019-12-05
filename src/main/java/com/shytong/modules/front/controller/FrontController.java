@@ -149,7 +149,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 管理后台首页
+     * 管理后台首页页面
      *
      * @param servletRequest
      * @return
@@ -160,7 +160,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 首页轮播图
+     * 首页轮播图页面
      *
      * @param servletRequest
      * @return
@@ -172,7 +172,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 添加轮播图页面
+     * 添加轮播图页面页面
      *
      * @param servletRequest
      * @return
@@ -183,7 +183,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 修改轮播图页面
+     * 修改轮播图页面页面
      *
      * @param servletRequest
      * @return
@@ -194,7 +194,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 一级类别管理
+     * 一级类别管理页面
      *
      * @param servletRequest
      * @return
@@ -206,7 +206,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 添加一级类别管理
+     * 添加一级类别管理页面
      *
      * @param servletRequest
      * @return
@@ -217,7 +217,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 修改一级类别管理
+     * 修改一级类别管理页面
      *
      * @param servletRequest
      * @return
@@ -228,7 +228,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 一级类别管理
+     * 一级类别管理页面
      *
      * @param servletRequest
      * @return
@@ -239,7 +239,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 添加二级类别管理
+     * 添加二级类别管理页面
      *
      * @param servletRequest
      * @return
@@ -250,7 +250,7 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 修改二级类别管理
+     * 修改二级类别管理页面
      *
      * @param servletRequest
      * @return

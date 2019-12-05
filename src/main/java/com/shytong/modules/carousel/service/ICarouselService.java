@@ -24,14 +24,15 @@ public interface ICarouselService {
     /**
      * 删除轮播项 (批量删除)
      *
-     * @param list
+     * @param array
      * @return
      * @throws ApiBizException
      */
-    Integer deletedCarousel(List list) throws ApiBizException;
+    String deletedCarousel(String[] array) throws ApiBizException;
 
     /**
      * 修改轮播项
+     *
      * @param carouselDo
      * @return
      * @throws ApiBizException
@@ -40,6 +41,7 @@ public interface ICarouselService {
 
     /**
      * 获取轮播列表项
+     *
      * @param params
      * @return
      * @throws ApiBizException

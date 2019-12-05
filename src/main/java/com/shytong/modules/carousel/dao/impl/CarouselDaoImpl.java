@@ -26,11 +26,6 @@ public class CarouselDaoImpl implements ICarouselDao {
     }
 
     @Override
-    public Integer deletedCarousel(List list) {
-        return baseDao.delete("CarouselMapper.deletedCarousel", list);
-    }
-
-    @Override
     public Integer updateCarousel(CarouselDo carouselDo) {
         return baseDao.update("CarouselMapper.updateCarousel", carouselDo);
     }

@@ -38,7 +38,6 @@ public interface ISysConfigDao {
      */
     List getList(SyMap params);
 
-
     /**
      * 获取参数表的参数值
      *
@@ -57,4 +56,12 @@ public interface ISysConfigDao {
      * @return
      */
     PageInfo getSysConfigList(SyMap params, Integer pageNum, Integer pageSize);
+
+    /**
+     * 批量删除配置
+     * @param array
+     * @return
+     */
+    Integer delSysConfigsById(String[] array);
+
 }

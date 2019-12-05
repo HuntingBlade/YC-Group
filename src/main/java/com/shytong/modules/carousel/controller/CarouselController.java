@@ -3,6 +3,7 @@ package com.shytong.modules.carousel.controller;
 import com.github.pagehelper.PageInfo;
 import com.shytong.common.exception.ApiBizException;
 import com.shytong.common.model.SyMap;
+import com.shytong.common.resultcode.ResultCodeInfo;
 import com.shytong.common.web.BaseController;
 import com.shytong.core.util.SyValidationUtils;
 import com.shytong.modules.carousel.model.CarouselDo;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,14 +47,12 @@ public class CarouselController extends BaseController {
      * 删除轮播项(批量删除)
      *
      * @param servletRequest
-     * @param map
      * @return
      * @throws ApiBizException
      */
-    @RequestMapping(value = "/deleted", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public String deletedCarousel(HttpServletRequest servletRequest, @RequestBody Map map) throws ApiBizException {
-        List list = (List) map.get("id");
-        Integer result = carouselService.deletedCarousel(list);
+    @RequestMapping(value = "/deleted", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    public String deletedCarousel(HttpServletRequest servletRequest, @RequestBody String[] array) throws ApiBizException {
+        String result = carouselService.deletedCarousel(array);
         return this.normalResp(result);
     }
 

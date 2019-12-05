@@ -8,6 +8,7 @@
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <link rel="stylesheet" href="/mgr/css/font.css">
     <link rel="stylesheet" href="/mgr/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="/mgr/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="/mgr/js/xadmin.js"></script>
     <!--[if lt IE 9]>
@@ -63,7 +64,7 @@
                             <td>^{item.sysUrl}</td>
                             <td>^{item.sort}</td>
                             <td class="td-status">
-                                <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
+                                <span id="isUp" class="layui-btn layui-btn-normal layui-btn-mini">启用</span>
                             </td>
                             <td>^{item.gmtModified,dateFormat="yyyy-MM-dd"}</td>
                             <td>
@@ -90,6 +91,10 @@
 </div>
 </body>
 <script>
+    $(function () {
+
+    });
+
     // 分页
     layui.use('laypage', function () {
         var laypage = layui.laypage;
@@ -139,14 +144,12 @@
     function member_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {
             if ($(obj).attr('title') == '启用') {
-
                 //发异步把用户状态进行更改
-                $(obj).attr('title', '停用')
+                $(obj).attr('title', '停用');
                 $(obj).find('i').html('&#xe62f;');
 
                 $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
                 layer.msg('已停用!', {icon: 5, time: 1000});
-
             } else {
                 $(obj).attr('title', '启用')
                 $(obj).find('i').html('&#xe601;');
@@ -158,23 +161,31 @@
     }
 
     /*用户-删除*/
-    function member_del(obj, cid) {
-        var arr = {id: [cid]};
-        console.log("id", arr);
+    function member_del(obj, _id) {
+        var array = new Array();
+        array.push(_id);
+        console.log("id数组", array);
+        console.log("idjson", JSON.stringify(array));
         layer.confirm('确认要删除吗？', function (index) {
             var _url = "/api/carousel/deleted";
             $.ajax({
                 type: "POST",
                 url: _url,
-                data: arr,
-                ansync: true,
-                contentType: "application/json;charset=UTF-8",
+                async: true,
+                data: JSON.stringify(array),
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
                 success: function (result) {
-                    $(obj).parents("tr").remove();
-                    layer.msg('已删除!', {icon: 1, time: 1000});
+                    console.log("result:", result);
+                    if (result.errCode == 1) {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    } else {
+                        layer.msg('删除失败!', {icon: 2, time: 1000});
+                    }
                 },
                 fail: function () {
-                    layer.msg('删除失败!', {icon: 2, time: 1000});
+                    layer.msg('删除失败!', {icon: 1, time: 1000});
                 }
             });
         });
@@ -183,18 +194,36 @@
 
     function delAll(argument) {
         var ids = [];
-
         // 获取选中的id 
         $('tbody input').each(function (index, el) {
             if ($(this).prop('checked')) {
                 ids.push($(this).val())
             }
         });
-
-        layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
+        layer.confirm('确认要删除吗？', function (index) {
             //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+            var _url = "/api/carousel/deleted";
+            $.ajax({
+                type: "POST",
+                url: _url,
+                async: true,
+                data: JSON.stringify(ids),
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    console.log("result:", result);
+                    if (result.errCode == 1) {
+                        layer.msg('删除成功', {icon: 1});
+                        $(".layui-form-checked").not('.header').parents('tr').remove();
+                    } else {
+                        layer.msg('删除失败!', {icon: 2, time: 1000});
+                    }
+                },
+                fail: function () {
+                    layer.msg('删除失败!', {icon: 2, time: 1000});
+                }
+            });
+
         });
     }
 </script>

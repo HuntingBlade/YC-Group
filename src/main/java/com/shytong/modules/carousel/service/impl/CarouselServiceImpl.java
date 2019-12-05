@@ -3,10 +3,12 @@ package com.shytong.modules.carousel.service.impl;
 import com.github.pagehelper.PageInfo;
 import com.shytong.common.exception.ApiBizException;
 import com.shytong.common.model.SyMap;
+import com.shytong.common.resultcode.ResultCode;
 import com.shytong.core.util.SyIdUtils;
 import com.shytong.modules.carousel.dao.ICarouselDao;
 import com.shytong.modules.carousel.model.CarouselDo;
 import com.shytong.modules.carousel.service.ICarouselService;
+import com.shytong.modules.sysconfig.dao.ISysConfigDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,8 @@ public class CarouselServiceImpl implements ICarouselService {
 
     @Autowired
     private ICarouselDao carouselDao;
+    @Autowired
+    private ISysConfigDao sysConfigDao;
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
@@ -40,15 +44,16 @@ public class CarouselServiceImpl implements ICarouselService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public Integer deletedCarousel(List list) throws ApiBizException {
-        if (list.size() <= 0) {
-            throw new ApiBizException(-1, "参数错误");
+    public String deletedCarousel(String[] array) throws ApiBizException {
+        int length = array.length;
+        if (length < 0) {
+            return ResultCode.PARAMETER_ERROR;
         }
-        Integer result = carouselDao.deletedCarousel(list);
+        Integer result = sysConfigDao.delSysConfigsById(array);
         if (result < 0) {
             throw new RuntimeException();
         }
-        return 1;
+        return ResultCode.SUCCESS;
     }
 
     @Override

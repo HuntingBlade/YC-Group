@@ -16,7 +16,10 @@ public class ResultCode {
     // 用户已存在
     public static final String USER_HAS_EXIST = "20005";
 
-    //验证码错误
+    // 验证码错误
     public static final String VALIDATE_CODE_ERROR = "21001";
+
+    // 参数错误
+    public static final String PARAMETER_ERROR = "40001";
 
 }
