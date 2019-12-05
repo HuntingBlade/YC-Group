@@ -137,7 +137,6 @@ public class FrontController extends BaseController {
         return "/view/detail";
     }
 
-
     /**
      * 管理后台登录页码
      *
@@ -169,19 +168,108 @@ public class FrontController extends BaseController {
     @RequestMapping(value = "/admin/settings-carousel", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
     public String adminIndexCarouselPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
         frontService.getSysConfig(model, pageNum, pageSize);
-        return "/mgr/settings/carousel";
+        return "/mgr/settings/carousel/index";
     }
 
-
     /**
-     * 添加首页轮播图页面
+     * 添加轮播图页面
      *
      * @param servletRequest
      * @return
      */
-    @RequestMapping(value = "/admin/settings-add", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminIndexCarouselPage(HttpServletRequest servletRequest) {
-        return "/mgr/settings/add";
+    @RequestMapping(value = "/admin/carousel-add", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminAddCarouselPage(HttpServletRequest servletRequest) {
+        return "/mgr/settings/carousel/add";
+    }
+
+    /**
+     * 修改轮播图页面
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/carousel-edit", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminEditCarouselPage(HttpServletRequest servletRequest) {
+        return "/mgr/settings/carousel/edit";
+    }
+
+    /**
+     * 一级类别管理
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/settings-firstClass", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminFirstClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+        frontService.getFirstChannel(model, pageNum, pageSize);
+        return "/mgr/settings/firstclass/index";
+    }
+
+    /**
+     * 添加一级类别管理
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/firstClass-add", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminAddFirstClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+        return "/mgr/settings/firstclass/add";
+    }
+
+    /**
+     * 修改一级类别管理
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/firstClass-edit", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminEditFirstClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+        return "/mgr/settings/firstclass/edit";
+    }
+
+    /**
+     * 一级类别管理
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/settings-secondClass", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+        return "/mgr/settings/secondclass/index";
+    }
+
+    /**
+     * 添加二级类别管理
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/secondClass-add", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminAddSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+        return "/mgr/settings/secondclass/add";
+    }
+
+    /**
+     * 修改二级类别管理
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/secondClass-edit", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminAddEditSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+        return "/mgr/settings/secondclass/edit";
+    }
+
+    /**
+     * 模块管理
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/modules-model/{id}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminModulesPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, @PathVariable String id) {
+        System.out.println("id:" + id);
+        return "/mgr/modules/model";
     }
 
 }

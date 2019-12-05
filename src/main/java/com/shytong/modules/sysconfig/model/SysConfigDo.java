@@ -1,7 +1,6 @@
 package com.shytong.modules.sysconfig.model;
 
-import com.shytong.common.model.CommSqlDto;
-
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +8,9 @@ import java.util.Date;
  * @author: CL
  * @time: 2019/11/11 15:42
  */
-public class SysConfigDo{
+public class SysConfigDo implements Serializable {
+    private static final long serialVersionUID = 2002627427267093224L;
+
     /**
      * 编号
      */
@@ -30,6 +31,10 @@ public class SysConfigDo{
      * 名称
      */
     private String sysName;
+    /**
+     * 链接
+     */
+    private String sysUrl;
     /**
      * 类型
      */
@@ -101,6 +106,14 @@ public class SysConfigDo{
 
     public void setSysName(String sysName) {
         this.sysName = sysName;
+    }
+
+    public String getSysUrl() {
+        return sysUrl;
+    }
+
+    public void setSysUrl(String sysUrl) {
+        this.sysUrl = sysUrl;
     }
 
     public String getType() {
@@ -175,6 +188,7 @@ public class SysConfigDo{
                 ", sysKey='" + sysKey + '\'' +
                 ", sysValue='" + sysValue + '\'' +
                 ", sysName='" + sysName + '\'' +
+                ", sysUrl='" + sysUrl + '\'' +
                 ", type='" + type + '\'' +
                 ", sort=" + sort +
                 ", enable=" + enable +

@@ -21,6 +21,9 @@
             <if test="sysName != null and sysName != ''">
                 sys_name,
             </if>
+            <if test="sysUrl != null and sysUrl != ''">
+                sys_url,
+            </if>
             <if test="type != null and type != ''">
                 type,
             </if>
@@ -59,6 +62,9 @@
             </if>
             <if test="sysName != null and sysName != ''">
                 #{sysName,jdbcType=VARCHAR},
+            </if>
+            <if test="sysUrl != null and sysUrl != ''">
+                #{sysUrl,jdbcType=VARCHAR},
             </if>
             <if test="type != null and type != ''">
                 #{type,jdbcType=VARCHAR},
@@ -100,6 +106,9 @@
             <if test="sysName != null and sysName != ''">
                 sys_name =#{sysName,jdbcType=VARCHAR},
             </if>
+            <if test="sysUrl != null and sysUrl != ''">
+                sys_url =#{sysUrl,jdbcType=VARCHAR},
+            </if>
             <if test="type != null and type != ''">
                 type = #{type,jdbcType=VARCHAR},
             </if>
@@ -137,6 +146,7 @@
         sys_key AS sysKey,
         sys_name AS sysName,
         sys_value AS sysValue,
+        sys_url AS sysUrl,
         type AS type,
         sort AS sort,
         enable AS enable
@@ -156,10 +166,12 @@
     <select id="findSysConfigByKeyAndGroup" parameterType="java.util.Map"
             resultType="com.shytong.modules.sysconfig.model.SysConfigDo">
         SELECT
+        id,
         sys_group as sysGroup,
         sys_key as sysKey,
         sys_value as sysValue,
         sys_name as sysName,
+        sys_url AS sysUrl,
         gmt_create as gmtCreate,
         gmt_modified as gmtModified,
         type,

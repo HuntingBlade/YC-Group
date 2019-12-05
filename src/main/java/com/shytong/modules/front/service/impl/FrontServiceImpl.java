@@ -216,6 +216,25 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("carouselList", carouselList.getList());
     }
 
+    @Override
+    public void getFirstChannel(ModelMap model, Integer pageNum, Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("firstClassPageSize", "yc");
+        if (sysConfigDo == null) {
+            pageSize = 10;
+        } else {
+            pageSize = Integer.parseInt(sysConfigDo.getSysValue());
+        }
+        SyMap params = new SyMap();
+        params.put("sysKey", 0);
+        params.put("sysGroup", "yc");
+        List sonChannelList = this.getSonChannelList(0);
+        model.addAttribute("firstClassPageSize", pageSize);
+        model.addAttribute("firstClassList", sonChannelList);
+    }
+
 
     // -----------------------------------------------------------------------------------------
 

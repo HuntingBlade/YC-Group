@@ -51,7 +51,7 @@ public class CarouselController extends BaseController {
      * @return
      * @throws ApiBizException
      */
-    @RequestMapping(value = "/deleted", method = RequestMethod.POST,consumes = "*")
+    @RequestMapping(value = "/deleted", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public String deletedCarousel(HttpServletRequest servletRequest, @RequestBody Map map) throws ApiBizException {
         List list = (List) map.get("id");
         Integer result = carouselService.deletedCarousel(list);
