@@ -31,7 +31,7 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()" id="deletedBtn"><i class="layui-icon"></i>批量删除
                     </button>
                     <button class="layui-btn" onclick="xadmin.open('添加轮播图','carousel-add',550,410)"><i
                             class="layui-icon"></i>添加
@@ -64,7 +64,17 @@
                             <td>^{item.sysUrl}</td>
                             <td>^{item.sort}</td>
                             <td class="td-status">
-                                <span id="isUp" class="layui-btn layui-btn-normal layui-btn-mini">启用</span>
+                                @# if(item.enable == 0){ #@
+                                <span class="layui-btn layui-btn-normal layui-btn-mini"
+                                      onclick="member_stop(this,'^{item.id}')" title="启用">
+                                    已启用
+                                </span>
+                                @#}else{#@
+                                <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled"
+                                      onclick="member_stop(this,'^{item.id}')" title="停用">
+                                    已停用
+                                </span>
+                                @#}#@
                             </td>
                             <td>^{item.gmtModified,dateFormat="yyyy-MM-dd"}</td>
                             <td>
@@ -142,22 +152,68 @@
 
     /*用户-停用*/
     function member_stop(obj, id) {
-        layer.confirm('确认要停用吗？', function (index) {
+        var title;
+        if ($(obj).attr('title') == '启用') {
+            title = "停用";
+        } else {
+            title = "启用";
+        }
+        layer.confirm('确认要' + title + '吗？', function (index) {
+            var _url = "/api/sysConfig/update";
+            var params = new Map();
+            params.set("id", id);
             if ($(obj).attr('title') == '启用') {
+                params.set("enable", 1);
                 //发异步把用户状态进行更改
-                $(obj).attr('title', '停用');
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!', {icon: 5, time: 1000});
+                $.ajax({
+                    type: "POST",
+                    url: _url,
+                    async: true,
+                    data: JSON.stringify(strMapToObj(params)),
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.errCode == 1) {
+                            $(obj).attr('title', '停用');
+                            $(obj).find('i').html('&#xe62f;');
+                            $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                            layer.msg('已停用!', {icon: 5, time: 1000});
+                        } else {
+                            layer.msg(title + '失败!', {icon: 5, time: 1000});
+                        }
+                    }
+                });
             } else {
-                $(obj).attr('title', '启用')
-                $(obj).find('i').html('&#xe601;');
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!', {icon: 5, time: 1000});
+                params.set("enable", 0);
+                //发异步把用户状态进行更改
+                $.ajax({
+                    type: "POST",
+                    url: _url,
+                    async: true,
+                    data: JSON.stringify(strMapToObj(params)),
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.errCode == 1) {
+                            $(obj).attr('title', '启用');
+                            $(obj).find('i').html('&#xe601;');
+                            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                            layer.msg('已启用!', {icon: 6, time: 1000});
+                        } else {
+                            layer.msg(title + '失败!', {icon: 5, time: 1000});
+                        }
+                    }
+                });
             }
-
         });
+    }
+
+    function strMapToObj(strMap) {
+        let obj = Object.create(null);
+        for (let [k, v] of strMap) {
+            obj[k] = v;
+        }
+        return obj;
     }
 
     /*用户-删除*/
@@ -191,7 +247,6 @@
         });
     }
 
-
     function delAll(argument) {
         var ids = [];
         // 获取选中的id 
@@ -200,6 +255,9 @@
                 ids.push($(this).val())
             }
         });
+        if (ids.length <= 0) {
+            return;
+        }
         layer.confirm('确认要删除吗？', function (index) {
             //捉到所有被选中的，发异步进行删除
             var _url = "/api/carousel/deleted";
@@ -216,7 +274,7 @@
                         layer.msg('删除成功', {icon: 1});
                         $(".layui-form-checked").not('.header').parents('tr').remove();
                     } else {
-                        layer.msg('删除失败!', {icon: 2, time: 1000});
+                        layer.msg('删除失败! 错误【' + result.errInfo + "】", {icon: 2, time: 1000});
                     }
                 },
                 fail: function () {

@@ -2,6 +2,7 @@ package com.shytong.modules.sysconfig.service.impl;
 
 import com.shytong.common.exception.ApiBizException;
 import com.shytong.common.model.SyMap;
+import com.shytong.common.resultcode.ResultCode;
 import com.shytong.core.util.SyIdUtils;
 import com.shytong.modules.sysconfig.dao.ISysConfigDao;
 import com.shytong.modules.sysconfig.model.SysConfigDo;
@@ -24,16 +25,21 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public Integer insert(SysConfigDo sysConfigDo) throws ApiBizException {
+    public String insert(SysConfigDo sysConfigDo, String type) throws ApiBizException {
+        String _type = "indexCarousel";
         if (sysConfigDo == null) {
-            throw new ApiBizException(-1, "传入参数错误");
+            return ResultCode.PARAMETER_ERROR;
+        }
+        if (_type.equals(type)) {
+            sysConfigDo.setSysKey("1");
+            sysConfigDo.setSysValue("/upfiles/img/" + sysConfigDo.getSysValue());
         }
         sysConfigDo.setId(SyIdUtils.uuid());
         Integer result = sysConfigDao.insert(sysConfigDo);
         if (result < 0) {
             throw new RuntimeException();
         }
-        return 1;
+        return ResultCode.SUCCESS;
     }
 
     @Override
@@ -51,12 +57,12 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public Integer update(SysConfigDo sysConfigDo) {
+    public String update(SysConfigDo sysConfigDo) {
         Integer result = sysConfigDao.update(sysConfigDo);
         if (result < 0) {
             throw new RuntimeException();
         }
-        return 1;
+        return ResultCode.SUCCESS;
     }
 
     @Override

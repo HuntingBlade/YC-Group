@@ -174,6 +174,7 @@
         sys_url AS sysUrl,
         gmt_create as gmtCreate,
         gmt_modified as gmtModified,
+        enable,
         type,
         sort
         FROM
@@ -186,6 +187,7 @@
                 AND sys_key = #{sysKey,jdbcType = VARCHAR}
             </if>
             AND is_deleted = 0
+            AND enable = 0
         </where>
         ORDER BY sort
     </select>

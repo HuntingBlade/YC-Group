@@ -46,7 +46,7 @@ public class CarouselServiceImpl implements ICarouselService {
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public String deletedCarousel(String[] array) throws ApiBizException {
         int length = array.length;
-        if (length < 0) {
+        if (length <= 0) {
             return ResultCode.PARAMETER_ERROR;
         }
         Integer result = sysConfigDao.delSysConfigsById(array);

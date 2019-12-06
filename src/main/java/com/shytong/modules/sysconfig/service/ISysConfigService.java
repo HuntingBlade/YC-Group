@@ -20,10 +20,11 @@ public interface ISysConfigService {
      * @throws ApiBizException
      * @author CL
      */
-    Integer insert(SysConfigDo sysConfigDo) throws ApiBizException;
+    String insert(SysConfigDo sysConfigDo, String type) throws ApiBizException;
 
     /**
      * 删除系统配置
+     *
      * @param map
      * @return
      */
@@ -31,13 +32,15 @@ public interface ISysConfigService {
 
     /**
      * 修改系统配置
+     *
      * @param sysConfigDo
      * @return
      */
-    Integer update(SysConfigDo sysConfigDo);
+    String update(SysConfigDo sysConfigDo);
 
     /**
      * 获取参数列表
+     *
      * @param params
      * @return
      */

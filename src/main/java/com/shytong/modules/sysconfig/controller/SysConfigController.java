@@ -36,18 +36,9 @@ public class SysConfigController extends BaseController {
      * @return
      * @throws ApiBizException
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-//    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
-    public String addSysConfig(HttpServletRequest servletRequest, @RequestBody SysConfigDo sysConfigDo) throws ApiBizException {
-        SyValidationUtils.valid()
-                .len(sysConfigDo.getSysGroup(), 32, true, "分组格式错误")
-                .len(sysConfigDo.getSysKey(), 64, true, "键格式错误")
-                .len(sysConfigDo.getSysValue(), 512, false, "值格式错误")
-                .len(sysConfigDo.getSysName(), 255, true, "名称格式错误")
-                .len(sysConfigDo.getType(), 255, false, "类型格式错误")
-                .isInt(sysConfigDo.getSort(), 11, false, "排序格式错误")
-                .isInt(sysConfigDo.getEnable(), 3, false, "启用格式错误");
-        Integer result = sysConfigService.insert(sysConfigDo);
+    @RequestMapping(value = "/add/{type}", method = RequestMethod.POST, produces = "application/json;charset=UTF-8", consumes = "application/json")
+    public String addSysConfig(HttpServletRequest servletRequest, @RequestBody SysConfigDo sysConfigDo, @PathVariable String type) throws ApiBizException {
+        String result = sysConfigService.insert(sysConfigDo, type);
         return this.normalResp(result);
     }
 
@@ -71,24 +62,16 @@ public class SysConfigController extends BaseController {
 
     /**
      * 修改系统配置项
+     *
      * @param servletRequest
      * @param sysConfigDo
      * @return
      * @throws ApiBizException
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
+//    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
     public String updateSysConfig(HttpServletRequest servletRequest, @RequestBody SysConfigDo sysConfigDo) throws ApiBizException {
-        SyValidationUtils.valid()
-                .len(sysConfigDo.getId(), 32, true, "id格式错误")
-                .len(sysConfigDo.getSysGroup(), 32, true, "分组格式错误")
-                .len(sysConfigDo.getSysKey(), 64, true, "键格式错误")
-                .len(sysConfigDo.getSysValue(), 512, true, "值格式错误")
-                .len(sysConfigDo.getSysName(), 255, true, "名称格式错误")
-                .len(sysConfigDo.getType(), 255, false, "类型格式错误")
-                .isInt(sysConfigDo.getSort(), 11, true, "排序格式错误")
-                .isInt(sysConfigDo.getEnable(), 3, true, "启用格式错误");
-        Integer result = sysConfigService.update(sysConfigDo);
+        String result = sysConfigService.update(sysConfigDo);
         return this.normalResp(result);
     }
 
