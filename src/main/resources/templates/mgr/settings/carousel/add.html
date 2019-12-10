@@ -26,8 +26,8 @@
                     <span class="x-red">*</span>标题
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="L_sysName" name="sysName" required="" autocomplete="off"
-                           class="layui-input">
+                    <input type="text" id="L_sysName" name="sysName" required="false" autocomplete="off"
+                           lay-verify="sysName" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item" style="margin-top: -10px">
@@ -35,21 +35,17 @@
                     <span class="x-red">*</span>图片来源
                 </label>
                 <div class="layui-input-block">
-                    <input type="radio" name="net" lay-filter="net" value="0" title="本地" checked="">
-                    <input type="radio" name="net" lay-filter="net" value="1" title="网络">
+                    <input type="radio" name="sysSource" lay-filter="sysSource" value="0" title="本地" checked="">
+                    <input type="radio" name="sysSource" lay-filter="sysSource" value="1" title="网络">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="L_sysValue" class="layui-form-label">
+                <label class="layui-form-label">
                     <span class="x-red"></span>
                 </label>
                 <div class="layui-input-inline" id="wrap-sysValue">
-                    <input type="text" id="L_sysValue" required="" autocomplete="off"
-                           class="layui-input" value="">
-                    <input id="fileName" type="text" lay-verify="fileName"
-                           autocomplete="off" class="layui-input" disabled name="sysValue">
-                    <input id="credential_hide" name="credentialOne" type="hidden" lay-verify="credentialOne"
-                           autocomplete="off" class="layui-input">
+                    <input id="fileName" type="text" lay-verify="fileName" autocomplete="off" class="layui-input"
+                           disabled name="sysValue">
                 </div>
                 <button type="button" class="layui-btn" id="upFile">
                     <i class="layui-icon">&#xe67c;</i>上传图片
@@ -60,8 +56,8 @@
                     <span class="x-red">*</span>链接
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="L_address" name="sysUrl" required=""
-                           autocomplete="off" class="layui-input">
+                    <input type="text" id="L_address" name="sysUrl"
+                           lay-verify="sysUrl" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux"></div>
             </div>
@@ -71,7 +67,7 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="number" id="L_sort" name="sort" required=""
-                           autocomplete="off" class="layui-input" maxlength="4">
+                           lay-verify="sort" autocomplete="off" class="layui-input" maxlength="4">
                 </div>
                 <div class="layui-form-mid layui-word-aux">排序值越小，排越前。排序值之间最好有一定间隔，好方便以后穿插。</div>
             </div>
@@ -80,24 +76,24 @@
                     <span class="x-red">*</span>状态
                 </label>
                 <div class="layui-input-inline">
-                    <input type="radio" name="enable" value="0" title="启用" checked="">
-                    <input type="radio" name="enable" value="1" title="停用">
+                    <input type="radio" name="enable" lay-filter="enable" value="0" title="启用" checked="">
+                    <input type="radio" name="enable" lay-filter="enable" value="1" title="停用">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+                <button type="submit" class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </form>
     </div>
 </div>
 <script>
     $(function () {
-        $("#L_sysValue").hide();
 
         layui.use('upload', function () {
             var upload = layui.upload;
-            const _url = "/api/file/upload";
+            var _url = "/api/file/upload";
             //执行实例
             upload.render({
                 elem: '#upFile', //绑定元素
@@ -120,65 +116,77 @@
             });
         });
 
-        layui.use(['form', 'layer', 'jquery'],
-            function () {
-                $ = layui.jquery;
-                var form = layui.form,
-                    layer = layui.layer;
-                form.on('radio(net)', function (data) {
-                    if (data.value == 0) {
-                        $("#L_sysValue").hide();
-                        $("#upFile").show();
-                    } else {
-                        $("#upFile").hide();
-                        $("#L_sysValue").show();
-                    }
-                });
+        layui.use(['form', 'layer', 'jquery'], function () {
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer;
 
-                //自定义验证规则
-                form.verify({
-                    nikename: function (value) {
-                        if (value.length < 5) {
-                            return '昵称至少得5个字符啊';
+            // 表单验证
+            form.verify({
+                sysName: function (value) {
+                    if (value.length <= 0) {
+                        return '标题不能为空哦~';
+                    }
+                },
+                fileName: function (value) {
+                    console.log("value:", value);
+                    if (value == null || value == "") {
+                        return "您忘记上传图片啦~";
+                    }
+                },
+                sort: function (value) {
+                    if (value == null || value == "") {
+                        return "排序不能为空哦~";
+                    }
+                }
+            });
+
+            form.on('radio(sysSource)', function (data) {
+                if (data.value == 0) {
+                    $("#fileName").attr("disabled", true);
+                    $("#upFile").show();
+                } else {
+                    $("#fileName").val("");
+                    $("#fileName").removeAttr("disabled");
+                    $("#upFile").hide();
+                }
+            });
+
+            //监听提交
+            form.on('submit(add)', function (res) {
+                var _data = JSON.stringify(res.field);
+                var _url = "/api/sysConfig/add/indexCarousel";
+                $.ajax({
+                    type: "POST",
+                    url: _url,
+                    async: true,
+                    data: _data,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.errCode == 1) {
+                            alert(1);
+                            layer.alert("增加成功", {icon: 6}, function () {
+                                //关闭当前frame
+                                xadmin.close();
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
+                        } else {
+                            return false;
                         }
                     },
-                    pass: [/(.+){6,12}$/, '密码必须6到12位'],
-                    repass: function (value) {
-                        if ($('#L_pass').val() != $('#L_repass').val()) {
-                            return '两次密码不一致';
-                        }
+                    fail:function (result) {
+                        layer.alert("增加成功", {icon: 6}, function () {
+                            //关闭当前frame
+                            xadmin.close();
+                            // 可以对父窗口进行刷新
+                            xadmin.father_reload();
+                        });
                     }
                 });
-
-                //监听提交
-                form.on('submit(add)',
-                    function (res) {
-                        var _data = JSON.stringify(res.field);
-                        var _url = "/api/sysConfig/add/indexCarousel";
-                        $.ajax({
-                            type: "POST",
-                            url: _url,
-                            async: true,
-                            data: _data,
-                            dataType: "json",
-                            contentType: "application/json;charset=utf-8",
-                            success: function (result) {
-                                if (result.errCode == 1) {
-                                    //发异步，把数据提交给php
-                                    layer.alert("增加成功", {icon: 6},
-                                        function () {
-                                            //关闭当前frame
-                                            xadmin.close();
-                                            // 可以对父窗口进行刷新
-                                            xadmin.father_reload();
-                                        });
-                                } else {
-                                    return false;
-                                }
-                            }
-                        });
-                    });
             });
+        });
     });
 </script>
 </body>

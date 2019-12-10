@@ -78,7 +78,7 @@
                             </td>
                             <td>^{item.gmtModified,dateFormat="yyyy-MM-dd"}</td>
                             <td>
-                                <a title="编辑" onclick="xadmin.open('编辑','firstClass-edit',600,400)"
+                                <a title="编辑" onclick="xadmin.open('编辑','carousel-edit/^{item.id}',600,400)"
                                    href="javascript:;">
                                     <i class="layui-icon">&#xe642;</i>
                                 </a>
@@ -101,10 +101,6 @@
 </div>
 </body>
 <script>
-    $(function () {
-
-    });
-
     // 分页
     layui.use('laypage', function () {
         var laypage = layui.laypage;
@@ -159,7 +155,7 @@
             title = "启用";
         }
         layer.confirm('确认要' + title + '吗？', function (index) {
-            var _url = "/api/sysConfig/update";
+            var _url = "/api/sysConfig/update/indexCarousel";
             var params = new Map();
             params.set("id", id);
             if ($(obj).attr('title') == '启用') {
@@ -240,9 +236,6 @@
                         layer.msg('删除失败!', {icon: 2, time: 1000});
                     }
                 },
-                fail: function () {
-                    layer.msg('删除失败!', {icon: 1, time: 1000});
-                }
             });
         });
     }

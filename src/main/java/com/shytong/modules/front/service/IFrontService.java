@@ -54,4 +54,11 @@ public interface IFrontService {
      * @param pageSize
      */
     void getFirstChannel(ModelMap model, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据id获取配置信息
+     * @param model
+     * @param id
+     */
+    void getSysConfigById(ModelMap model, String id);
 }

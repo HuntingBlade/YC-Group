@@ -104,4 +104,13 @@ public interface IChannelDao {
      * @return
      */
     List<ChannelDo> getChannelGroupById(Integer channelId);
+
+    /**
+     * 根据父栏目id获取栏目列表和系统配置
+     * @param params
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getChannelListAndSysConfigByPId(SyMap params, Integer pageNum, Integer pageSize);
 }

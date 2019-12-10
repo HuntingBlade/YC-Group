@@ -35,10 +35,8 @@ public class CarouselController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addCarousel(HttpServletRequest servletRequest, @RequestBody CarouselDo carouselDo) throws ApiBizException {
-        SyValidationUtils.valid()
-                .len(carouselDo.getTitle(), 255, true, "轮播标题格式错误")
-                .len(carouselDo.getUrl(), 255, true, "轮播链接格式错误");
+    public String addCarousel(HttpServletRequest servletRequest, @RequestBody CarouselDo carouselDo, String imgSource) throws ApiBizException {
+        System.err.println("imgSource: " + imgSource);
         Integer result = carouselService.insertCarousel(carouselDo);
         return this.normalResp(result);
     }

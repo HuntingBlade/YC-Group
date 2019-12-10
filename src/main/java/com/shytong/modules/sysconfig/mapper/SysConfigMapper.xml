@@ -21,6 +21,9 @@
             <if test="sysName != null and sysName != ''">
                 sys_name,
             </if>
+            <if test="sysSource != null and sysSource != ''">
+                sys_source,
+            </if>
             <if test="sysUrl != null and sysUrl != ''">
                 sys_url,
             </if>
@@ -62,6 +65,9 @@
             </if>
             <if test="sysName != null and sysName != ''">
                 #{sysName,jdbcType=VARCHAR},
+            </if>
+            <if test="sysSource != null and sysSource != ''">
+                #{sysSource,jdbcType=VARCHAR},
             </if>
             <if test="sysUrl != null and sysUrl != ''">
                 #{sysUrl,jdbcType=VARCHAR},
@@ -106,6 +112,9 @@
             <if test="sysName != null and sysName != ''">
                 sys_name =#{sysName,jdbcType=VARCHAR},
             </if>
+            <if test="sysSource != null and sysSource != ''">
+                sys_source =#{sysSource,jdbcType=VARCHAR},
+            </if>
             <if test="sysUrl != null and sysUrl != ''">
                 sys_url =#{sysUrl,jdbcType=VARCHAR},
             </if>
@@ -145,6 +154,7 @@
         sys_group AS sysGroup,
         sys_key AS sysKey,
         sys_name AS sysName,
+        sys_source AS sysSource,
         sys_value AS sysValue,
         sys_url AS sysUrl,
         type AS type,
@@ -153,6 +163,9 @@
         FROM
         sy_sys_config
         <where>
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
             <if test="sysGroup != null and sysGroup != ''">
                 and sys_group = #{sysGroup,jdbcType=VARCHAR}
             </if>
@@ -171,6 +184,7 @@
         sys_key as sysKey,
         sys_value as sysValue,
         sys_name as sysName,
+        sys_source AS sysSource,
         sys_url AS sysUrl,
         gmt_create as gmtCreate,
         gmt_modified as gmtModified,
@@ -192,6 +206,35 @@
         ORDER BY sort
     </select>
 
+    <!--  获取参数表的参数值  -->
+    <select id="findSysConfigAllByKeyAndGroup" parameterType="java.util.Map"
+            resultType="com.shytong.modules.sysconfig.model.SysConfigDo">
+        SELECT
+        id,
+        sys_group as sysGroup,
+        sys_key as sysKey,
+        sys_value as sysValue,
+        sys_name as sysName,
+        sys_source AS sysSource,
+        sys_url AS sysUrl,
+        gmt_create as gmtCreate,
+        gmt_modified as gmtModified,
+        enable,
+        type,
+        sort
+        FROM
+        sy_sys_config
+        <where>
+            <if test="sysGroup != null and sysGroup != ''">
+                AND sys_group = #{sysGroup,jdbcType = VARCHAR}
+            </if>
+            <if test="sysKey != null and sysKey != ''">
+                AND sys_key = #{sysKey,jdbcType = VARCHAR}
+            </if>
+            AND is_deleted = 0
+        </where>
+        ORDER BY sort
+    </select>
 
     <!--  根据id批量删除 -->
     <update id="delSysConfigsById">

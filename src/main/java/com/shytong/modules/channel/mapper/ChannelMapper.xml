@@ -286,6 +286,34 @@
         GROUP BY id
     </select>
 
+    <!--  根据父栏目id获取子栏目列表和系统配置  -->
+    <select id="getChannelListAndSysConfigByPId" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+            a.id,
+            a.`name`,
+            a.parent_id AS parentId,
+            a.`group`,
+            a.page_name AS pageName,
+            a.index_name AS indexName,
+            a.index_count AS indexCount,
+            a.page_template AS pageTemplate,
+            a.list_name AS listName,
+            a.list_count AS listCount,
+            a.list_template AS listTemplate,
+            a.sort,
+            a.gmt_modified AS gmtModified,
+            b.sys_key AS  sysKey,
+            b.sys_value AS sysValue,
+            b.sys_name AS sysName
+        FROM
+            sy_channel a
+                LEFT JOIN sy_sys_config b on a.id = b.sys_key AND b.is_deleted = 0
+         WHERE
+            a.parent_id = #{parentId,jdbcType=INTEGER}
+            AND a.is_deleted = 0
+            AND a.id != 1
+         ORDER BY a.sort ASC
+    </select>
     <!--  获取栏目id下的子栏目及图片等信息  -->
     <select id="getChannelListByParentChannelId" parameterType="java.lang.Integer" resultType="java.util.Map">
         SELECT

@@ -19,21 +19,16 @@ import java.util.List;
  */
 @Service
 public class SysConfigServiceImpl implements ISysConfigService {
-
     @Autowired
     private ISysConfigDao sysConfigDao;
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
     public String insert(SysConfigDo sysConfigDo, String type) throws ApiBizException {
-        String _type = "indexCarousel";
         if (sysConfigDo == null) {
             return ResultCode.PARAMETER_ERROR;
         }
-        if (_type.equals(type)) {
-            sysConfigDo.setSysKey("1");
-            sysConfigDo.setSysValue("/upfiles/img/" + sysConfigDo.getSysValue());
-        }
+        JudgeType(sysConfigDo, type);
         sysConfigDo.setId(SyIdUtils.uuid());
         Integer result = sysConfigDao.insert(sysConfigDo);
         if (result < 0) {
@@ -57,7 +52,11 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public String update(SysConfigDo sysConfigDo) {
+    public String update(SysConfigDo sysConfigDo, String type) {
+        if (sysConfigDo == null) {
+            return ResultCode.PARAMETER_ERROR;
+        }
+        JudgeType(sysConfigDo, type);
         Integer result = sysConfigDao.update(sysConfigDo);
         if (result < 0) {
             throw new RuntimeException();
@@ -70,5 +69,19 @@ public class SysConfigServiceImpl implements ISysConfigService {
         return sysConfigDao.getList(params);
     }
 
+
+    public void JudgeType(SysConfigDo sysConfigDo, String type) {
+        String _type = "indexCarousel";
+        if (_type.equals(type)) {
+            String sysSource = sysConfigDo.getSysSource();
+            if (sysSource != null) {
+                sysConfigDo.setSysKey("1");
+                String source = "0";
+                if (sysSource.equals(source)) {
+                    sysConfigDo.setSysValue("/upfiles/img/" + sysConfigDo.getSysValue());
+                }
+            }
+        }
+    }
 
 }

@@ -4,6 +4,7 @@ import com.shytong.common.web.BaseController;
 import com.shytong.modules.front.service.IFrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -188,8 +189,9 @@ public class FrontController extends BaseController {
      * @param servletRequest
      * @return
      */
-    @RequestMapping(value = "/admin/carousel-edit", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminEditCarouselPage(HttpServletRequest servletRequest) {
+    @RequestMapping(value = "/admin/carousel-edit/{id}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminEditCarouselPage(HttpServletRequest servletRequest, ModelMap model, @PathVariable String id) {
+        frontService.getSysConfigById(model, id);
         return "/mgr/settings/carousel/edit";
     }
 

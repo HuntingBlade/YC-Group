@@ -52,8 +52,7 @@ public class ChannelController extends BaseController {
      * @return
      * @throws ApiBizException
      */
-    @RequestMapping(value = "/deleted", method = RequestMethod.GET, consumes = "*")
-    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
+    @RequestMapping(value = "/deleted", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public String deletedChannel(HttpServletRequest servletRequest, @RequestParam Map map) throws ApiBizException {
         SyMap params = new SyMap(map);
         SyValidationUtils.valid()

@@ -209,7 +209,7 @@ public class FrontServiceImpl implements IFrontService {
         SyMap params = new SyMap();
         params.put("sysKey", 1);
         params.put("sysGroup", "yc");
-        PageInfo carouselList = sysConfigDao.getSysConfigList(params, pageNum, pageSize);
+        PageInfo carouselList = sysConfigDao.getSysConfigAllList(params, pageNum, pageSize);
         model.addAttribute("carouselPageSize", pageSize);
         model.addAttribute("carouselPageNum", carouselList.getPageNum());
         model.addAttribute("carouselTotal", carouselList.getTotal());
@@ -228,11 +228,19 @@ public class FrontServiceImpl implements IFrontService {
             pageSize = Integer.parseInt(sysConfigDo.getSysValue());
         }
         SyMap params = new SyMap();
-        params.put("sysKey", 0);
-        params.put("sysGroup", "yc");
-        List sonChannelList = this.getSonChannelList(0);
+        params.put("parentId", 0);
+        PageInfo sonChannelList = channelDao.getChannelListAndSysConfigByPId(params, pageNum, pageSize);
+        model.addAttribute("firstClassPageNum", sonChannelList.getPageNum());
         model.addAttribute("firstClassPageSize", pageSize);
-        model.addAttribute("firstClassList", sonChannelList);
+        model.addAttribute("firstClassTotal", sonChannelList.getTotal());
+        model.addAttribute("firstClassList", sonChannelList.getList());
+    }
+
+    @Override
+    public void getSysConfigById(ModelMap model, String id) {
+        SyMap params = new SyMap();
+        params.put("id", id);
+        model.addAttribute("carouselList", sysConfigDao.getList(params));
     }
 
 

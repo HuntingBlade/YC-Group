@@ -52,4 +52,9 @@ public class SysConfigDaoImpl implements ISysConfigDao {
     public Integer delSysConfigsById(String[] array) {
         return baseDao.delete("sysConfigMapper.delSysConfigsById", array);
     }
+
+    @Override
+    public PageInfo getSysConfigAllList(SyMap params, Integer pageNum, Integer pageSize) {
+        return baseDao.commlistOfPage("sysConfigMapper.findSysConfigAllByKeyAndGroup", pageNum, pageSize, params);
+    }
 }

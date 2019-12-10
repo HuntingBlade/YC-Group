@@ -16,9 +16,9 @@ public interface ISysConfigService {
      * 添加系统配置
      *
      * @param sysConfigDo
+     * @param type
      * @return
      * @throws ApiBizException
-     * @author CL
      */
     String insert(SysConfigDo sysConfigDo, String type) throws ApiBizException;
 
@@ -36,7 +36,7 @@ public interface ISysConfigService {
      * @param sysConfigDo
      * @return
      */
-    String update(SysConfigDo sysConfigDo);
+    String update(SysConfigDo sysConfigDo, String type);
 
     /**
      * 获取参数列表

@@ -51,11 +51,8 @@ public class SysConfigController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/deleted", method = RequestMethod.GET)
-    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
     public String deletedSysConfig(HttpServletRequest servletRequest, @RequestParam Map params) throws ApiBizException {
         SyMap map = new SyMap(params);
-        SyValidationUtils.valid()
-                .len(map.get("id"), 32, false, "id格式错误");
         Integer result = sysConfigService.deleted(map);
         return this.normalResp(result);
     }
@@ -68,10 +65,9 @@ public class SysConfigController extends BaseController {
      * @return
      * @throws ApiBizException
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-//    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
-    public String updateSysConfig(HttpServletRequest servletRequest, @RequestBody SysConfigDo sysConfigDo) throws ApiBizException {
-        String result = sysConfigService.update(sysConfigDo);
+    @RequestMapping(value = "/update/{type}", method = RequestMethod.POST)
+    public String updateSysConfig(HttpServletRequest servletRequest, @RequestBody SysConfigDo sysConfigDo, @PathVariable String type) throws ApiBizException {
+        String result = sysConfigService.update(sysConfigDo, type);
         return this.normalResp(result);
     }
 
@@ -83,7 +79,6 @@ public class SysConfigController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
     public String findSysConfig(HttpServletRequest servletRequest, @RequestBody SyMap params) {
         List list = sysConfigService.getList(params);
         return this.normalRespPage(list);

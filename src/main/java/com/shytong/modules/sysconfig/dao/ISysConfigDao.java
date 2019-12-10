@@ -64,4 +64,13 @@ public interface ISysConfigDao {
      */
     Integer delSysConfigsById(String[] array);
 
+    /**
+     * 根据ID获取参数表的参数值
+     *
+     * @param params
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getSysConfigAllList(SyMap params, Integer pageNum, Integer pageSize);
 }

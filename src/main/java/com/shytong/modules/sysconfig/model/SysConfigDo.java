@@ -32,6 +32,10 @@ public class SysConfigDo implements Serializable {
      */
     private String sysName;
     /**
+     * 来源
+     */
+    private String sysSource;
+    /**
      * 链接
      */
     private String sysUrl;
@@ -106,6 +110,14 @@ public class SysConfigDo implements Serializable {
 
     public void setSysName(String sysName) {
         this.sysName = sysName;
+    }
+
+    public String getSysSource() {
+        return sysSource;
+    }
+
+    public void setSysSource(String sysSource) {
+        this.sysSource = sysSource;
     }
 
     public String getSysUrl() {
@@ -188,6 +200,7 @@ public class SysConfigDo implements Serializable {
                 ", sysKey='" + sysKey + '\'' +
                 ", sysValue='" + sysValue + '\'' +
                 ", sysName='" + sysName + '\'' +
+                ", sysSource='" + sysSource + '\'' +
                 ", sysUrl='" + sysUrl + '\'' +
                 ", type='" + type + '\'' +
                 ", sort=" + sort +
