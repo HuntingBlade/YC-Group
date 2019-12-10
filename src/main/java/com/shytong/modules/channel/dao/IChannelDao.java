@@ -113,4 +113,11 @@ public interface IChannelDao {
      * @return
      */
     PageInfo getChannelListAndSysConfigByPId(SyMap params, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据栏目id获取此栏目的信息
+     * @param id
+     * @return
+     */
+    Object getChannelAndSysConfigById(Integer id);
 }

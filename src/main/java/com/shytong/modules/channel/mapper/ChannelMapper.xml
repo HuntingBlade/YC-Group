@@ -417,4 +417,33 @@
         a.id = #{channelId,jdbcType=INTEGER}
         AND a.is_deleted = 0
     </select>
+
+    <!--    -->
+    <select id="getChannelAndSysConfigById" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+            a.id,
+            a.`name`,
+            a.parent_id AS parentId,
+            a.`group`,
+            a.page_name AS pageName,
+            a.index_name AS indexName,
+            a.index_count AS indexCount,
+            a.page_template AS pageTemplate,
+            a.list_name AS listName,
+            a.list_count AS listCount,
+            a.list_template AS listTemplate,
+            a.sort,
+            a.gmt_modified AS gmtModified,
+            b.sys_key AS  sysKey,
+            b.sys_value AS sysValue,
+            b.sys_name AS sysName,
+            b.sys_url As sysUrl,
+            b.sys_source As sysSource
+        FROM
+            sy_channel a
+                LEFT JOIN sy_sys_config b on a.id = b.sys_key AND b.is_deleted = 0
+         WHERE
+            a.id = #{id,jdbcType=INTEGER}
+            AND a.is_deleted = 0
+    </select>
 </mapper>

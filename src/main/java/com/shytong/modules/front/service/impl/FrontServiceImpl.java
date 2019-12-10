@@ -243,6 +243,11 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("carouselList", sysConfigDao.getList(params));
     }
 
+    @Override
+    public void getChannelAndSysConfigById(ModelMap model, Integer id) {
+        model.addAttribute("firstClassObj", channelDao.getChannelAndSysConfigById(id));
+    }
+
 
     // -----------------------------------------------------------------------------------------
 

@@ -61,4 +61,11 @@ public interface IFrontService {
      * @param id
      */
     void getSysConfigById(ModelMap model, String id);
+
+    /**
+     * 根据id获取栏目
+     * @param model
+     * @param id
+     */
+    void getChannelAndSysConfigById(ModelMap model, Integer id);
 }

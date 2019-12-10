@@ -86,5 +86,8 @@ public class ChannelDao implements IChannelDao {
         return baseDao.commlistOfPage("ChannelMapper.getChannelListAndSysConfigByPId", pageNum, pageSize, params);
     }
 
-
+    @Override
+    public Object getChannelAndSysConfigById(Integer id) {
+        return baseDao.selectOne("ChannelMapper.getChannelAndSysConfigById", id);
+    }
 }

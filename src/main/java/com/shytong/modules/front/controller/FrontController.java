@@ -208,24 +208,14 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 添加一级类别管理页面
-     *
-     * @param servletRequest
-     * @return
-     */
-    @RequestMapping(value = "/admin/firstClass-add", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminAddFirstClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
-        return "/mgr/settings/firstclass/add";
-    }
-
-    /**
      * 修改一级类别管理页面
      *
      * @param servletRequest
      * @return
      */
-    @RequestMapping(value = "/admin/firstClass-edit", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminEditFirstClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+    @RequestMapping(value = "/admin/firstClass-edit/{id}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminEditFirstClassPage(HttpServletRequest servletRequest, ModelMap model, @PathVariable Integer id) {
+        frontService.getChannelAndSysConfigById(model, id);
         return "/mgr/settings/firstclass/edit";
     }
 
