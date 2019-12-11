@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.shytong.modules.channel.comm.TemplateType.*;
-import static org.apache.ibatis.ognl.OgnlOps.add;
 
 /**
  * @description:
@@ -251,7 +250,9 @@ public class FrontServiceImpl implements IFrontService {
     }
 
     @Override
-    public void getSecondClass(ModelMap model, Integer pageNum, Integer pageSize) {
+    public void getSecondClass(ModelMap model, Integer pageNum, Integer pageSize, String type, String pid) {
+        System.out.println(type);
+        System.out.println(pid);
         if (pageNum == null) {
             pageNum = 1;
         }

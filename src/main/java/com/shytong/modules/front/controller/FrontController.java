@@ -225,9 +225,10 @@ public class FrontController extends BaseController {
      * @param servletRequest
      * @return
      */
-    @RequestMapping(value = "/admin/settings-secondClass", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
-        frontService.getSecondClass(model, pageNum, pageSize);
+    @RequestMapping(value = {"/admin/settings-secondClass/{type}/{id}", "/admin/settings-secondClass"}, produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize,
+                                       @PathVariable(value = "id", required = false) String id, @PathVariable(value = "type", required = false) String type) {
+        frontService.getSecondClass(model, pageNum, pageSize, type, id);
         return "/mgr/settings/secondclass/index";
     }
 

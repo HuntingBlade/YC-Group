@@ -74,6 +74,8 @@ public interface IFrontService {
      * @param model
      * @param pageNum
      * @param pageSize
+     * @param type
+     * @param id
      */
-    void getSecondClass(ModelMap model, Integer pageNum, Integer pageSize);
+    void getSecondClass(ModelMap model, Integer pageNum, Integer pageSize, String type, String id);
 }
