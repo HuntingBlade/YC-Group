@@ -10,6 +10,7 @@ import com.shytong.core.util.SyValidationUtils;
 import com.shytong.modules.channel.model.ChannelDo;
 import com.shytong.modules.channel.service.IChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +37,6 @@ public class ChannelController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-//    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
     public String insertChannel(HttpServletRequest servletRequest, @RequestBody ChannelDo channelDo) throws ApiBizException {
         SyValidationUtils.valid()
                 .len(channelDo.getName(), 255, true, "名称格式错误");
@@ -65,16 +65,12 @@ public class ChannelController extends BaseController {
      * 修改栏目项
      *
      * @param servletRequest
-     * @param channelDo
      * @return
      * @throws ApiBizException
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "*")
-    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
-    public String updateChannel(HttpServletRequest servletRequest, @RequestBody ChannelDo channelDo) throws ApiBizException {
-        SyValidationUtils.valid()
-                .len(channelDo.getName(), 255, true, "名称格式错误");
-        Integer result = channelService.updateChannel(channelDo);
+    public String updateChannel(HttpServletRequest servletRequest, @RequestBody Map map) throws ApiBizException {
+        String result = channelService.updateChannel(map);
         return this.normalResp(result);
     }
 
@@ -87,13 +83,24 @@ public class ChannelController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/select", method = RequestMethod.POST, consumes = "*")
-    @SyResource(system = SysTemCodeConstant.SYSTEM_MANAGER)
     public String selectList(HttpServletRequest servletRequest, @RequestBody Map map) throws ApiBizException {
         SyMap params = new SyMap(map);
-        SyValidationUtils.valid()
-                .isInt(params.get("pageNum"), 11, true, "页码格式错误")
-                .isInt(params.get("pageSize"), 11, true, "每页大小格式错误");
         PageInfo<ChannelDo> result = channelService.selectList(params);
         return this.normalRespPage(result);
+    }
+
+    /**
+     * 根据id获取栏目信息
+     *
+     * @param servletRequest
+     * @param model
+     * @return
+     * @throws ApiBizException
+     */
+    @RequestMapping(value = "/selects/{type}", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    public String selectListById(HttpServletRequest servletRequest, ModelMap model, @RequestBody Map map, Integer pageNum, Integer pageSize, @PathVariable Integer type) throws ApiBizException {
+        SyMap params = new SyMap(map);
+        channelService.selectListById(model, params, pageNum, pageSize, type);
+        return "/mgr/settings/secondclass/index";
     }
 }

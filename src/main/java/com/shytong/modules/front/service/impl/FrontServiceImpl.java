@@ -15,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.shytong.modules.channel.comm.TemplateType.*;
+import static org.apache.ibatis.ognl.OgnlOps.add;
 
 /**
  * @description:
@@ -248,6 +250,47 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("firstClassObj", channelDao.getChannelAndSysConfigById(id));
     }
 
+    @Override
+    public void getSecondClass(ModelMap model, Integer pageNum, Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("secondClassPageSize", "yc");
+        if (sysConfigDo != null) {
+            pageSize = Integer.parseInt(sysConfigDo.getSysValue());
+        } else {
+            pageSize = 10;
+        }
+        SyMap params = new SyMap();
+        params.put("parentId", 0);
+        PageInfo sonChannelList = channelDao.getChannelListAndSysConfigByPId(params, pageNum, pageSize);
+        List list = sonChannelList.getList();
+        Map<Integer, Map> map = new HashMap<>(16);
+        if (list.size() < 0) {
+            throw new RuntimeException();
+        }
+        for (int i = 0; i < list.size(); i++) {
+            map.put(i, (Map) list.get(i));
+        }
+        List arrayList = new ArrayList<>();
+        PageInfo secondClassChannel = null;
+        for (int i = 0; i < map.size(); i++) {
+            Integer id = (Integer) map.get(i).get("id");
+            params.put("parentId", id);
+            secondClassChannel = channelDao.getChannelInfoAndConfigAndParentNameByPId(params, pageNum, pageSize);
+            List res = secondClassChannel.getList();
+            for (int j = 0; j < res.size(); j++) {
+                arrayList.add(res.get(j));
+            }
+        }
+        if (secondClassChannel != null) {
+            model.addAttribute("secondClassList", arrayList);
+            model.addAttribute("secondClassPageNum", secondClassChannel.getPageNum());
+            model.addAttribute("secondClassPageSize", pageSize);
+            model.addAttribute("secondClassTotal", arrayList.size());
+            model.addAttribute("firstChannelList", list);
+        }
+    }
 
     // -----------------------------------------------------------------------------------------
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: CL
@@ -74,7 +75,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         String _type = "indexCarousel";
         if (_type.equals(type)) {
             String sysSource = sysConfigDo.getSysSource();
-            if (sysSource != null) {
+            if (!sysSource.isEmpty()) {
                 sysConfigDo.setSysKey("1");
                 String source = "0";
                 if (sysSource.equals(source)) {
@@ -83,5 +84,4 @@ public class SysConfigServiceImpl implements ISysConfigService {
             }
         }
     }
-
 }

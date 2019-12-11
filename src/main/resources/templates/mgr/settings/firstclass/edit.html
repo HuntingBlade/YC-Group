@@ -167,7 +167,7 @@
             //监听提交
             form.on('submit(edit)', function (res) {
                 var _data = JSON.stringify(res.field);
-                var _url = "/api/sysConfig/update/indexCarousel";
+                var _url = "/api/channel/update";
                 $.ajax({
                     type: "POST",
                     url: _url,

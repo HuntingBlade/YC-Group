@@ -1,11 +1,8 @@
 package com.shytong.modules.sysconfig.controller;
 
-import com.shytong.common.annotation.SyResource;
 import com.shytong.common.exception.ApiBizException;
 import com.shytong.common.model.SyMap;
 import com.shytong.common.web.BaseController;
-import com.shytong.constant.SysTemCodeConstant;
-import com.shytong.core.util.SyValidationUtils;
 import com.shytong.modules.sysconfig.model.SysConfigDo;
 import com.shytong.modules.sysconfig.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +17,6 @@ import java.util.Map;
  * @author: CL
  * @time: 2019/11/11 16:49
  */
-
 @RestController
 @RequestMapping(value = "/api/sysConfig", produces = "application/json;charset=UTF-8", consumes = "application/json")
 public class SysConfigController extends BaseController {

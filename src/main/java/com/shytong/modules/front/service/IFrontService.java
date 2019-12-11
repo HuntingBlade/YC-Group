@@ -68,4 +68,12 @@ public interface IFrontService {
      * @param id
      */
     void getChannelAndSysConfigById(ModelMap model, Integer id);
+
+    /**
+     * 二级栏目
+     * @param model
+     * @param pageNum
+     * @param pageSize
+     */
+    void getSecondClass(ModelMap model, Integer pageNum, Integer pageSize);
 }

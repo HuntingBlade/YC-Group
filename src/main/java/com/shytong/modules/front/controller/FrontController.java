@@ -220,13 +220,14 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 一级类别管理页面
+     * 二级类别管理页面
      *
      * @param servletRequest
      * @return
      */
     @RequestMapping(value = "/admin/settings-secondClass", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
     public String adminSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+        frontService.getSecondClass(model, pageNum, pageSize);
         return "/mgr/settings/secondclass/index";
     }
 

@@ -40,6 +40,7 @@ public interface IChannelDao {
 
     /**
      * 根据栏目编号获取子栏目
+     *
      * @param parentId
      * @return
      */
@@ -79,6 +80,7 @@ public interface IChannelDao {
 
     /**
      * 根据分组获取栏目列表
+     *
      * @param group
      * @return
      */
@@ -86,6 +88,7 @@ public interface IChannelDao {
 
     /**
      * 根据子栏目id找父栏目id
+     *
      * @param channelId
      * @return
      */
@@ -93,6 +96,7 @@ public interface IChannelDao {
 
     /**
      * 栏目是否存在
+     *
      * @param channelId
      * @return
      */
@@ -100,6 +104,7 @@ public interface IChannelDao {
 
     /**
      * 根据id获取id所处一致的分组
+     *
      * @param channelId
      * @return
      */
@@ -107,6 +112,7 @@ public interface IChannelDao {
 
     /**
      * 根据父栏目id获取栏目列表和系统配置
+     *
      * @param params
      * @param pageNum
      * @param pageSize
@@ -115,9 +121,29 @@ public interface IChannelDao {
     PageInfo getChannelListAndSysConfigByPId(SyMap params, Integer pageNum, Integer pageSize);
 
     /**
+     * 根据父栏目id获取栏目列表和系统配置及父栏目的信息
+     * @param params
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getChannelInfoAndConfigAndParentNameByPId(SyMap params, Integer pageNum, Integer pageSize);
+
+    /**
      * 根据栏目id获取此栏目的信息
+     *
      * @param id
      * @return
      */
     Object getChannelAndSysConfigById(Integer id);
+
+    /**
+     * 根据父栏目id获取子栏目的信息
+     *
+     * @param parentId
+     * @return
+     */
+    List<Map> getSonChannelListAndSysConfigByPId(Integer parentId);
+
+
 }
