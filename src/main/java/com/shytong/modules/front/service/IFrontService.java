@@ -1,5 +1,6 @@
 package com.shytong.modules.front.service;
 
+import com.shytong.common.model.SyMap;
 import org.springframework.ui.ModelMap;
 
 /**
@@ -72,10 +73,8 @@ public interface IFrontService {
     /**
      * 二级栏目
      * @param model
-     * @param pageNum
-     * @param pageSize
-     * @param type
-     * @param id
+     * @param params
      */
-    void getSecondClass(ModelMap model, Integer pageNum, Integer pageSize, String type, String id);
+    void getSecondClass(ModelMap model, SyMap params);
+
 }

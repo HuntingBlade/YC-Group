@@ -258,6 +258,21 @@
         ORDER BY sort ASC
     </select>
 
+    <!--  根据栏目编号获取子栏目  -->
+    <select id="getSonChannelListNotIncludeIndexById" parameterType="java.lang.Integer"
+            resultType="com.shytong.modules.channel.model.ChannelDo">
+        SELECT
+        <include refid="select_sql_part"/>
+        FROM
+        sy_channel
+        WHERE
+        parent_id = #{parentId,jdbcType=INTEGER}
+        AND is_deleted = 0
+        AND id != 1
+        ORDER BY sort ASC
+    </select>
+
+
     <!--  获取栏目id下的子栏目  -->
     <select id="getChannelListByPId" parameterType="java.lang.Integer"
             resultType="java.util.Map">
@@ -476,5 +491,80 @@
          WHERE
             a.id = #{id,jdbcType=INTEGER}
             AND a.is_deleted = 0
+    </select>
+
+
+    <!--  根据父栏目id获取父栏目及子栏目信息  -->
+    <select id="getParentChannelListBySonId" parameterType="java.lang.Integer" resultType="java.util.Map">
+         select
+            a.id,
+            a.`name`,
+            a.parent_id AS parentId,
+            a.`group`,
+            a.page_name AS pageName,
+            a.index_name AS indexName,
+            a.index_count AS indexCount,
+            a.page_template AS pageTemplate,
+            a.list_name AS listName,
+            a.list_count AS listCount,
+            a.list_template AS listTemplate,
+            a.sort,
+            a.gmt_modified AS gmtModified,
+            b.`name` AS parentName
+        from
+            sy_channel a INNER JOIN sy_channel b ON a.parent_id = b.id
+        where
+            a.id = #{parentId,jdbcType = INTEGER}
+            AND a.is_deleted = 0
+    </select>
+
+    <!--  根据子栏目id获取子栏目及子栏目信息  -->
+    <select id="getSonChannelListByParentId" parameterType="java.lang.Integer" resultType="java.util.Map">
+         select
+            a.id,
+            a.`name`,
+            a.parent_id AS parentId,
+            a.`group`,
+            a.page_name AS pageName,
+            a.index_name AS indexName,
+            a.index_count AS indexCount,
+            a.page_template AS pageTemplate,
+            a.list_name AS listName,
+            a.list_count AS listCount,
+            a.list_template AS listTemplate,
+            a.sort,
+            a.gmt_modified AS gmtModified,
+            b.`name` AS parentName
+        from
+            sy_channel a INNER JOIN sy_channel b ON a.parent_id = b.id
+        where
+            b.id = #{parentId,jdbcType = INTEGER}
+            AND a.is_deleted = 0
+    </select>
+
+    <select id="getNotIncludeGroupChannelByGroup" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+            a.id,
+            a.`name`,
+            a.parent_id AS parentId,
+            a.`group`,
+            a.page_name AS pageName,
+            a.index_name AS indexName,
+            a.index_count AS indexCount,
+            a.page_template AS pageTemplate,
+            a.list_name AS listName,
+            a.list_count AS listCount,
+            a.list_template AS listTemplate,
+            a.sort,
+            a.gmt_modified AS gmtModified,
+            b.`name` AS parentName
+        FROM
+            sy_channel a
+            INNER JOIN sy_channel b ON a.parent_id = b.id
+        WHERE
+            a.is_deleted = 0
+            AND a.`group` != #{group,jdbcType=VARCHAR}
+        ORDER BY
+	        a.parent_id ASC
     </select>
 </mapper>

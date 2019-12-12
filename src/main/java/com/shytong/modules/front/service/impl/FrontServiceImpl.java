@@ -15,12 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 import static com.shytong.modules.channel.comm.TemplateType.*;
+import static org.apache.ibatis.ognl.OgnlOps.add;
 
 /**
  * @description:
@@ -250,47 +249,38 @@ public class FrontServiceImpl implements IFrontService {
     }
 
     @Override
-    public void getSecondClass(ModelMap model, Integer pageNum, Integer pageSize, String type, String pid) {
-        System.out.println(type);
-        System.out.println(pid);
-        if (pageNum == null) {
-            pageNum = 1;
+    public void getSecondClass(ModelMap model, SyMap params) {
+        int pageNum = 1;
+        int pageSize = 10;
+        int parentId = 0;
+        String type = params.getString("type");
+        if (params.get("pageNum") != null) {
+            pageNum = params.getInteger("pageNum");
         }
+        // 查询每页显示大小判断
         SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("secondClassPageSize", "yc");
         if (sysConfigDo != null) {
             pageSize = Integer.parseInt(sysConfigDo.getSysValue());
-        } else {
-            pageSize = 10;
         }
-        SyMap params = new SyMap();
-        params.put("parentId", 0);
-        PageInfo sonChannelList = channelDao.getChannelListAndSysConfigByPId(params, pageNum, pageSize);
-        List list = sonChannelList.getList();
-        Map<Integer, Map> map = new HashMap<>(16);
-        if (list.size() < 0) {
-            throw new RuntimeException();
+        if (params.get("parentId") != null) {
+            parentId = Integer.parseInt(params.get("parentId").toString());
         }
-        for (int i = 0; i < list.size(); i++) {
-            map.put(i, (Map) list.get(i));
+        // 设置一二级栏目下拉框
+        setFirstAndSecondChannel(model, parentId, type);
+        // 判断类型 1-一级栏目  2-二级栏目  null-全部
+        PageInfo channelList = null;
+        if (type == null) {
+            params.put("group", "index");
+            channelList = channelDao.getNotIncludeGroupChannelByGroup(params, pageNum, pageSize);
+        } else if ("firstChannel".equals(type)) {
+            channelList = channelDao.getSonChannelListByParentId(params, pageNum, pageSize);
+        } else if ("secondChannel".equals(type)) {
+            channelList = channelDao.getParentChannelListBySonId(params, pageNum, pageSize);
         }
-        List arrayList = new ArrayList<>();
-        PageInfo secondClassChannel = null;
-        for (int i = 0; i < map.size(); i++) {
-            Integer id = (Integer) map.get(i).get("id");
-            params.put("parentId", id);
-            secondClassChannel = channelDao.getChannelInfoAndConfigAndParentNameByPId(params, pageNum, pageSize);
-            List res = secondClassChannel.getList();
-            for (int j = 0; j < res.size(); j++) {
-                arrayList.add(res.get(j));
-            }
-        }
-        if (secondClassChannel != null) {
-            model.addAttribute("secondClassList", arrayList);
-            model.addAttribute("secondClassPageNum", secondClassChannel.getPageNum());
-            model.addAttribute("secondClassPageSize", pageSize);
-            model.addAttribute("secondClassTotal", arrayList.size());
-            model.addAttribute("firstChannelList", list);
-        }
+        model.addAttribute("channelList", channelList.getList());
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("pageNum", channelList.getPageNum());
+        model.addAttribute("total", channelList.getTotal());
     }
 
     // -----------------------------------------------------------------------------------------
@@ -357,5 +347,49 @@ public class FrontServiceImpl implements IFrontService {
             }
         });
         return channelListByParentChannelId;
+    }
+
+
+    /**
+     * 设置一二级栏目下拉框
+     *
+     * @param model
+     * @param parentId
+     */
+    public void setFirstAndSecondChannel(ModelMap model, Integer parentId, String type) {
+        Integer activeFirst = 0;
+        Integer activeSecond = 0;
+        List<ChannelDo> firstChannelList = channelDao.getSonChannelListNotIncludeIndexById(0);
+        List<ChannelDo> secondChannelList = new ArrayList<>();
+        if (type == null) {
+            secondChannelList = this.IterationSonChannel(firstChannelList, secondChannelList);
+        } else if ("firstChannel".equals(type)) {
+            activeFirst = parentId;
+            secondChannelList = channelDao.getSonChannelListNotIncludeIndexById(parentId);
+        } else if ("secondChannel".equals(type)) {
+            ChannelDo channelDo = channelDao.getChannelById(parentId);
+            activeFirst = channelDo.getParentId();
+            activeSecond = parentId;
+            secondChannelList = Arrays.asList(channelDao.getChannelById(parentId));
+        }
+        model.addAttribute("activeFirst", activeFirst);
+        model.addAttribute("activeSecond", activeSecond);
+        model.addAttribute("firstChannelList", firstChannelList);
+        model.addAttribute("secondChannelList", secondChannelList);
+    }
+
+    public List<ChannelDo> IterationSonChannel(List<ChannelDo> firstChannelList, List<ChannelDo> secondChannelList) {
+        int index = 0;
+        for (int i = 0; i < firstChannelList.size(); i++) {
+            int id = firstChannelList.get(i).getId();
+            List<ChannelDo> sonChannelList = channelDao.getSonChannelListById(id);
+            if (sonChannelList.size() <= 0) {
+                continue;
+            }
+            for (int j = 0; j < sonChannelList.size(); j++) {
+                secondChannelList.add(index++, sonChannelList.get(j));
+            }
+        }
+        return secondChannelList;
     }
 }
