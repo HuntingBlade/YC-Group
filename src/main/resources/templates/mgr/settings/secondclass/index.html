@@ -27,34 +27,38 @@
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
 <div class="layui-fluid">
-    <div class="layui-row layui-col-space10">
+    <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <button class="layui-btn" onclick="xadmin.open('添加二级栏目','secondClass-add',550,410)"><i
+                    <button class="layui-btn" onclick="xadmin.open('添加二级栏目','secondClass-add',550,320)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
-                <div class="layui-card-body layui-table-body layui-table-main">
+                <div class="layui-card-body layui-table-body layui-table-main" style="min-height: 320px">
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
                             <th>编号</th>
-                            <th style="width: 200px">
+                            <th style="width: 320px">
                                 <select name="selectFirstChannel" lay-verify="selectFirstChannel"
                                         lay-filter="selectFirstChannel" id="selectFirstChannel">
-                                    <option value="">一级栏目</option>
-                                    @#for(first in firstChannelList){#@
-                                    <option value="^{first.id}">^{first.name}</option>
+                                    <option id="selectFirstChannel0" value="0">所有一级栏目</option>
+                                    @#for(first in firstChannelList){ #@
+                                    <option id="selectFirstChannel^{firstLP.index}" value="^{first.id}" >
+                                        ^{first.name}
+                                    </option>
                                     @#}#@
                                 </select>
                             </th>
-                            <th style="width: 200px">
+                            <th style="width: 320px">
                                 <select name="selectSecondChannel" lay-verify="selectSecondChannel"
                                         lay-filter="selectSecondChannel" id="selectSecondChannel">
-                                    <option value="">二级栏目</option>
-                                    @#for(second in secondClassList){#@
-                                    <option value="^{second.parentId}">^{second.name}</option>
+                                    <option id="selectSecondChannel0" value="0">所有二级栏目</option>
+                                    @#for(second in secondChannelList){#@
+                                    <option id="selectSecondChannel^{secondLP.index}" value="^{second.id}">
+                                        ^{second.name}
+                                    </option>
                                     @#}#@
                                 </select>
                             </th>
@@ -64,7 +68,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @#for(item in secondClassList){#@
+                        @#for(item in channelList){#@
                         <tr>
                             <td>^{itemLP.index}</td>
                             <td>^{item.parentName}</td>
@@ -76,7 +80,7 @@
                                 @#}else if(item.listTemplate == "IMG_TYPE_TWO"){#@
                                 图片类型二
                                 @#}else if(item.listTemplate == "RICH_TYPE"){#@
-                                纯文本类型
+                                富文本类型
                                 @#}else if(item.listTemplate == "TITLE_TYPE"){#@
                                 标题类型
                                 @#}#@
@@ -105,6 +109,23 @@
 </div>
 </body>
 <script>
+    $(function () {
+        var firstLength = $("#selectFirstChannel").children("option").length;
+        var secondLength = $("#selectSecondChannel").children("option").length;
+        for (var i = 0; i < firstLength; i++) {
+            var activeFirstValue = $("#selectFirstChannel" + i).val();
+            if ("^{activeFirst}" == activeFirstValue) {
+                $("#selectFirstChannel" + i).attr("selected", true);
+            }
+        }
+        for (var i = 0; i < secondLength; i++) {
+            var activeSecondValue = $("#selectSecondChannel" + i).val();
+            if ("^{activeSecond}" == activeSecondValue) {
+                $("#selectSecondChannel" + i).attr("selected", true);
+            }
+        }
+    });
+
     // 分页
     layui.use('laypage', function () {
         var laypage = layui.laypage;
@@ -112,9 +133,9 @@
         laypage.render({
             theme: "#009688",
             elem: 'secondClassPage', //注意，这里的 test1 是 ID，不用加 # 号
-            count: "^{secondClassTotal}", //数据总数，从服务端得到
-            curr: "^{secondClassPageNum}",
-            limit: "^{secondClassPageSize}",
+            count: "^{total}", //数据总数，从服务端得到
+            curr: "^{pageNum}",
+            limit: "^{pageSize}",
             jump: function (obj, first) {
                 if (!first) {
                     window.location.href = "/front/public/admin/settings-secondClass?&pageNum= " + obj.curr + "&pageSize=" + obj.limit;
@@ -123,29 +144,25 @@
         });
     });
 
-
     layui.use(['laydate', 'form'], function (data) {
         var laydate = layui.laydate;
         var form = layui.form;
 
         form.on('select(selectFirstChannel)', function (data) {
-            var _data = JSON.stringify({"parentId": data.value});
-            var _url = "/api/channel/selects/1";
-            $.ajax({
-                type: "POST",
-                url: _url,
-                async: true,
-                data: _data,
-                dataType: "json",
-                contentType: "application/json;charset=utf-8",
-                success: function (result) {
-                    console.log(result);
-                }
-            });
+            if (data.value == "0") {
+                window.location.href = "/front/public/admin/settings-secondClass";
+            } else {
+                window.location.href = "/front/public/admin/settings-secondClass/firstChannel/" + data.value;
+            }
         });
 
         form.on('select(selectSecondChannel)', function (data) {
-            console.log("data2:", data.value);
+            console.log("aaaaa", data.value);
+            if (data.value == "0") {
+                window.location.href = "/front/public/admin/settings-secondClass";
+            } else {
+                window.location.href = "/front/public/admin/settings-secondClass/secondChannel/" + data.value;
+            }
         });
 
 

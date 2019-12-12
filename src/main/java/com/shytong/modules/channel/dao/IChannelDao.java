@@ -122,6 +122,7 @@ public interface IChannelDao {
 
     /**
      * 根据父栏目id获取栏目列表和系统配置及父栏目的信息
+     *
      * @param params
      * @param pageNum
      * @param pageSize
@@ -146,4 +147,40 @@ public interface IChannelDao {
     List<Map> getSonChannelListAndSysConfigByPId(Integer parentId);
 
 
+    /**
+     * 根据父栏目id获取父栏目及子栏目信息
+     *
+     * @param params
+     * @param pageNum
+     * @param pageSize
+     */
+    PageInfo getSonChannelListByParentId(SyMap params, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据栏目编号获取子栏目且不包括首页
+     *
+     * @param parentId
+     * @return
+     */
+    List<ChannelDo> getSonChannelListNotIncludeIndexById(Integer parentId);
+
+    /**
+     * 不包括某分组
+     *
+     * @param params
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getNotIncludeGroupChannelByGroup(SyMap params, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据子栏目id获取父栏目及子栏目信息
+     *
+     * @param params
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getParentChannelListBySonId(SyMap params, int pageNum, int pageSize);
 }

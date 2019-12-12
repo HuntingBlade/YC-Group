@@ -100,4 +100,24 @@ public class ChannelDao implements IChannelDao {
     public List<Map> getSonChannelListAndSysConfigByPId(Integer parentId) {
         return baseDao.selectList("ChannelMapper.getChannelListAndSysConfigByPId", parentId);
     }
+
+    @Override
+    public PageInfo getSonChannelListByParentId(SyMap params, Integer pageNum, Integer pageSize) {
+        return baseDao.commlistOfPage("ChannelMapper.getSonChannelListByParentId", pageNum, pageSize, params);
+    }
+
+    @Override
+    public List<ChannelDo> getSonChannelListNotIncludeIndexById(Integer parentId) {
+        return baseDao.selectList("ChannelMapper.getSonChannelListNotIncludeIndexById", parentId);
+    }
+
+    @Override
+    public PageInfo getNotIncludeGroupChannelByGroup(SyMap params, Integer pageNum, Integer pageSize) {
+        return baseDao.commlistOfPage("ChannelMapper.getNotIncludeGroupChannelByGroup", pageNum, pageSize, params);
+    }
+
+    @Override
+    public PageInfo getParentChannelListBySonId(SyMap params, int pageNum, int pageSize) {
+        return baseDao.commlistOfPage("ChannelMapper.getParentChannelListBySonId", pageNum, pageSize, params);
+    }
 }

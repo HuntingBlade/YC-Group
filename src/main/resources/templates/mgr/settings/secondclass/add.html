@@ -21,44 +21,23 @@
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label for="L_sysName" class="layui-form-label">
-                    <span class="x-red">*</span>标题
+                <label for="" class="layui-form-label">
+                    <span class="x-red">*</span>所属栏目
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="L_sysName" name="sysName" required="" autocomplete="off"
-                           class="layui-input">
+                    <select>
+                        <option value="0">所有一级栏目</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item" style="margin-top: -10px">
                 <label class="layui-form-label">
-                    <span class="x-red">*</span>图片来源
-                </label>
-                <div class="layui-input-block">
-                    <input type="radio" name="net" value="0" title="本地">
-                    <input type="radio" name="net" value="1" title="网络">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_sysValue" class="layui-form-label">
-                    <span class="x-red"></span>
-                </label>
-                <div class="layui-input-inline" id="wrap-sysValue">
-                    <input type="text" id="L_sysValue" name="sysName" required="" autocomplete="off"
-                           class="layui-input">
-                </div>
-                <button type="button" class="layui-btn" id="upFile">
-                    <i class="layui-icon">&#xe67c;</i>上传图片
-                </button>
-            </div>
-            <div class="layui-form-item" style="margin-top: -5px">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>链接
+                    <span class="x-red">*</span>栏目名称
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="L_address" name="address" required=""
+                    <input type="text" id="" name="address" required=""
                            autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-form-mid layui-word-aux"></div>
             </div>
             <div class="layui-form-item" style="margin-top: -20px">
                 <label for="L_sort" class="layui-form-label">
@@ -71,12 +50,15 @@
                 <div class="layui-form-mid layui-word-aux">排序值越小，排越前。排序值之间最好有一定间隔，好方便以后穿插。</div>
             </div>
             <div class="layui-form-item" style="margin-top: -20px">
-                <label class="layui-form-label">
-                    <span class="x-red">*</span>状态
+                <label for="L_sort" class="layui-form-label">
+                    <span class="x-red">*</span>模板
                 </label>
                 <div class="layui-input-inline">
-                    <input type="radio" name="status" value="0" title="启用" checked="">
-                    <input type="radio" name="status" value="1" title="停用">
+                    <div class="layui-input-inline">
+                        <select>
+                            <option id="selectFirstChannel0" value="0">富文本</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="layui-form-item">

@@ -1,5 +1,6 @@
 package com.shytong.modules.front.controller;
 
+import com.shytong.common.model.SyMap;
 import com.shytong.common.web.BaseController;
 import com.shytong.modules.front.service.IFrontService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,9 +226,16 @@ public class FrontController extends BaseController {
      * @param servletRequest
      * @return
      */
-    @RequestMapping(value = "/admin/settings-secondClass", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
-        frontService.getSecondClass(model, pageNum, pageSize);
+    @RequestMapping(value = {"/admin/settings-secondClass", "/admin/settings-secondClass/{type}/{id}"}, produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize,
+                                       @PathVariable(value = "type", required = false) String type,
+                                       @PathVariable(value = "id", required = false) Integer id) {
+        SyMap params = new SyMap();
+        params.put("pageNum", pageNum);
+        params.put("pageSize", pageSize);
+        params.put("type", type);
+        params.put("parentId", id);
+        frontService.getSecondClass(model, params);
         return "/mgr/settings/secondclass/index";
     }
 
