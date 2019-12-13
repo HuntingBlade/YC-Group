@@ -36,7 +36,6 @@ public class FrontServiceImpl implements IFrontService {
     @Autowired
     private IArticleDao articleDao;
 
-
     /**
      * 设置头部和底部
      *
@@ -286,6 +285,54 @@ public class FrontServiceImpl implements IFrontService {
         // 一级栏目
         List<ChannelDo> channelList = channelDao.getSonChannelListNotIncludeIndexById(0);
         model.addAttribute("channelList", channelList);
+    }
+
+    @Override
+    public void editSecondClass(ModelMap model, Integer id) {
+        // 一级栏目
+        List<ChannelDo> channelList = channelDao.getSonChannelListNotIncludeIndexById(0);
+        ChannelDo channelDo = channelDao.getChannelById(id);
+        if (channelDo == null) {
+            throw new RuntimeException();
+        }
+        model.addAttribute("channelList", channelList);
+        model.addAttribute("channelDo", channelDo);
+        model.addAttribute("activeFirst", channelDo.getParentId());
+        model.addAttribute("activeType", channelDo.getListTemplate());
+    }
+
+    @Override
+    public void setOtherChannel(ModelMap model, Integer pageNum, Integer pageSize) {
+        SyMap params = new SyMap();
+        params.put("parentId", 1);
+        SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("otherClassPageSize", "yc");
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        if (sysConfigDo == null) {
+            pageSize = 10;
+        } else {
+            pageSize = Integer.parseInt(sysConfigDo.getSysValue());
+        }
+        PageInfo sonChannelList = channelDao.getChannelInfoAndConfigAndParentNameByPId(params, pageNum, pageSize);
+        List<Map> sonList = sonChannelList.getList();
+        List channelList = new ArrayList();
+        int index = 0;
+        for (int i = 0; i < sonList.size(); i++) {
+            Integer id = (Integer) sonList.get(i).get("id");
+            params.put("parentId", id);
+            PageInfo sonChannel = channelDao.getChannelInfoAndConfigAndParentNameByPId(params, pageNum, pageSize);
+            List temp = sonChannel.getList();
+            for (int j = 0; j < temp.size(); j++) {
+                channelList.add(index++, temp.get(j));
+            }
+        }
+        model.addAttribute("channelList", channelList);
+    }
+
+    @Override
+    public void setEditOtherChannel(ModelMap model, Integer id) {
+        model.addAttribute("channelDo", channelDao.getChannelAndSysConfigById(id));
     }
 
     // -----------------------------------------------------------------------------------------

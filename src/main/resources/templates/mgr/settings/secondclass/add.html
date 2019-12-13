@@ -25,7 +25,7 @@
                     <span class="x-red">*</span>所属栏目
                 </label>
                 <div class="layui-input-inline">
-                    <select>
+                    <select id="selectFirstChannel">
                         @#for(item in channelList){#@
                         <option value="^{item.id}">^{item.name}</option>
                         @#}#@
@@ -52,12 +52,12 @@
                 <div class="layui-form-mid layui-word-aux">排序值越小，排越前。排序值之间最好有一定间隔，好方便以后穿插。</div>
             </div>
             <div class="layui-form-item" style="margin-top: -20px">
-                <label for="L_sort" class="layui-form-label">
+                <label for="" class="layui-form-label">
                     <span class="x-red">*</span>模板
                 </label>
                 <div class="layui-input-inline">
                     <div class="layui-input-inline">
-                        <select>
+                        <select id="selectTypeChannel">
                             <option value="RICH_TYPE">富文本</option>
                             <option value="TITLE_TYPE">标题</option>
                             <option value="IMG_TYPE_ONE">图片类型一</option>
@@ -75,56 +75,63 @@
 </div>
 <script>
     $(function () {
-        layui.use(['form', 'layer', 'jquery'],
-            function () {
-                $ = layui.jquery;
-                var form = layui.form,
-                    layer = layui.layer;
 
-                //自定义验证规则
-                form.verify({
-                    nikename: function (value) {
-                        if (value.length < 5) {
-                            return '昵称至少得5个字符啊';
-                        }
-                    },
-                    pass: [/(.+){6,12}$/, '密码必须6到12位'],
-                    repass: function (value) {
-                        if ($('#L_pass').val() != $('#L_repass').val()) {
-                            return '两次密码不一致';
+    });
+
+    layui.use(['form', 'layer', 'jquery'],
+        function () {
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer;
+
+            //自定义验证规则
+            form.verify({
+                nikename: function (value) {
+
+                },
+                pass: [/(.+){6,12}$/, '密码必须6到12位'],
+                repass: function (value) {
+
+                }
+            });
+
+
+            //监听提交
+            form.on('submit(add)', function (data) {
+                var _selectFirst = $("#selectFirstChannel").find("option:selected");
+                var _selectType = $("#selectTypeChannel").find("option:selected");
+                var _parentId = _selectFirst[0].value;
+                var _listTemplate = _selectType[0].value;
+                var _json = {
+                    "parentId": _parentId,
+                    "listTemplate": _listTemplate,
+                    "name": data.field.name,
+                    "sort": data.field.sort
+                };
+                var _data = JSON.stringify(_json);
+                var _url = "/api/channel/add";
+                $.ajax({
+                    type: "POST",
+                    url: _url,
+                    async: true,
+                    data: _data,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.errCode == 1) {
+                            layer.alert("增加成功", {icon: 6}, function () {
+                                //关闭当前frame
+                                xadmin.close();
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
+                        }else{
+                            layer.alert("添加失败", {icon: 5}, function () {});
                         }
                     }
                 });
-
-                //监听提交
-                form.on('submit(add)', function (data) {
-                    console.log(data);
-                    var _data = JSON.stringify(data.field);
-                    var _url = "/api/channel/add";
-                    $.ajax({
-                        type: "POST",
-                        url: _url,
-                        async: true,
-                        data: _data,
-                        dataType: "json",
-                        contentType: "application/json;charset=utf-8",
-                        success: function (result) {
-                            if (result.errCode == 1) {
-                                alert(1);
-                                layer.alert("增加成功", {icon: 6}, function () {
-                                    //关闭当前frame
-                                    xadmin.close();
-                                    // 可以对父窗口进行刷新
-                                    xadmin.father_reload();
-                                });
-                            } else {
-                                return false;
-                            }
-                        }
-                    });
-                });
             });
-    });
+        });
 </script>
 </body>
 </html>

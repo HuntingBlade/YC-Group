@@ -348,6 +348,7 @@
             b.sys_key AS  sysKey,
             b.sys_value AS sysValue,
             b.sys_name AS sysName,
+            b.sys_source AS sysSource,
             c.`name` AS parentName
         FROM
             sy_channel a

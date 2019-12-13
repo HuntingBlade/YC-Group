@@ -21,7 +21,7 @@ public interface IChannelService {
      * @return
      * @throws ApiBizException
      */
-    Integer insertChannel(ChannelDo channelDo) throws ApiBizException;
+    String insertChannel(ChannelDo channelDo) throws ApiBizException;
 
     /**
      * 根据ID删除栏目项
@@ -30,16 +30,16 @@ public interface IChannelService {
      * @return
      * @throws ApiBizException
      */
-    Integer deletedChannelById(SyMap map) throws ApiBizException;
+    String deletedChannelById(SyMap map) throws ApiBizException;
 
     /**
      * 修改项目栏
-     *
      * @param map
+     * @param type
      * @return
      * @throws ApiBizException
      */
-    String updateChannel(Map map) throws ApiBizException;
+    String updateChannel(Map map, String type) throws ApiBizException;
 
     /**
      * 获取栏目列表

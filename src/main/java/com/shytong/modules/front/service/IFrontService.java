@@ -24,16 +24,18 @@ public interface IFrontService {
 
     /**
      * 设置文章内容
+     *
      * @param model
      * @param channelId 栏目编号
-     * @param pageNum 页码
+     * @param pageNum   页码
      * @param pageSize  每页大小
-     * @param group 分组
+     * @param group     分组
      */
     void setContent(ModelMap model, Integer channelId, Integer pageNum, Integer pageSize, String group);
 
     /**
      * 文章详情
+     *
      * @param model
      * @param channelId
      * @param articleId
@@ -41,7 +43,8 @@ public interface IFrontService {
     void getArticleDetail(ModelMap model, Integer channelId, String articleId);
 
     /**
-     *  获取配置信息
+     * 获取配置信息
+     *
      * @param model
      * @param pageNum
      * @param pageSize
@@ -50,6 +53,7 @@ public interface IFrontService {
 
     /**
      * 显示一级栏目
+     *
      * @param model
      * @param pageNum
      * @param pageSize
@@ -58,6 +62,7 @@ public interface IFrontService {
 
     /**
      * 根据id获取配置信息
+     *
      * @param model
      * @param id
      */
@@ -65,6 +70,7 @@ public interface IFrontService {
 
     /**
      * 根据id获取栏目
+     *
      * @param model
      * @param id
      */
@@ -72,6 +78,7 @@ public interface IFrontService {
 
     /**
      * 二级栏目
+     *
      * @param model
      * @param params
      */
@@ -79,7 +86,14 @@ public interface IFrontService {
 
     /**
      * 二级栏目添加信息
+     *
      * @param model
      */
     void getAddSecondClassInfo(ModelMap model);
+
+    void editSecondClass(ModelMap model, Integer id);
+
+    void setOtherChannel(ModelMap model, Integer pageNum, Integer pageSize);
+
+    void setEditOtherChannel(ModelMap model, Integer parentId);
 }

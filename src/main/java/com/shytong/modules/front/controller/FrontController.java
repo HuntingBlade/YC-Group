@@ -257,10 +257,38 @@ public class FrontController extends BaseController {
      * @param servletRequest
      * @return
      */
-    @RequestMapping(value = "/admin/secondClass-edit", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminAddEditSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+    @RequestMapping(value = "/admin/secondClass-edit/{parentId}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminEditSecondClassPage(HttpServletRequest servletRequest, ModelMap model, @PathVariable Integer parentId) {
+        frontService.editSecondClass(model, parentId);
         return "/mgr/settings/secondclass/edit";
     }
+
+
+    /**
+     * 其它栏目管理页面
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = {"/admin/settings-otherClass", "/admin/settings-otherClass/{type}/{id}"}, produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminOtherClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+        frontService.setOtherChannel(model, pageNum, pageSize);
+        return "/mgr/settings/otherclass/index";
+    }
+
+
+    /**
+     * 修改其它栏目管理页面
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/otherClass-edit/{id}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminEditOtherClassPage(HttpServletRequest servletRequest, ModelMap model, @PathVariable Integer id) {
+        frontService.setEditOtherChannel(model, id);
+        return "/mgr/settings/otherclass/edit";
+    }
+
 
     /**
      * 模块管理

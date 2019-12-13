@@ -16,7 +16,7 @@ import java.util.Map;
  * @Date: 2019/11/12 17:25
  */
 @Repository
-public class ChannelDao implements IChannelDao {
+public class ChannelDaoImpl implements IChannelDao {
 
     @Autowired
     private BaseDao baseDao;

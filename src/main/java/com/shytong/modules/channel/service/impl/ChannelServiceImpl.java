@@ -31,24 +31,46 @@ public class ChannelServiceImpl implements IChannelService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public Integer insertChannel(ChannelDo channelDo) throws ApiBizException {
+    public String insertChannel(ChannelDo channelDo) throws ApiBizException {
         if (channelDo == null) {
-            throw new ApiBizException(-1, "参数出错");
+            return ResultCode.PARAMETER_ERROR;
         }
+        Integer id = channelDo.getParentId();
+        ChannelDo parentChannelDo = channelDao.getChannelById(id);
+        String group = "";
+        String indexName = "";
+        if (parentChannelDo.getId() == 2) {
+            group = "about";
+            indexName = "/front/public/about";
+        } else if (parentChannelDo.getId() == 3) {
+            group = "qualification";
+            indexName = "/front/public/channelDetail";
+        } else if (parentChannelDo.getId() == 4) {
+            group = "case";
+            indexName = "/front/public/channelInfo";
+        } else if (parentChannelDo.getId() == 5) {
+            group = "news";
+            indexName = "/front/public/join";
+        } else if (parentChannelDo.getId() == 6) {
+            group = "join";
+            indexName = "/front/public/join";
+        } else if (parentChannelDo.getId() == 7) {
+            group = "contact";
+            indexName = "/front/public/contact";
+        }
+        channelDo.setGroup(group);
+        channelDo.setIndexName(indexName);
         Integer result = channelDao.insertChannel(channelDo);
         if (result < 0) {
             throw new RuntimeException();
         }
-        return 1;
+        return ResultCode.SUCCESS;
     }
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public Integer deletedChannelById(SyMap map) throws ApiBizException {
+    public String deletedChannelById(SyMap map) throws ApiBizException {
         Integer id = map.getInteger("id");
-        if (id <= 0) {
-            throw new ApiBizException(-1, "参数错误");
-        }
         ChannelDo channelDo = new ChannelDo();
         channelDo.setId(id);
         channelDo.setIsDeleted(1);
@@ -56,43 +78,49 @@ public class ChannelServiceImpl implements IChannelService {
         if (result < 0) {
             throw new RuntimeException();
         }
-        return 1;
+        return ResultCode.SUCCESS;
     }
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public String updateChannel(Map map) throws ApiBizException {
+    public String updateChannel(Map map, String type) throws ApiBizException {
         SyMap params = new SyMap(map);
         ChannelDo channelDo = new ChannelDo();
-        SysConfigDo sysConfigDo = new SysConfigDo();
         Integer channelId = params.getInteger("id");
         String name = params.getString("name");
-        String pageName = params.getString("pageName");
         Integer sort = params.getInteger("sort");
-        String sysId = ((SysConfigDo) sysConfigDao.getSysConfig(channelId.toString(), "yc")).getId();
-        String sysSource = params.getString("sysSource");
-        String sysValue = params.getString("sysValue");
-        String sysUrl = params.getString("sysUrl");
-
+        String pageName = params.getString("pageName");
+        String listTemplate = params.getString("listTemplate");
         channelDo.setId(channelId);
         channelDo.setName(name);
         channelDo.setPageName(pageName);
         channelDo.setSort(sort);
-        sysConfigDo.setId(sysId);
-        sysConfigDo.setSysSource(sysSource);
-        sysConfigDo.setSysValue(sysValue);
-        sysConfigDo.setSysUrl(sysUrl);
+        channelDo.setListTemplate(listTemplate);
 
-        if (!sysSource.isEmpty()) {
-            String _sysSource = "0";
-            if (_sysSource.equals(sysSource)) {
-                sysConfigDo.setSysValue("/upfiles/img/" + sysConfigDo.getSysValue());
+        Integer updateSysConfig;
+        if ("firstClass".equals(type)) {
+            SysConfigDo sysConfigDo = new SysConfigDo();
+            String sysId = ((SysConfigDo) sysConfigDao.getSysConfig(channelId.toString(), "yc")).getId();
+            String sysSource = params.getString("sysSource");
+            String sysValue = params.getString("sysValue");
+            String sysUrl = params.getString("sysUrl");
+            sysConfigDo.setId(sysId);
+            sysConfigDo.setSysSource(sysSource);
+            sysConfigDo.setSysValue(sysValue);
+            sysConfigDo.setSysUrl(sysUrl);
+            if (!sysSource.isEmpty()) {
+                String _sysSource = "0";
+                if (_sysSource.equals(sysSource)) {
+                    sysConfigDo.setSysValue("/upfiles/img/" + sysConfigDo.getSysValue());
+                }
+            }
+            updateSysConfig = sysConfigDao.update(sysConfigDo);
+            if (updateSysConfig < 0) {
+                throw new RuntimeException();
             }
         }
-
-        Integer result1 = channelDao.updateChannel(channelDo);
-        Integer result2 = sysConfigDao.update(sysConfigDo);
-        if (result1 < 0 || result2 < 0) {
+        Integer updateChannel = channelDao.updateChannel(channelDo);
+        if (updateChannel < 0) {
             throw new RuntimeException();
         }
         return ResultCode.SUCCESS;

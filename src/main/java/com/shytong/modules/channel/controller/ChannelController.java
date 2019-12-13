@@ -39,7 +39,7 @@ public class ChannelController extends BaseController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String insertChannel(HttpServletRequest servletRequest,
                                 @RequestBody ChannelDo channelDo) throws ApiBizException {
-        Integer result = channelService.insertChannel(channelDo);
+        String result = channelService.insertChannel(channelDo);
         return this.normalResp(result);
     }
 
@@ -55,8 +55,8 @@ public class ChannelController extends BaseController {
     public String deletedChannel(HttpServletRequest servletRequest, @RequestParam Map map) throws ApiBizException {
         SyMap params = new SyMap(map);
         SyValidationUtils.valid()
-                .isInt(params.get("id"), 20, true, "id格式错误");
-        Integer result = channelService.deletedChannelById(params);
+                .isInt(params.getInteger("id"), 20, true, "id格式错误");
+        String result = channelService.deletedChannelById(params);
         return this.normalResp(result);
     }
 
@@ -67,9 +67,10 @@ public class ChannelController extends BaseController {
      * @return
      * @throws ApiBizException
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "*")
-    public String updateChannel(HttpServletRequest servletRequest, @RequestBody Map map) throws ApiBizException {
-        String result = channelService.updateChannel(map);
+    @RequestMapping(value = {"/update", "/update/{type}"}, method = RequestMethod.POST, consumes = "*")
+    public String updateChannel(HttpServletRequest servletRequest, @RequestBody Map map,
+                                @PathVariable(value = "type", required = false) String type) throws ApiBizException {
+        String result = channelService.updateChannel(map, type);
         return this.normalResp(result);
     }
 

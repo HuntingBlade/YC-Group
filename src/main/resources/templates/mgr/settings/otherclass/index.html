@@ -20,7 +20,7 @@
 <div class="x-nav">
           <span class="layui-breadcrumb">
             <a href="">栏目管理</a>
-            <a><cite>一级栏目管理</cite></a>
+            <a><cite>其它栏目管理</cite></a>
           </span>
     <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
        onclick="location.reload()" title="刷新">
@@ -30,28 +30,28 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-body layui-table-body layui-table-main">
+                <div class="layui-card-body layui-table-body layui-table-main" style="min-height: 320px">
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
                             <th>编号</th>
+                            <th>所属栏目</th>
                             <th>名称</th>
-                            <th>英文</th>
-                            <th>图片</th>
                             <th>排序</th>
+                            <th>图片</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @#for(item in firstClassList){ #@
+                        @#for(item in channelList){#@
                         <tr>
                             <td>^{itemLP.index}</td>
+                            <td>^{item.parentName}</td>
                             <td>^{item.name}</td>
-                            <td>^{item.pageName}</td>
-                            <td>^{item.sysValue}</td>
                             <td>^{item.sort}</td>
+                            <td>^{item.sysValue}</td>
                             <td>
-                                <a title="编辑" onclick="xadmin.open('编辑','firstClass-edit/^{item.id}',600,400)"
+                                <a title="编辑" onclick="xadmin.open('编辑','otherClass-edit/^{item.id}',550,350)"
                                    href="javascript:;">
                                     <i class="layui-icon">&#xe642;</i>
                                 </a>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="layui-card-body ">
                     <!-- 分页 -->
-                    <div id="firstClassPage" style="text-align: center"></div>
+                    <div id="secondClassPage" style="text-align: center"></div>
                 </div>
             </div>
         </div>
@@ -74,63 +74,28 @@
 </div>
 </body>
 <script>
-    layui.use('laypage', function () {
-        var laypage = layui.laypage;
-        //执行一个laypage实例
-        laypage.render({
-            theme: "#009688",
-            elem: 'firstClassPage', //注意，这里的 test1 是 ID，不用加 # 号
-            count: "^{firstClassTotal}", //数据总数，从服务端得到
-            curr: "^{firstClassPageNum}",
-            limit: "^{firstClassPageSize}",
-            jump: function (obj, first) {
-                if (!first) {
-                    window.location.href = "/front/public/admin/settings-firstClass?&pageNum= " + obj.curr + "&pageSize=" + obj.limit;
-                }
-            }
-        });
-    });
 
-    layui.use(['laydate', 'form'], function () {
-        var laydate = layui.laydate;
-        var form = layui.form;
-        // 监听全选
-        form.on('checkbox(checkall)', function (data) {
-            if (data.elem.checked) {
-                $('tbody input').prop('checked', true);
-            } else {
-                $('tbody input').prop('checked', false);
-            }
-            form.render('checkbox');
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#start' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#end' //指定元素
-        });
-    });
-
-    /*用户-删除*/
+    /**
+     * 删除
+     * @param obj
+     * @param cid
+     */
     function member_del(obj, cid) {
-        console.log("cid", cid);
         layer.confirm('确认要删除吗？', function (index) {
             var _url = "/api/channel/deleted";
             $.ajax({
                 type: "GET",
                 url: _url,
                 data: {
-                    id: cid
+                    "id": cid
                 },
-                async: true,
+                dataType: "json",
                 contentType: "application/json;charset=UTF-8",
                 success: function (result) {
-                    $(obj).parents("tr").remove();
-                    layer.msg('已删除!', {icon: 1, time: 1000});
+                    if (result.errCode == 1) {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    }
                 },
                 fail: function () {
                     layer.msg('删除失败!', {icon: 2, time: 1000});
