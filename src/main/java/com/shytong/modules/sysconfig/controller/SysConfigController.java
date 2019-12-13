@@ -33,7 +33,8 @@ public class SysConfigController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/add/{type}", method = RequestMethod.POST, produces = "application/json;charset=UTF-8", consumes = "application/json")
-    public String addSysConfig(HttpServletRequest servletRequest, @RequestBody SysConfigDo sysConfigDo, @PathVariable String type) throws ApiBizException {
+    public String addSysConfig(HttpServletRequest servletRequest, @RequestBody SysConfigDo sysConfigDo,
+                               @PathVariable String type) throws ApiBizException {
         String result = sysConfigService.insert(sysConfigDo, type);
         return this.normalResp(result);
     }

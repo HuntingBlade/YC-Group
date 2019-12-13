@@ -77,4 +77,9 @@ public interface IFrontService {
      */
     void getSecondClass(ModelMap model, SyMap params);
 
+    /**
+     * 二级栏目添加信息
+     * @param model
+     */
+    void getAddSecondClassInfo(ModelMap model);
 }

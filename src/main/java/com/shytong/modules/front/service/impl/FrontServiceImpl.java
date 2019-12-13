@@ -15,11 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import static com.shytong.modules.channel.comm.TemplateType.*;
-import static org.apache.ibatis.ognl.OgnlOps.add;
 
 /**
  * @description:
@@ -281,6 +279,13 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("pageNum", channelList.getPageNum());
         model.addAttribute("total", channelList.getTotal());
+    }
+
+    @Override
+    public void getAddSecondClassInfo(ModelMap model) {
+        // 一级栏目
+        List<ChannelDo> channelList = channelDao.getSonChannelListNotIncludeIndexById(0);
+        model.addAttribute("channelList", channelList);
     }
 
     // -----------------------------------------------------------------------------------------

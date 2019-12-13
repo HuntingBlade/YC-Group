@@ -37,9 +37,8 @@ public class ChannelController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String insertChannel(HttpServletRequest servletRequest, @RequestBody ChannelDo channelDo) throws ApiBizException {
-        SyValidationUtils.valid()
-                .len(channelDo.getName(), 255, true, "名称格式错误");
+    public String insertChannel(HttpServletRequest servletRequest,
+                                @RequestBody ChannelDo channelDo) throws ApiBizException {
         Integer result = channelService.insertChannel(channelDo);
         return this.normalResp(result);
     }

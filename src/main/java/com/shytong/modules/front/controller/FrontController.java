@@ -246,7 +246,8 @@ public class FrontController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/admin/secondClass-add", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminAddSecondClassPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize) {
+    public String adminAddSecondClassPage(HttpServletRequest servletRequest, ModelMap model) {
+        frontService.getAddSecondClassInfo(model);
         return "/mgr/settings/secondclass/add";
     }
 
