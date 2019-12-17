@@ -81,12 +81,9 @@ public class ArticleController extends BaseController {
      * @throws ApiBizException
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public String selectArticle(HttpServletRequest servletRequest, @RequestBody Map map) throws ApiBizException {
+    public String selectArticle(HttpServletRequest servletRequest, @RequestBody Map map, Integer pageNum, Integer pageSize) throws ApiBizException {
         SyMap params = new SyMap(map);
-        SyValidationUtils.valid()
-                .isInt(params.get("pageNum"), 11, true, "页码格式错误")
-                .isInt(params.get("pageSize"), 11, true, "每页大小格式错误");
-        PageInfo<ArticleDo> res = articleService.selectArticleList(params);
+        PageInfo<ArticleDo> res = articleService.selectArticleList(params,pageNum,pageSize);
         return this.normalRespPage(res);
     }
 

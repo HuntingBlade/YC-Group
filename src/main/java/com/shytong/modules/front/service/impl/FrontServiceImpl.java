@@ -3,6 +3,7 @@ package com.shytong.modules.front.service.impl;
 import com.github.pagehelper.PageInfo;
 import com.shytong.common.model.SyMap;
 import com.shytong.modules.article.dao.IArticleDao;
+import com.shytong.modules.article.model.ArticleDo;
 import com.shytong.modules.channel.comm.TemplateType;
 import com.shytong.modules.channel.dao.IChannelDao;
 import com.shytong.modules.channel.model.ChannelDo;
@@ -335,6 +336,67 @@ public class FrontServiceImpl implements IFrontService {
         model.addAttribute("channelDo", channelDao.getChannelAndSysConfigById(id));
     }
 
+    @Override
+    public void setAdminIndex(ModelMap model) {
+        model.addAttribute("modulesList", channelDao.getSonChannelListNotIncludeIndexById(0));
+    }
+
+    @Override
+    public void setModules(ModelMap model, Integer pageNum, Integer pageSize, String id) {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("articlePageSize", "yc");
+        if (sysConfigDo == null) {
+            pageSize = 10;
+        } else {
+            pageSize = Integer.parseInt(sysConfigDo.getSysValue());
+        }
+        List<ChannelDo> sonChannelList = channelDao.getSonChannelListById(Integer.parseInt(id));
+        if (sonChannelList.size() <= 0) {
+            model.addAttribute("channelObj", channelDao.getChannelById(Integer.parseInt(id)));
+            model.addAttribute("channelList", null);
+        } else {
+            model.addAttribute("channelList", sonChannelList);
+            model.addAttribute("channelObj", null);
+        }
+        ArrayList list = new ArrayList<>();
+        SyMap params = new SyMap<>();
+        list.add(id);
+        for (int i = 0; i < sonChannelList.size(); i++) {
+            Integer channelId = sonChannelList.get(i).getId();
+            list.add(channelId);
+        }
+        params.put("array", list);
+        PageInfo articleAndChannelInfoByChannelId = articleDao.getArticleAndChannelInfoByChannelId(params, pageNum, pageSize);
+        List res = articleAndChannelInfoByChannelId.getList();
+        model.addAttribute("activeModulesId", id);
+        model.addAttribute("modelList", res);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("pageNum", pageNum);
+        model.addAttribute("total", articleAndChannelInfoByChannelId.getTotal());
+        model.addAttribute("activeModules", channelDao.getChannelById(Integer.parseInt(id)));
+        model.addAttribute("parentChannelId", id);
+
+    }
+
+    @Override
+    public void setAddArticleDefaultData(ModelMap model, String firstChannelId) {
+        List<ChannelDo> belongChannels = new ArrayList<>();
+        int index = 0;
+        // 查找二级栏目
+        List<ChannelDo> secondChannelList = channelDao.getSonChannelListById(Integer.parseInt(firstChannelId));
+        if (secondChannelList.size() <= 0) {
+            ChannelDo firstChannelDo = channelDao.getChannelById(Integer.parseInt(firstChannelId));
+            belongChannels.add(index++, firstChannelDo);
+        } else {
+            for (int i = 0; i < secondChannelList.size(); i++) {
+                belongChannels.add(index++, secondChannelList.get(i));
+            }
+        }
+        model.addAttribute("belongChannels", belongChannels);
+    }
+
     // -----------------------------------------------------------------------------------------
 
     /**
@@ -400,7 +462,6 @@ public class FrontServiceImpl implements IFrontService {
         });
         return channelListByParentChannelId;
     }
-
 
     /**
      * 设置一二级栏目下拉框

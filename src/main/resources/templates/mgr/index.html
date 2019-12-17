@@ -99,36 +99,14 @@
                     <cite>模块管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
+                    @#for(item in modulesList){#@
                     <li>
-                        <a onclick="xadmin.add_tab('集团简介','modules-model/1')">
+                        <a onclick="xadmin.add_tab('^{item.name}','modules-modelList/^{item.id}')">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>集团简介</cite></a>
+                            <cite>^{item.name}</cite>
+                        </a>
                     </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('资质荣誉','modules-model/2')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>资质荣誉</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('工程业绩','modules-model/3')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>工程业绩</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('新闻中心','modules-model/4')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>新闻中心</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('诚聘英才','modules-model/5')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>诚聘英才</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('联系我们','modules-model/6')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>联系我们</cite></a>
-                    </li>
+                    @#}#@
                 </ul>
             </li>
             <li>

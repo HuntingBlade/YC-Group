@@ -48,6 +48,7 @@ public interface IArticleDao {
 
     /**
      * 根据栏目编号查找文章
+     *
      * @param params
      * @param pageNum
      * @param pageSize
@@ -65,8 +66,18 @@ public interface IArticleDao {
 
     /**
      * 根据id获取文章信息
+     *
      * @param articleId
      * @return
      */
     Object getArticleInfoById(String articleId);
+
+    /**
+     * 根据栏目id获取文章信息和栏目信息
+     * @param params
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getArticleAndChannelInfoByChannelId(SyMap params, Integer pageNum, Integer pageSize);
 }

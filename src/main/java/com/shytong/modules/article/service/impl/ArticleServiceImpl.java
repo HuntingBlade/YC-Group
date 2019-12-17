@@ -7,11 +7,12 @@ import com.shytong.core.util.SyIdUtils;
 import com.shytong.modules.article.dao.IArticleDao;
 import com.shytong.modules.article.model.ArticleDo;
 import com.shytong.modules.article.service.IArticleService;
+import com.shytong.modules.sysconfig.dao.ISysConfigDao;
+import com.shytong.modules.sysconfig.model.SysConfigDo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Autowired
     private IArticleDao articleDao;
+    @Autowired
+    private ISysConfigDao sysConfigDao;
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
@@ -65,11 +68,15 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
     @Override
-    public PageInfo<ArticleDo> selectArticleList(SyMap params) throws ApiBizException {
-        Integer pageNum = params.getInteger("pageNum");
-        Integer pageSize = params.getInteger("pageSize");
-        if (pageNum <= 0 || pageSize <= 0) {
-            throw new ApiBizException(-1, "参数错误");
+    public PageInfo<ArticleDo> selectArticleList(SyMap params, Integer pageNum, Integer pageSize) throws ApiBizException {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("articlePageSize", "yc");
+        if (sysConfigDo == null) {
+            pageSize = 10;
+        } else {
+            pageSize = Integer.parseInt(sysConfigDo.getSysValue());
         }
         PageInfo<ArticleDo> list = articleDao.selectArticleList(pageNum, pageSize, params);
         return list;

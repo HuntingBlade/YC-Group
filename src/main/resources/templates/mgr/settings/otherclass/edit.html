@@ -48,13 +48,23 @@
                 <label class="layui-form-label">
                     <span class="x-red"></span>
                 </label>
+                @#if(channelDo.sysSource == "0"){#@
                 <div class="layui-input-inline" id="wrap-sysValue">
                     <input id="fileName" type="text" lay-verify="fileName" autocomplete="off" class="layui-input"
-                           disabled name="sysValue">
+                           disabled name="sysValue" value="^{channelDo.sysValue}">
                 </div>
                 <button type="button" class="layui-btn" id="upFile">
                     <i class="layui-icon">&#xe67c;</i>上传图片
                 </button>
+                @#}else if(channelDo.sysSource == "1"){#@
+                <div class="layui-input-inline" id="wrap-sysValue">
+                    <input id="fileName" type="text" lay-verify="fileName" autocomplete="off" class="layui-input"
+                           name="sysValue" value="^{channelDo.sysValue}">
+                </div>
+                <button type="button" class="layui-btn" id="upFile" style="display: none">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+                @#}#@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
@@ -110,25 +120,29 @@
                 $("#fileName").attr("disabled", true);
                 $("#upFile").show();
             } else {
-                $("#fileName").val("");
                 $("#fileName").removeAttr("disabled");
                 $("#upFile").hide();
             }
         });
 
-
         //监听提交
         form.on('submit(edit)', function (data) {
             console.log(data.field);
+            var _id = data.field.id;
+            var _name = data.field.name;
+            var _sysSource = data.field.sysSource;
+            var _sysValue = data.field.sysValue;
+            var _sort = data.field.sort;
+
             var _json = {
-                "parentId": _parentId,
-                "listTemplate": _listTemplate,
-                "name": data.field.name,
-                "sort": data.field.sort,
-                "id": data.field.id
+                "id": _id,
+                "name": _name,
+                "sysSource": _sysSource,
+                "sysValue": _sysValue,
+                "sort": _sort
             };
             var _data = JSON.stringify(_json);
-            var _url = "/api/channel/update";
+            var _url = "/api/channel/update/firstClass";
             $.ajax({
                 type: "POST",
                 url: _url,

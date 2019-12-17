@@ -96,4 +96,10 @@ public interface IFrontService {
     void setOtherChannel(ModelMap model, Integer pageNum, Integer pageSize);
 
     void setEditOtherChannel(ModelMap model, Integer parentId);
+
+    void setAdminIndex(ModelMap model);
+
+    void setModules(ModelMap model, Integer pageNum, Integer pageSize, String id);
+
+    void setAddArticleDefaultData(ModelMap model, String firstChannelId);
 }

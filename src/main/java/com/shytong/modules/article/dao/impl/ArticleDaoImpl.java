@@ -54,4 +54,9 @@ public class ArticleDaoImpl implements IArticleDao {
     public Object getArticleInfoById(String articleId) {
         return baseDao.selectOne("ArticleMapper.getArticleInfoById", articleId);
     }
+
+    @Override
+    public PageInfo getArticleAndChannelInfoByChannelId(SyMap params, Integer pageNum, Integer pageSize) {
+        return baseDao.commlistOfPage("ArticleMapper.getArticleAndChannelInfoByChannelId", pageNum, pageSize, params);
+    }
 }

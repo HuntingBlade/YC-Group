@@ -157,7 +157,8 @@ public class FrontController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/admin/index")
-    public String adminIndexPage(HttpServletRequest servletRequest) {
+    public String adminIndexPage(HttpServletRequest servletRequest, ModelMap model) {
+        frontService.setAdminIndex(model);
         return "/mgr/index";
     }
 
@@ -289,17 +290,40 @@ public class FrontController extends BaseController {
         return "/mgr/settings/otherclass/edit";
     }
 
-
     /**
-     * 模块管理
+     * 模块文章列表
      *
      * @param servletRequest
      * @return
      */
-    @RequestMapping(value = "/admin/modules-model/{id}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminModulesPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, @PathVariable String id) {
+    @RequestMapping(value = "/admin/modules-modelList/{id}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminModulesListPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize, @PathVariable String id) {
+        frontService.setModules(model, pageNum, pageSize, id);
+        return "/mgr/modules/model";
+    }
+
+    /**
+     * 模块文章编辑
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/modules-edit/{id}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminModulesEditPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, @PathVariable String id) {
         System.out.println("id:" + id);
         return "/mgr/modules/model";
+    }
+
+    /**
+     * 模块文章添加
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/model-add/{firstChannelId}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminModulesAddPage(HttpServletRequest servletRequest, ModelMap model, @PathVariable String firstChannelId) {
+        frontService.setAddArticleDefaultData(model,firstChannelId);
+        return "/mgr/modules/add";
     }
 
 }

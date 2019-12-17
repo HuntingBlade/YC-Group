@@ -254,64 +254,70 @@
         sy_article
         <where>
             <if test="id != null and id != ''">
-                AND id = #{id,jdbcType=VARCHAR},
+                AND id = #{id,jdbcType=VARCHAR}
             </if>
             <if test="channelId != null">
-                AND channel_id = #{channelId,jdbcType=INTEGER},
+                AND channel_id = #{channelId,jdbcType=INTEGER}
             </if>
             <if test="postTime != null and postTime != ''">
-                AND post_time = #{postTime,jdbcType=VARCHAR},
+                AND post_time = #{postTime,jdbcType=VARCHAR}
             </if>
             <if test="title != null and title != ''">
-                AND title = #{title,jdbcType=VARCHAR},
+                AND title LIKE CONCAT('%',#{title,jdbcType=VARCHAR},'%')
             </if>
             <if test="titleImg != null and titleImg != ''">
-                AND title_img = #{titleImg,jdbcType=VARCHAR},
+                AND title_img = #{titleImg,jdbcType=VARCHAR}
             </if>
             <if test="summary != null and summary != ''">
-                AND summary = #{summary,jdbcType=VARCHAR},
+                AND summary = #{summary,jdbcType=VARCHAR}
             </if>
             <if test="type != null and type != ''">
-                AND type = #{type,jdbcType=VARCHAR},
+                AND type = #{type,jdbcType=VARCHAR}
             </if>
             <if test="author != null and author != ''">
-                AND author = #{author,jdbcType=VARCHAR},
+                AND author = #{author,jdbcType=VARCHAR}
             </if>
             <if test="source != null and source != ''">
-                AND source = #{source,jdbcType=VARCHAR},
+                AND source = #{source,jdbcType=VARCHAR}
             </if>
             <if test="content != null and content != ''">
-                AND content = #{content,jdbcType=VARCHAR},
+                AND content = #{content,jdbcType=VARCHAR}
             </if>
             <if test="recommend != null and recommend != ''">
-                AND recommend = #{recommend,jdbcType=VARCHAR},
+                AND recommend = #{recommend,jdbcType=VARCHAR}
             </if>
             <if test="sort != null">
-                AND sort = #{sort,jdbcType=INTEGER},
+                AND sort = #{sort,jdbcType=INTEGER}
             </if>
             <if test="clickCount != null">
-                AND click_count = #{clickCount,jdbcType=INTEGER},
+                AND click_count = #{clickCount,jdbcType=INTEGER}
             </if>
             <if test="topPrior!=null">
-                AND top_prior = #{topPrior,jdbcType=INTEGER},
+                AND top_prior = #{topPrior,jdbcType=INTEGER}
             </if>
             <if test="url != null and url != ''">
-                AND url = #{url,jdbcType=VARCHAR},
+                AND url = #{url,jdbcType=VARCHAR}
             </if>
             <if test="status != null and status != ''">
-                AND status = #{status,jdbcType=VARCHAR},
+                AND status = #{status,jdbcType=VARCHAR}
             </if>
             <if test="gmtCreate != null">
-                AND gmt_create = #{gmtCreate,jdbcType= TIMESTAMP},
+                AND gmt_create = #{gmtCreate,jdbcType= TIMESTAMP}
             </if>
             <if test="creatorId != null and creator != ''">
-                AND creator_id = #{creatorId,jdbcType= VARCHAR},
+                AND creator_id = #{creatorId,jdbcType= VARCHAR}
             </if>
             <if test="gmtModified != null">
-                AND gmt_modified = #{gmtModified,jdbcType= TIMESTAMP},
+                AND gmt_modified = #{gmtModified,jdbcType= TIMESTAMP}
             </if>
             <if test="editorId != null and editorId != ''">
-                AND editor_id = #{editorId,jdbcType= VARCHAR},
+                AND editor_id = #{editorId,jdbcType= VARCHAR}
+            </if>
+            <if test="startTime != null">
+                AND DATE_FORMAT(#{startTime,jdbcType=VARCHAR},"%Y-%m-%d") >= DATE_FORMAT(post_time,"%Y-%m-%d")
+            </if>
+            <if test="endTime != null">
+                AND DATE_FORMAT(#{endTime,jdbcType=VARCHAR},"%Y-%m-%d") &lt;= DATE_FORMAT(post_time,"%Y-%m-%d")
             </if>
             AND is_deleted = 0
         </where>
@@ -354,5 +360,24 @@
         id = #{articleId,jdbcType=VARCHAR}
         AND is_deleted = 0
         LIMIT 1
+    </select>
+
+    <select id="getArticleAndChannelInfoByChannelId" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        a.id AS id,
+        a.title AS title,
+        a.post_time AS postTime,
+        a.sort AS sort,
+        a.click_count AS clickCount,
+        b.`name` AS channelName
+        FROM
+        sy_article a
+        LEFT JOIN sy_channel b ON a.channel_id = b.id AND b.is_deleted = 0
+        WHERE
+        a.channel_id IN
+        <foreach collection="array" item="id" index="index" open="(" close=")" separator=",">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+        AND a.is_deleted = 0
     </select>
 </mapper>
