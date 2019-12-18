@@ -163,6 +163,16 @@ public class FrontController extends BaseController {
     }
 
     /**
+     * 欢迎界面
+     *
+     * @return
+     */
+    @RequestMapping(value = "/admin/welcome", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminWelcome(HttpServletRequest servletRequest) {
+        return "mgr/welcome";
+    }
+
+    /**
      * 首页轮播图页面
      *
      * @param servletRequest
@@ -303,18 +313,6 @@ public class FrontController extends BaseController {
     }
 
     /**
-     * 模块文章编辑
-     *
-     * @param servletRequest
-     * @return
-     */
-    @RequestMapping(value = "/admin/modules-edit/{id}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminModulesEditPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, @PathVariable String id) {
-        System.out.println("id:" + id);
-        return "/mgr/modules/model";
-    }
-
-    /**
      * 模块文章添加
      *
      * @param servletRequest
@@ -322,8 +320,23 @@ public class FrontController extends BaseController {
      */
     @RequestMapping(value = "/admin/model-add/{firstChannelId}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
     public String adminModulesAddPage(HttpServletRequest servletRequest, ModelMap model, @PathVariable String firstChannelId) {
-        frontService.setAddArticleDefaultData(model,firstChannelId);
+        frontService.setAddArticleDefaultData(model, firstChannelId);
         return "/mgr/modules/add";
     }
+
+    /**
+     * 模块文章编辑
+     *
+     * @param servletRequest
+     * @return
+     */
+    @RequestMapping(value = "/admin/model-edit/{firstChannelId}/{articleId}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminModulesEditPage(HttpServletRequest servletRequest, ModelMap model,
+                                       @PathVariable String firstChannelId,
+                                       @PathVariable String articleId) {
+        frontService.setAdminModulesEdit(model, firstChannelId, articleId);
+        return "/mgr/modules/edit";
+    }
+
 
 }

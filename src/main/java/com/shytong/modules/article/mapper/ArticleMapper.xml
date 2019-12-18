@@ -6,7 +6,7 @@
     <sql id="select_sql_part">
         id,
         channel_id AS channelId,
-        post_time AS postTime,
+        DATE_FORMAT(post_time,"%Y-%m-%d") AS postTime,
         title,
         title_img AS titleImg,
         summary,
@@ -168,12 +168,12 @@
     </insert>
 
     <!--  删除文章(批量删除)  -->
-    <update id="deleted" parameterType="java.util.List">
+    <update id="deleted">
         update sy_article
         set is_deleted = '1'
         where id in
-        <foreach collection="list" item="arr" index="no" open="(" separator="," close=")">
-            #{arr,jdbcType = VARCHAR}
+        <foreach collection="array" item="id" index="no" open="(" separator="," close=")">
+            #{id,jdbcType = VARCHAR}
         </foreach>
     </update>
 

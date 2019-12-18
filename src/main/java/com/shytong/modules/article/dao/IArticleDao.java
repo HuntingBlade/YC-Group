@@ -3,6 +3,7 @@ package com.shytong.modules.article.dao;
 import com.github.pagehelper.PageInfo;
 import com.shytong.common.model.SyMap;
 import com.shytong.modules.article.model.ArticleDo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,10 +24,10 @@ public interface IArticleDao {
     /**
      * 删除文章(批量删除)
      *
-     * @param list
+     * @param ids
      * @return
      */
-    Integer deletedArticle(List list);
+    Integer deletedArticle(String[] ids);
 
     /**
      * 修改文章

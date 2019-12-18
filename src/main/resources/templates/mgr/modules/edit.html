@@ -29,10 +29,10 @@
                         <span class="x-red">*</span>所属栏目
                     </label>
                     <div class="layui-input-inline">
+                        <input type="hidden" name="id" value="^{articleDo.id}">
                         <select id="channelList" name="channelId" lay-verify="">
-                            <option value="">请选择所属栏目</option>
                             @# for(item in belongChannels){ #@
-                            <option id="channelOption^{itemLP.index}" value="^{item.id}">^{item.name}</option>
+                            <option id="channelList^{itemLP.index}" value="^{item.id}">^{item.name}</option>
                             @#}#@
                         </select>
                     </div>
@@ -42,7 +42,9 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">发布时间</label>
                     <div class="layui-input-inline">
-                        <input name="postTime" type="text" class="layui-input" id="test1" placeholder="请选择发布时间"/>
+                        <input type="text" class="layui-input" value="^{articleDo.postTime}"
+                               id="test1"
+                        />
                     </div>
                 </div>
             </div>
@@ -52,7 +54,8 @@
                         <span class="x-red">*</span>标题
                     </label>
                     <div class="layui-input-inline">
-                        <input name="title" required="" autocomplete="off" class="layui-input">
+                        <input name="title" required="" value="^{articleDo.title}" autocomplete="off"
+                               class="layui-input">
                     </div>
                 </div>
             </div>
@@ -62,15 +65,15 @@
                 </label>
                 <div class="layui-input-inline" id="wrap-sysValue">
                     <input id="fileName" type="text" lay-verify="fileName" autocomplete="off" class="layui-input"
-                           disabled name="titleImg">
+                           disabled name="titleImg" value="^{articleDo.titleImg}">
                 </div>
                 <button type="button" class="layui-btn" id="upFile">
                     <i class="layui-icon">&#xe67c;</i>上传图片
                 </button>
             </div>
-            @#if(firstChannelId == "5"){#@
+            @#if(firstChannelId == 5){#@
             <div class="layui-form-item" style="margin-top: -20px">
-                <label class="layui-form-label">是否为推荐</label>
+                <label class="layui-form-label">是否为首页推荐</label>
                 <div class="layui-input-block">
                     <input type="radio" name="recommend" value="0" title="是" checked="">
                     <input type="radio" name="recommend" value="1" title="否">
@@ -83,27 +86,27 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="number" name="sort" required=""
-                           autocomplete="off" class="layui-input" maxlength="4">
+                           autocomplete="off" class="layui-input" maxlength="4" value="^{articleDo.sort}">
                 </div>
                 <div class="layui-form-mid layui-word-aux">排序值越小，排越前。排序值之间最好有一定间隔，好方便以后穿插。</div>
             </div>
             <div class="layui-form-item" style="margin-top: -10px">
                 <label class="layui-form-label">来源</label>
                 <div class="layui-input-inline">
-                    <input name="source" required="" autocomplete="off" class="layui-input">
+                    <input name="source" required="" autocomplete="off" class="layui-input" value="^{articleDo.source}">
                 </div>
             </div>
             <div class="layui-form-item" style="margin-top: -10px">
                 <label class="layui-form-label">发布者</label>
                 <div class="layui-input-inline">
-                    <input name="author" required="" autocomplete="off" class="layui-input">
+                    <input name="author" required="" autocomplete="off" class="layui-input" value="^{articleDo.author}">
                 </div>
             </div>
             <div class="layui-form-item" style="margin-top: -10px">
                 <label class="layui-form-label">摘要</label>
                 <div class="layui-input-inline">
                     <textarea style="width: 1366px; height: 100px;padding-top: 5px" name="summary" required=""
-                              autocomplete="off" class="layui-input"></textarea>
+                              autocomplete="off" class="layui-input">^{articleDo.summary}</textarea>
                 </div>
             </div>
             <div class="layui-form-item" style="margin-top: -10px">
@@ -122,6 +125,19 @@
     $(function () {
         // 百度富文本
         var ue = UE.getEditor('editor');
+
+        ue.addListener("ready", function () {
+            // editor准备好之后才可以使用
+            ue.setContent('^{articleDo.content}');
+        });
+
+        var channelList = $("#channelList").children("option").length;
+        for (var i = 0; i < channelList; i++) {
+            var activeValue = $("#channelList" + i).val();
+            if ("^{articleDo.channelId}" == activeValue) {
+                $("#channelList" + i).attr("selected", true);
+            }
+        }
 
         layui.use('upload', function () {
             var upload = layui.upload;
@@ -174,7 +190,7 @@
             //监听提交
             form.on('submit(add)', function (data) {
                 var _json = {
-                    "channelId": data.field.channelId,
+                    "id": data.field.id,
                     "postTime": data.field.postTime,
                     "title": data.field.title,
                     "titleImg": data.field.titleImg,
@@ -186,8 +202,7 @@
                     "content": ue.getContent()
                 };
                 var _data = JSON.stringify(_json);
-                var _url = "/api/article/add";
-                console.log("提交数据：", _data);
+                var _url = "/api/article/update";
                 $.ajax({
                     type: "POST",
                     url: _url,
@@ -197,14 +212,14 @@
                     contentType: "application/json;charset=utf-8",
                     success: function (result) {
                         if (result.errCode == 1) {
-                            layer.alert("增加成功", {icon: 6}, function () {
+                            layer.alert("修改成功", {icon: 6}, function () {
                                 //关闭当前frame
                                 xadmin.close();
                                 // 可以对父窗口进行刷新
                                 xadmin.father_reload();
                             });
                         } else {
-                            layer.alert("添加失败", {icon: 5}, function () {
+                            layer.alert("修改失败", {icon: 5}, function () {
                             });
                         }
                     }
@@ -212,6 +227,8 @@
             });
         });
     });
+
+
 </script>
 </body>
 </html>

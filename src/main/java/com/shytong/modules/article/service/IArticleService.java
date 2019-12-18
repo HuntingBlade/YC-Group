@@ -20,16 +20,16 @@ public interface IArticleService {
      * @return
      * @throws ApiBizException
      */
-    Integer insertArticle(ArticleDo articleDo) throws ApiBizException;
+    String insertArticle(ArticleDo articleDo) throws ApiBizException;
 
     /**
      * 删除文章(批量删除)
      *
-     * @param list
+     * @param ids
      * @return
      * @throws ApiBizException
      */
-    Integer deletedArticle(List list) throws ApiBizException;
+    String deletedArticle(String[] ids) throws ApiBizException;
 
     /**
      * 修改文章
@@ -38,7 +38,7 @@ public interface IArticleService {
      * @return
      * @throws ApiBizException
      */
-    Integer updateArticle(ArticleDo articleDo) throws ApiBizException;
+    String updateArticle(ArticleDo articleDo) throws ApiBizException;
 
     /**
      * 获取文章列表

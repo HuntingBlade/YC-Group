@@ -395,6 +395,26 @@ public class FrontServiceImpl implements IFrontService {
             }
         }
         model.addAttribute("belongChannels", belongChannels);
+        model.addAttribute("firstChannelId", firstChannelId);
+    }
+
+    @Override
+    public void setAdminModulesEdit(ModelMap model, String firstChannelId, String articleId) {
+        Object articleDo = articleDao.getArticleInfoById(articleId);
+        List<ChannelDo> belongChannels = new ArrayList<>();
+        int index = 0;
+        // 查找二级栏目
+        List<ChannelDo> secondChannelList = channelDao.getSonChannelListById(Integer.parseInt(firstChannelId));
+        if (secondChannelList.size() <= 0) {
+            ChannelDo firstChannelDo = channelDao.getChannelById(Integer.parseInt(firstChannelId));
+            belongChannels.add(index++, firstChannelDo);
+        } else {
+            for (int i = 0; i < secondChannelList.size(); i++) {
+                belongChannels.add(index++, secondChannelList.get(i));
+            }
+        }
+        model.addAttribute("belongChannels", belongChannels);
+        model.addAttribute("articleDo", articleDo);
     }
 
     // -----------------------------------------------------------------------------------------

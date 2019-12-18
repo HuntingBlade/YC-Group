@@ -3,6 +3,7 @@ package com.shytong.modules.article.service.impl;
 import com.github.pagehelper.PageInfo;
 import com.shytong.common.exception.ApiBizException;
 import com.shytong.common.model.SyMap;
+import com.shytong.common.resultcode.ResultCode;
 import com.shytong.core.util.SyIdUtils;
 import com.shytong.modules.article.dao.IArticleDao;
 import com.shytong.modules.article.model.ArticleDo;
@@ -29,42 +30,50 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public Integer insertArticle(ArticleDo articleDo) throws ApiBizException {
+    public String insertArticle(ArticleDo articleDo) throws ApiBizException {
         if (articleDo == null) {
-            throw new ApiBizException(-1, "参数错误");
+            return ResultCode.PARAMETER_ERROR;
+        }
+        String titleImg = articleDo.getTitleImg();
+        if (titleImg != null) {
+            articleDo.setTitleImg("/upfiles/img/" + articleDo.getTitleImg());
         }
         articleDo.setId(SyIdUtils.uuid());
         Integer result = articleDao.insertArticle(articleDo);
         if (result < 0) {
             throw new RuntimeException();
         }
-        return 1;
+        return ResultCode.SUCCESS;
     }
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public Integer deletedArticle(List list) throws ApiBizException {
-        if (list.size() <= 0) {
-            throw new ApiBizException(-1, "参数错误");
+    public String deletedArticle(String[] ids) throws ApiBizException {
+        if (ids.length <= 0) {
+            return ResultCode.PARAMETER_ERROR;
         }
-        Integer result = articleDao.deletedArticle(list);
+        Integer result = articleDao.deletedArticle(ids);
         if (result < 0) {
             throw new RuntimeException();
         }
-        return 1;
+        return ResultCode.SUCCESS;
     }
 
     @Override
     @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
-    public Integer updateArticle(ArticleDo articleDo) throws ApiBizException {
+    public String updateArticle(ArticleDo articleDo) throws ApiBizException {
         if (articleDo == null) {
-            throw new ApiBizException(-1, "参数错误");
+            return ResultCode.PARAMETER_ERROR;
+        }
+        String titleImg = articleDo.getTitleImg();
+        if (titleImg != null) {
+            articleDo.setTitleImg("/upfiles/img/" + articleDo.getTitleImg());
         }
         Integer result = articleDao.updateArticle(articleDo);
         if (result < 0) {
             throw new RuntimeException();
         }
-        return 1;
+        return ResultCode.SUCCESS;
     }
 
     @Override

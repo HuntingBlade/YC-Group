@@ -36,10 +36,7 @@ public class ArticleController extends BaseController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addArticle(HttpServletRequest servletRequest, @RequestBody ArticleDo articleDo) throws ApiBizException {
-        SyValidationUtils.valid()
-                .isInt(articleDo.getChannelId(), 11, true, "栏目编号格式错误")
-                .len(articleDo.getTitle(), 255, true, "栏目标题格式错误");
-        Integer res = articleService.insertArticle(articleDo);
+        String res = articleService.insertArticle(articleDo);
         return this.normalResp(res);
     }
 
@@ -47,14 +44,14 @@ public class ArticleController extends BaseController {
      * 删除文章(批量删除)
      *
      * @param servletRequest
-     * @param map
+     * @param ids
      * @return
      * @throws ApiBizException
      */
-    @RequestMapping(value = "deleted", method = RequestMethod.POST)
-    public String deletedArticle(HttpServletRequest servletRequest, @RequestBody Map map) throws ApiBizException {
-        List list = (List) map.get("id");
-        Integer res = articleService.deletedArticle(list);
+    @RequestMapping(value = "/deleted", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    public String deletedArticle(HttpServletRequest servletRequest, @RequestBody String[] ids) throws ApiBizException {
+        System.out.println(ids);
+        String res = articleService.deletedArticle(ids);
         return this.normalResp(res);
     }
 
@@ -68,7 +65,7 @@ public class ArticleController extends BaseController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "*")
     public String updateArticle(HttpServletRequest servletRequest, @RequestBody ArticleDo articleDo) throws ApiBizException {
-        Integer res = articleService.updateArticle(articleDo);
+        String res = articleService.updateArticle(articleDo);
         return this.normalResp(res);
     }
 
@@ -83,7 +80,7 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public String selectArticle(HttpServletRequest servletRequest, @RequestBody Map map, Integer pageNum, Integer pageSize) throws ApiBizException {
         SyMap params = new SyMap(map);
-        PageInfo<ArticleDo> res = articleService.selectArticleList(params,pageNum,pageSize);
+        PageInfo<ArticleDo> res = articleService.selectArticleList(params, pageNum, pageSize);
         return this.normalRespPage(res);
     }
 

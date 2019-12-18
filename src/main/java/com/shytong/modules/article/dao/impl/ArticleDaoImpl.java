@@ -5,6 +5,7 @@ import com.shytong.common.model.SyMap;
 import com.shytong.core.database.BaseDao;
 import com.shytong.modules.article.dao.IArticleDao;
 import com.shytong.modules.article.model.ArticleDo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,8 +27,8 @@ public class ArticleDaoImpl implements IArticleDao {
     }
 
     @Override
-    public Integer deletedArticle(List list) {
-        return baseDao.delete("ArticleMapper.deleted", list);
+    public Integer deletedArticle(String[] ids) {
+        return baseDao.delete("ArticleMapper.deleted", ids);
     }
 
     @Override
