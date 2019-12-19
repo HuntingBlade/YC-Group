@@ -37,6 +37,7 @@ public class MgrServiceImpl implements IMgrService {
         if (result != 1) {
             return ResultCode.USER_ACCOUNT_ERROR;
         }
+        session.setAttribute("userInfo", params.getString("username") + "-" + params.get("password"));
         return ResultCode.SUCCESS;
     }
 }

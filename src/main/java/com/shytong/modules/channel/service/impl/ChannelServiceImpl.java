@@ -111,7 +111,7 @@ public class ChannelServiceImpl implements IChannelService {
             if (!sysSource.isEmpty()) {
                 String _sysSource = "0";
                 if (_sysSource.equals(sysSource)) {
-                    sysConfigDo.setSysValue("/upfiles/img/" + sysConfigDo.getSysValue());
+                    sysConfigDo.setSysValue("/upfiles/ueditor/" + sysConfigDo.getSysValue());
                 }
             }
             updateSysConfig = sysConfigDao.update(sysConfigDo);

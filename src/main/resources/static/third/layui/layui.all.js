@@ -4036,13 +4036,13 @@ layui.define(function (e) {
                     shade: .9,
                     shadeClose: !0,
                     closeBtn: !1,
-                    move: ".layui-layer-phimg img",
+                    move: ".layui-layer-phimg ueditor",
                     moveType: 1,
                     scrollbar: !1,
                     moveOut: !0,
                     isOutAnim: !1,
                     skin: "layui-layer-photos" + c("photos"),
-                    content: '<div class="layui-layer-phimg"><img src="' + u[d].src + '" alt="' + (u[d].alt || "") + '" layer-pid="' + u[d].pid + '"><div class="layui-layer-imgsee">' + (u.length > 1 ? '<span class="layui-layer-imguide"><a href="javascript:;" class="layui-layer-iconext layui-layer-imgprev"></a><a href="javascript:;" class="layui-layer-iconext layui-layer-imgnext"></a></span>' : "") + '<div class="layui-layer-imgbar" style="display:' + (a ? "block" : "") + '"><span class="layui-layer-imgtit"><a href="javascript:;">' + (u[d].alt || "") + "</a><em>" + s.imgIndex + "/" + u.length + "</em></span></div></div></div>",
+                    content: '<div class="layui-layer-phimg"><ueditor src="' + u[d].src + '" alt="' + (u[d].alt || "") + '" layer-pid="' + u[d].pid + '"><div class="layui-layer-imgsee">' + (u.length > 1 ? '<span class="layui-layer-imguide"><a href="javascript:;" class="layui-layer-iconext layui-layer-imgprev"></a><a href="javascript:;" class="layui-layer-iconext layui-layer-imgnext"></a></span>' : "") + '<div class="layui-layer-imgbar" style="display:' + (a ? "block" : "") + '"><span class="layui-layer-imgtit"><a href="javascript:;">' + (u[d].alt || "") + "</a><em>" + s.imgIndex + "/" + u.length + "</em></span></div></div></div>",
                     success: function (e, i) {
                         s.bigimg = e.find(".layui-layer-phimg"), s.imgsee = e.find(".layui-layer-imguide,.layui-layer-imgbar"), s.event(e), t.tab && t.tab(u[d], e), "function" == typeof y && y(e)
                     },
@@ -6467,7 +6467,7 @@ layui.define("jquery", function (e) {
             if (g(), h.find("a").on("click", function () {
                 l(this);
                 i || o || g()
-            }), e.isLazyimg) var n = a.lazyimg({elem: e.elem + " img", scrollElem: e.scrollElem});
+            }), e.isLazyimg) var n = a.lazyimg({elem: e.elem + " ueditor", scrollElem: e.scrollElem});
             return s ? (m.on("scroll", function () {
                 var e = l(this), t = e.scrollTop();
                 r && clearTimeout(r), i || (r = setTimeout(function () {
@@ -6568,7 +6568,7 @@ layui.define(["layer", "form"], function (t) {
         var l = this, n = t.find("iframe");
         n.css({height: a.height}).on("load", function () {
             var o = n.contents(), r = n.prop("contentWindow"), c = o.find("head"),
-                s = e(["<style>", "*{margin: 0; padding: 0;}", "body{padding: 10px; line-height: 20px; overflow-x: hidden; word-wrap: break-word; font: 14px Helvetica Neue,Helvetica,PingFang SC,Microsoft YaHei,Tahoma,Arial,sans-serif; -webkit-box-sizing: border-box !important; -moz-box-sizing: border-box !important; box-sizing: border-box !important;}", "a{color:#01AAED; text-decoration:none;}a:hover{color:#c00}", "p{margin-bottom: 10px;}", "img{display: inline-block; border: none; vertical-align: middle;}", "pre{margin: 10px 0; padding: 10px; line-height: 20px; border: 1px solid #ddd; border-left-width: 6px; background-color: #F2F2F2; color: #333; font-family: Courier New; font-size: 12px;}", "</style>"].join("")),
+                s = e(["<style>", "*{margin: 0; padding: 0;}", "body{padding: 10px; line-height: 20px; overflow-x: hidden; word-wrap: break-word; font: 14px Helvetica Neue,Helvetica,PingFang SC,Microsoft YaHei,Tahoma,Arial,sans-serif; -webkit-box-sizing: border-box !important; -moz-box-sizing: border-box !important; box-sizing: border-box !important;}", "a{color:#01AAED; text-decoration:none;}a:hover{color:#c00}", "p{margin-bottom: 10px;}", "ueditor{display: inline-block; border: none; vertical-align: middle;}", "pre{margin: 10px 0; padding: 10px; line-height: 20px; border: 1px solid #ddd; border-left-width: 6px; background-color: #F2F2F2; color: #333; font-family: Courier New; font-size: 12px;}", "</style>"].join("")),
                 u = o.find("body");
             c.append(s), u.attr("contenteditable", "true").css({"min-height": a.height}).html(i.value || ""), y.apply(l, [r, n, i, a]), g.call(l, r, t, a)
         })
@@ -6728,7 +6728,7 @@ layui.define(["layer", "form"], function (t) {
         }, x.index = i.tips(function () {
             var t = [];
             return layui.each(a, function (e, i) {
-                t.push('<li title="' + e + '"><img src="' + i + '" alt="' + e + '"></li>')
+                t.push('<li title="' + e + '"><ueditor src="' + i + '" alt="' + e + '"></li>')
             }), '<ul class="layui-clear">' + t.join("") + "</ul>"
         }(), this, {
             tips: 1, time: 0, skin: "layui-box layui-util-face", maxWidth: 500, success: function (l, n) {

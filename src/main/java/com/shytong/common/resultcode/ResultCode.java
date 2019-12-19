@@ -22,4 +22,6 @@ public class ResultCode {
     // 参数错误
     public static final String PARAMETER_ERROR = "40001";
 
+    // 没有登录
+    public static final String NOT_LOGIN = "50001";
 }

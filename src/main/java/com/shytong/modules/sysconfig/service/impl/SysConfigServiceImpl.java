@@ -79,7 +79,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
                 sysConfigDo.setSysKey("1");
                 String source = "0";
                 if (sysSource.equals(source)) {
-                    sysConfigDo.setSysValue("/upfiles/img/" + sysConfigDo.getSysValue());
+                    sysConfigDo.setSysValue("/upfiles/ueditor/" + sysConfigDo.getSysValue());
                 }
             }
         }

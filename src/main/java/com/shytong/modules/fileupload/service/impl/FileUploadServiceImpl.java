@@ -30,7 +30,7 @@ public class FileUploadServiceImpl implements IFileUploadService {
 //            System.out.println("文件的后缀名为：" + suffixName);
             // 设置文件存储路径
             String projectPath = ResourceUtils.getURL("classpath:").getPath();
-            String packagePath = "static/upfiles/img/";
+            String packagePath = "static/upfiles/ueditor/";
             String path = projectPath + packagePath + fileName;
             File dest = new File(path);
             // 检测是否存在目录

@@ -36,7 +36,7 @@ public class ArticleServiceImpl implements IArticleService {
         }
         String titleImg = articleDo.getTitleImg();
         if (titleImg != null) {
-            articleDo.setTitleImg("/upfiles/img/" + articleDo.getTitleImg());
+            articleDo.setTitleImg("/upfiles/ueditor/" + articleDo.getTitleImg());
         }
         articleDo.setId(SyIdUtils.uuid());
         Integer result = articleDao.insertArticle(articleDo);
@@ -67,7 +67,7 @@ public class ArticleServiceImpl implements IArticleService {
         }
         String titleImg = articleDo.getTitleImg();
         if (titleImg != null) {
-            articleDo.setTitleImg("/upfiles/img/" + articleDo.getTitleImg());
+            articleDo.setTitleImg("/upfiles/ueditor/" + articleDo.getTitleImg());
         }
         Integer result = articleDao.updateArticle(articleDo);
         if (result < 0) {
