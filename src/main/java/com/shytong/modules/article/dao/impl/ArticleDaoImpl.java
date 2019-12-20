@@ -37,7 +37,7 @@ public class ArticleDaoImpl implements IArticleDao {
     }
 
     @Override
-    public PageInfo<ArticleDo> selectArticleList(Integer pageNum, Integer pageSize, SyMap params) {
+    public PageInfo selectArticleList(Integer pageNum, Integer pageSize, SyMap params) {
         return baseDao.commlistOfPage("ArticleMapper.selectArticleList", pageNum, pageSize, params);
     }
 

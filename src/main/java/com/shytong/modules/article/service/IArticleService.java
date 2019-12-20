@@ -49,5 +49,5 @@ public interface IArticleService {
      * @return
      * @throws ApiBizException
      */
-    PageInfo<ArticleDo> selectArticleList(SyMap params, Integer pageNum, Integer pageSize) throws ApiBizException;
+    PageInfo selectArticleList(SyMap params, Integer pageNum, Integer pageSize) throws ApiBizException;
 }

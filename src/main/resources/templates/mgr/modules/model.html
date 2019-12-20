@@ -13,7 +13,6 @@
     <script type="text/javascript" src="/mgr/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="/mgr/js/xadmin.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -40,13 +39,10 @@
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <select name="channelId" lay-verify="">
-                                    <option value="">栏目</option>
+                                <select id="channelId" name="channelId" lay-verify="">
+                                    <option id="channelId0" value="^{firstChannelId}">全部</option>
                                     @# for(item in channelList!){ #@
-                                    <option id="channelOption^{itemLP.index}" value="^{item.id}">^{item.name}</option>
-                                    @#}#@
-                                    @#if(channelObj != null){#@
-                                    <option value="^{channelObj.id}">^{channelObj.name}</option>
+                                    <option id="channelId^{itemLP.index}" value="^{item.id}">^{item.name}</option>
                                     @#}#@
                                 </select>
                             </div>
@@ -65,7 +61,7 @@
                                    name="endTime" id="end">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                            <button class="layui-btn" lay-submit="" lay-filter="search">
                                 <i class="layui-icon">&#xe615;</i></button>
                         </div>
                     </form>
@@ -74,7 +70,7 @@
                     <button class="layui-btn layui-btn-danger" onclick="delAll()" id="deletedBtn"><i class="layui-icon"></i>批量删除
                     </button>
                     <button class="layui-btn"
-                            onclick="xadmin.open('文章添加','../model-add/^{activeModulesId}',800,800,true)">
+                            onclick="xadmin.open('文章添加','/front/public/admin/model-add/^{firstChannelId}',800,800,true)">
                         <i class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -95,24 +91,24 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @#for(var i = 0; i < modelList.~size;i++){#@
+                        @#for(var i = 0; i < articleList.~size;i++){#@
                         <tr>
                             <td width="10px">
-                                <input type="checkbox" name="number" value="^{modelList[i].id}" lay-skin="primary">
+                                <input type="checkbox" name="number" value="^{articleList[i].id}" lay-skin="primary">
                             </td>
                             <td>^{(pageNum * pageSize - (pageSize - 1)) + i}</td>
-                            <td>^{modelList[i].title}</td>
-                            <td>^{modelList[i].channelName}</td>
-                            <td>^{modelList[i].postTime}</td>
-                            <td>^{modelList[i].sort}</td>
-                            <td>^{modelList[i].clickCount}</td>
+                            <td>^{articleList[i].title}</td>
+                            <td>^{articleList[i].channelName}</td>
+                            <td>^{articleList[i].postTime}</td>
+                            <td>^{articleList[i].sort}</td>
+                            <td>^{articleList[i].clickCount}</td>
                             <td class="td-manage">
                                 <a title="编辑"
-                                   onclick="xadmin.open('编辑','../model-edit/^{activeModulesId}/^{modelList[i].id}',800,800,true)"
+                                   onclick="xadmin.open('编辑','/front/public/admin/model-edit/^{firstChannelId}/^{articleList[i].id}',800,800,true)"
                                    href="javascript:;">
                                     <i class="layui-icon">&#xe642;</i>
                                 </a>
-                                <a title="删除" onclick="member_del(this,'^{modelList[i].id}')">
+                                <a title="删除" onclick="member_del(this,'^{articleList[i].id}')">
                                     <i class="layui-icon">&#xe640;</i>
                                 </a>
                             </td>
@@ -130,71 +126,83 @@
     </div>
 </div>
 <script>
-    // 分页
-    layui.use('laypage', function () {
-        var laypage = layui.laypage;
-        //执行一个laypage实例
-        laypage.render({
-            theme: "#009688",
-            elem: 'articlePage', //注意，这里的 test1 是 ID，不用加 # 号
-            count: "^{total}", //数据总数，从服务端得到
-            curr: "^{pageNum}",
-            limit: "^{pageSize}",
-            jump: function (obj, first) {
-                if (!first) {
-                    window.location.href = "/front/public/admin/modules-modelList/^{activeModulesId}?pageNum= " + obj.curr + "&pageSize=" + obj.limit;
-                }
+    $(function () {
+        var channelId = $("#channelId").children("option").length;
+        console.log("bbb", "^{activeChannelId}");
+        for (var i = 0; i < channelId; i++) {
+            var channelIdValue = $("#channelId" + i).val();
+            console.log("aaa", channelIdValue);
+            if ("^{activeChannelId!}" == (channelIdValue)) {
+                $("#channelId" + i).attr("selected", true);
             }
-        });
-    });
+        }
 
-    layui.use(['laydate', 'form'], function () {
-        $ = layui.jquery;
-        var form = layui.form;
-        var laydate = layui.laydate;
-
-        // 监听全选
-        form.on('checkbox(checkall)', function (data) {
-            if (data.elem.checked) {
-                $('tbody input').prop('checked', true);
-            } else {
-                $('tbody input').prop('checked', false);
-            }
-            form.render('checkbox');
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#start' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#end' //指定元素
-        });
-
-        form.on('submit(sreach)', function (data) {
-            console.log(data.field);
-            var _data = JSON.stringify(data.field);
-            var _url = "/api/article/list";
-            $.ajax({
-                type: "POST",
-                url: _url,
-                data: _data,
-                dataType: "json",
-                contentType: "application/json;charset=utf-8",
-                success: function (result) {
-                    console.log(data.field.channelId);
-                    if (data.field.channelId != null || data.field.channelId != "") {
-                        window.location.href = "/front/public/admin/modules-modelList/" + data.field.channelId;
-                    } else {
-                        alert(1);
+        // 分页
+        layui.use('laypage', function () {
+            var laypage = layui.laypage;
+            //执行一个laypage实例
+            laypage.render({
+                theme: "#009688",
+                elem: 'articlePage', //注意，这里的 test1 是 ID，不用加 # 号
+                count: "^{total}", //数据总数，从服务端得到
+                curr: "^{pageNum}",
+                limit: "^{pageSize}",
+                jump: function (obj, first) {
+                    if (!first) {
+                        window.location.href = "/front/public/admin/modules-modelList/^{firstChannelId}/^{activeChannelId}?pageNum= " + obj.curr + "&pageSize=" + obj.limit;
                     }
                 }
-            })
-        })
-    });
+            });
+        });
 
+        layui.use(['laydate', 'form'], function () {
+            $ = layui.jquery;
+            var form = layui.form;
+            var laydate = layui.laydate;
+
+            // 监听全选
+            form.on('checkbox(checkall)', function (data) {
+                if (data.elem.checked) {
+                    $('tbody input').prop('checked', true);
+                } else {
+                    $('tbody input').prop('checked', false);
+                }
+                form.render('checkbox');
+            });
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#start' //指定元素
+            });
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#end' //指定元素
+            });
+
+            form.on('submit(search)', function (data) {
+                var _data = JSON.stringify(data.field);
+                _data = _data.replace("\"", "%22").replace("{", "%7b").replace("}", "%7d");
+                if ("^{activeChannelId!}" == data.field.channelId) {
+                    var _url = "/front/public/admin/modules-modelList/^{firstChannelId}";
+                } else {
+                    var _url = "/front/public/admin/modules-modelList/^{firstChannelId}/" + data.field.channelId;
+                }
+                console.log("链接：", _url);
+                $.ajax({
+                    type: "GET",
+                    url: _url,
+                    data: _data,
+                    async: true,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        console.log(result);
+                    }
+                })
+            })
+        });
+    });
 
     /*用户-删除*/
     function member_del(obj, id) {

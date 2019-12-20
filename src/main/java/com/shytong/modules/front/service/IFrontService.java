@@ -99,7 +99,7 @@ public interface IFrontService {
 
     void setAdminIndex(ModelMap model);
 
-    void setModules(ModelMap model, Integer pageNum, Integer pageSize, String id);
+    void setModules(ModelMap model, SyMap params, Integer pageNum, Integer pageSize);
 
     void setAddArticleDefaultData(ModelMap model, String firstChannelId);
 

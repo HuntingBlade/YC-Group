@@ -306,9 +306,16 @@ public class FrontController extends BaseController {
      * @param servletRequest
      * @return
      */
-    @RequestMapping(value = "/admin/modules-modelList/{id}", produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminModulesListPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize, @PathVariable String id) {
-        frontService.setModules(model, pageNum, pageSize, id);
+    @RequestMapping(value = {"/admin/modules-modelList/{firstChannelId}", "/admin/modules-modelList/{firstChannelId}/{secondChannelId}"},
+            produces = "text/html;charset=utf-8", method = RequestMethod.GET)
+    public String adminModulesListPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize,
+                                       @RequestParam Map map,
+                                       @PathVariable String firstChannelId,
+                                       @PathVariable String secondChannelId) {
+        SyMap params = new SyMap(map);
+        params.put("firstChannelId", firstChannelId);
+        params.put("secondChannelId", secondChannelId);
+        frontService.setModules(model, params, pageNum, pageSize);
         return "/mgr/modules/model";
     }
 

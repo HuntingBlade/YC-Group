@@ -45,7 +45,7 @@ public interface IArticleDao {
      * @param params
      * @return
      */
-    PageInfo<ArticleDo> selectArticleList(Integer pageNum, Integer pageSize, SyMap params);
+    PageInfo selectArticleList(Integer pageNum, Integer pageSize, SyMap params);
 
     /**
      * 根据栏目编号查找文章

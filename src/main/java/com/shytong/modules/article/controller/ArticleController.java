@@ -80,7 +80,7 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public String selectArticle(HttpServletRequest servletRequest, @RequestBody Map map, Integer pageNum, Integer pageSize) throws ApiBizException {
         SyMap params = new SyMap(map);
-        PageInfo<ArticleDo> res = articleService.selectArticleList(params, pageNum, pageSize);
+        PageInfo res = articleService.selectArticleList(params, pageNum, pageSize);
         return this.normalRespPage(res);
     }
 

@@ -342,41 +342,61 @@ public class FrontServiceImpl implements IFrontService {
     }
 
     @Override
-    public void setModules(ModelMap model, Integer pageNum, Integer pageSize, String id) {
+    public void setModules(ModelMap model, SyMap params, Integer pageNum, Integer pageSize) {
+        ArrayList list = new ArrayList<>();
+
+        // 查询数据库文章显示大小
+        SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("articlePageSize", "yc");
         if (pageNum == null) {
             pageNum = 1;
         }
-        SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("articlePageSize", "yc");
         if (sysConfigDo == null) {
             pageSize = 10;
         } else {
             pageSize = Integer.parseInt(sysConfigDo.getSysValue());
         }
-        List<ChannelDo> sonChannelList = channelDao.getSonChannelListById(Integer.parseInt(id));
-        if (sonChannelList.size() <= 0) {
-            model.addAttribute("channelObj", channelDao.getChannelById(Integer.parseInt(id)));
-            model.addAttribute("channelList", null);
+
+        // 一级栏目编号
+        String firstChannelId = params.getString("firstChannelId");
+        String secondChannelId = params.getString("secondChannelId");
+
+        // 二级栏目
+        List<ChannelDo> channelList = channelDao.getSonChannelListById(Integer.parseInt(firstChannelId));
+        model.addAttribute("channelList", channelList);
+
+        PageInfo articleList = null;
+        if (secondChannelId != null) {
+            // 选中二级栏目Id
+            model.addAttribute("activeChannelId", secondChannelId);
+            list.add(Integer.parseInt(secondChannelId));
+            params.put("array", list);
         } else {
-            model.addAttribute("channelList", sonChannelList);
-            model.addAttribute("channelObj", null);
+            // 选中二级栏目Id
+            model.addAttribute("activeChannelId", firstChannelId);
+            if (channelList.size() > 0) {
+                // 有二级栏目
+                for (int i = 0; i < channelList.size(); i++) {
+                    Integer chaId = channelList.get(i).getId();
+                    list.add(chaId);
+                }
+                params.put("array", list);
+            } else {
+                list.add(Integer.parseInt(firstChannelId));
+                params.put("array", list);
+            }
         }
-        ArrayList list = new ArrayList<>();
-        SyMap params = new SyMap<>();
-        list.add(id);
-        for (int i = 0; i < sonChannelList.size(); i++) {
-            Integer channelId = sonChannelList.get(i).getId();
-            list.add(channelId);
-        }
-        params.put("array", list);
-        PageInfo articleAndChannelInfoByChannelId = articleDao.getArticleAndChannelInfoByChannelId(params, pageNum, pageSize);
-        List res = articleAndChannelInfoByChannelId.getList();
-        model.addAttribute("activeModulesId", id);
-        model.addAttribute("modelList", res);
+        articleList = articleDao.getArticleAndChannelInfoByChannelId(params, pageNum, pageSize);
+
+        // 所属模块的文章列表
+        model.addAttribute("articleList", articleList.getList());
+        // 父栏目Id
+        model.addAttribute("firstChannelId", firstChannelId);
+        // 每页显示大小
         model.addAttribute("pageSize", pageSize);
+        // 页码
         model.addAttribute("pageNum", pageNum);
-        model.addAttribute("total", articleAndChannelInfoByChannelId.getTotal());
-        model.addAttribute("activeModules", channelDao.getChannelById(Integer.parseInt(id)));
-        model.addAttribute("parentChannelId", id);
+        // 总数
+        model.addAttribute("total", articleList.getTotal());
 
     }
 

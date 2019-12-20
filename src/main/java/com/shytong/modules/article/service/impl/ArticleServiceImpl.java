@@ -77,7 +77,7 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
     @Override
-    public PageInfo<ArticleDo> selectArticleList(SyMap params, Integer pageNum, Integer pageSize) throws ApiBizException {
+    public PageInfo selectArticleList(SyMap params, Integer pageNum, Integer pageSize) throws ApiBizException {
         if (pageNum == null) {
             pageNum = 1;
         }
@@ -87,7 +87,7 @@ public class ArticleServiceImpl implements IArticleService {
         } else {
             pageSize = Integer.parseInt(sysConfigDo.getSysValue());
         }
-        PageInfo<ArticleDo> list = articleDao.selectArticleList(pageNum, pageSize, params);
+        PageInfo list = articleDao.selectArticleList(pageNum, pageSize, params);
         return list;
     }
 }

@@ -373,11 +373,21 @@
         FROM
         sy_article a
         LEFT JOIN sy_channel b ON a.channel_id = b.id AND b.is_deleted = 0
-        WHERE
-        a.channel_id IN
-        <foreach collection="array" item="id" index="index" open="(" close=")" separator=",">
-            #{id,jdbcType=INTEGER}
-        </foreach>
-        AND a.is_deleted = 0
+        <where>
+            <if test="title != null and title != ''">
+                AND a.title LIKE CONCAT('%',#{title,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND DATE_FORMAT( a.post_time, "%Y-%m-%d" ) >= DATE_FORMAT(#{startTime,jdbcType=VARCHAR},"%Y-%m-%d" )
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND DATE_FORMAT( a.post_time, "%Y-%m-%d" ) &lt;= DATE_FORMAT(#{endTime,jdbcType=VARCHAR},"%Y-%m-%d")
+            </if>
+            AND a.channel_id IN
+            <foreach collection="array" item="id" index="index" open="(" close=")" separator=",">
+                #{id,jdbcType=INTEGER}
+            </foreach>
+            AND a.is_deleted = 0
+        </where>
     </select>
 </mapper>
