@@ -354,19 +354,19 @@ public class FrontServiceImpl implements IFrontService {
         } else {
             pageSize = Integer.parseInt(sysConfigDo.getSysValue());
         }
-
         String channelId = params.getString("channelId");
-        System.err.println("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
         // 二级栏目列表
         List<ChannelDo> channelList = null;
         // 文章
         PageInfo articleList = null;
         // 一级栏目
         String firstChannelId = null;
+        String navName = null;
         // 判断是一级栏目还是二级
         ChannelDo channelDo = channelDao.getChannelById(Integer.parseInt(channelId));
         if (channelDo.getParentId() == 0) {
             channelList = channelDao.getSonChannelListById(Integer.parseInt(channelId));
+            navName = channelDo.getName();
             firstChannelId = channelId;
             // 子栏目
             List<ChannelDo> sonChannelDoList = channelDao.getSonChannelListById(Integer.parseInt(channelId));
@@ -381,12 +381,14 @@ public class FrontServiceImpl implements IFrontService {
             }
         } else {
             firstChannelId = channelDo.getParentId().toString();
+            navName = channelDao.getChannelById(Integer.parseInt(firstChannelId)).getName();
             channelList = channelDao.getSonChannelListById(Integer.parseInt(firstChannelId));
             list.add(Integer.parseInt(channelId));
         }
         params.put("array", list);
         articleList = articleDao.getArticleAndChannelInfoByChannelId(params, pageNum, pageSize);
-
+        // 导航栏
+        model.addAttribute("navName", navName);
         // 二级栏目下拉框
         model.addAttribute("channelList", channelList);
         // 所属模块的文章列表

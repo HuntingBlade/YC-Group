@@ -63,7 +63,7 @@ public class ArticleController extends BaseController {
      * @return
      * @throws ApiBizException
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = "*")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateArticle(HttpServletRequest servletRequest, @RequestBody ArticleDo articleDo) throws ApiBizException {
         String res = articleService.updateArticle(articleDo);
         return this.normalResp(res);

@@ -32,6 +32,7 @@ public class FileUploadServiceImpl implements IFileUploadService {
             String projectPath = ResourceUtils.getURL("classpath:").getPath();
             String packagePath = "static/upfiles/ueditor/";
             String path = projectPath + packagePath + fileName;
+            System.out.println(path);
             File dest = new File(path);
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
@@ -40,7 +41,7 @@ public class FileUploadServiceImpl implements IFileUploadService {
             }
             // 文件写入
             file.transferTo(dest);
-            return "上传成功";
+            return "/upfiles/ueditor/" + fileName;
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {

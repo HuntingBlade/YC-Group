@@ -184,31 +184,31 @@
             <if test="channelId != null">
                 channel_id = #{channelId,jdbcType=INTEGER},
             </if>
-            <if test="postTime != null and postTime != ''">
+            <if test="postTime != null">
                 post_time = #{postTime,jdbcType=VARCHAR},
             </if>
-            <if test="title != null and title != ''">
+            <if test="title != null">
                 title = #{title,jdbcType=VARCHAR},
             </if>
-            <if test="titleImg != null and titleImg != ''">
+            <if test="titleImg != null">
                 title_img = #{titleImg,jdbcType=VARCHAR},
             </if>
-            <if test="summary != null and summary != ''">
+            <if test="summary != null">
                 summary = #{summary,jdbcType=VARCHAR},
             </if>
-            <if test="type != null and type != ''">
+            <if test="type != null">
                 type = #{type,jdbcType=VARCHAR},
             </if>
-            <if test="author != null and author != ''">
+            <if test="author != null">
                 author = #{author,jdbcType=VARCHAR},
             </if>
-            <if test="source != null and source != ''">
+            <if test="source != null">
                 source = #{source,jdbcType=VARCHAR},
             </if>
-            <if test="content != null and content != ''">
+            <if test="content != null">
                 content = #{content,jdbcType=VARCHAR},
             </if>
-            <if test="recommend != null and recommend != ''">
+            <if test="recommend != null">
                 recommend = #{recommend,jdbcType=VARCHAR},
             </if>
             <if test="sort != null">
@@ -220,22 +220,22 @@
             <if test="topPrior!=null">
                 top_prior = #{topPrior,jdbcType=INTEGER},
             </if>
-            <if test="url != null and url != ''">
+            <if test="url != null">
                 url = #{url,jdbcType=VARCHAR},
             </if>
-            <if test="status != null and status != ''">
+            <if test="status != null">
                 status = #{status,jdbcType=VARCHAR},
             </if>
             <if test="gmtCreate != null">
                 gmt_create = #{gmtCreate,jdbcType= TIMESTAMP},
             </if>
-            <if test="creatorId != null and creator != ''">
+            <if test="creatorId != null">
                 creator_id = #{creatorId,jdbcType= VARCHAR},
             </if>
             <if test="gmtModified != null">
                 gmt_modified = #{gmtModified,jdbcType= TIMESTAMP},
             </if>
-            <if test="editorId != null and editorId != ''">
+            <if test="editorId != null">
                 editor_id = #{editorId,jdbcType= VARCHAR},
             </if>
             <if test="isDeleted != null">

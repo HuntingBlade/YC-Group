@@ -1,5 +1,5 @@
 @#
-layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index',header_css:""}){
+layout("../common/base.html",{title:'文章详情-亿创电力集团',nav:'index',header_css:""}){
 #@
 <div class="comm-warp-position">
     @#if(templateType! == "TITLE_TYPE"){#@
@@ -23,12 +23,10 @@ layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index
         </div>
         <div class="content">
             <div class="header">
-                <p class="title">^{detailContent.title}</p>
+                <p class="title">^{detailContent.title!}</p>
             </div>
             <div class="abbgcont">
-                <div>
-                    ^{detailContent.content!}
-                </div>
+                ^{detailContent.content!}
             </div>
         </div>
     </div>
@@ -36,7 +34,7 @@ layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index
     <!--  图片一模板  -->
     <div class="content">
         <div class="header">
-            <p class="title">^{detailContent.title}</p>
+            <p class="title">^{detailContent.title!}</p>
         </div>
         <div class="abbgcont">
             <div style="text-align: center">
@@ -51,7 +49,7 @@ layout("../common/base.html",{title:'集团简介-亿创电力集团',nav:'index
     <!--  图片二模板  -->
     <div class="content">
         <div class="header">
-            <p class="title">^{detailContent.title}</p>
+            <p class="title">^{detailContent.title!}</p>
         </div>
         <div class="abbgcont">
             <div>

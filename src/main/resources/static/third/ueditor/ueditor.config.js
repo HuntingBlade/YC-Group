@@ -140,7 +140,7 @@
         //    }
         //}()
 
-        //,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
+        ,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
 
         //insertorderedlist
         //有序列表的下拉配置,值留空时支持多语言自动识别，若配置值，则以此值为准
@@ -277,7 +277,7 @@
 
         //autoHeightEnabled
         // 是否自动长高,默认true
-        //,autoHeightEnabled:true
+        ,autoHeightEnabled:false
 
         //scaleEnabled
         //是否可以拉伸长高,默认true(当开启时，自动长高失效)
@@ -287,7 +287,7 @@
 
         //autoFloatEnabled
         //是否保持toolbar的位置不动,默认true
-        //,autoFloatEnabled:true
+        ,autoFloatEnabled:true
         //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
         //,topOffset:30
         //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)
@@ -351,15 +351,15 @@
 
         //默认过滤规则相关配置项目
         //,disabledTableInTable:true  //禁止表格嵌套
-        //,allowDivTransToP:true      //允许进入编辑器的div标签自动变成p标签
+        ,allowDivTransToP:false      //允许进入编辑器的div标签自动变成p标签
         //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
 
         // xss 过滤是否开启,inserthtml等操作
-        , xssFilterRules: true
+        , xssFilterRules: false
         //input xss过滤
-        , inputXssFilter: true
+        , inputXssFilter: false
         //output xss过滤
-        , outputXssFilter: true
+        , outputXssFilter: false
         // xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
         , whitList: {
             a: ['target', 'href', 'title', 'class', 'style'],

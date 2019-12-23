@@ -318,9 +318,6 @@ public class FrontController extends BaseController {
         return "/mgr/modules/model";
     }
 
-    @Autowired
-    private IArticleDao articleDao;
-
     /**
      * 查询模块文章列表
      *

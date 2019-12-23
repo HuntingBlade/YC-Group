@@ -24,7 +24,7 @@
       <span class="layui-breadcrumb">
         <a href="">模块管理</a>
         <a>
-          <cite></cite>
+          <cite>^{navName}</cite>
         </a>
       </span>
     <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
@@ -111,10 +111,10 @@
                                 <a title="编辑"
                                    onclick="xadmin.open('编辑','/front/public/admin/model-edit/^{firstChannelId}/^{articleList[i].id}',800,800,true)"
                                    href="javascript:;">
-                                    <i class="layui-icon">&#xe642;</i>
+                                    <i class="layui-icon">&#xe642;</i>编辑
                                 </a>
                                 <a title="删除" onclick="member_del(this,'^{articleList[i].id}')">
-                                    <i class="layui-icon">&#xe640;</i>
+                                    <i class="layui-icon">&#xe640;</i>删除
                                 </a>
                             </td>
                         </tr>

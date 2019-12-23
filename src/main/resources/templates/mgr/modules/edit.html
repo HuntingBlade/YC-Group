@@ -42,7 +42,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">发布时间</label>
                     <div class="layui-input-inline">
-                        <input type="text" class="layui-input" value="^{articleDo.postTime}"
+                        <input type="text"  name="postTime" class="layui-input" value="^{articleDo.postTime}"
                                id="test1"
                         />
                     </div>
@@ -64,7 +64,7 @@
                     <span class="x-red"></span>标题图片
                 </label>
                 <div class="layui-input-inline" id="wrap-sysValue">
-                    <input id="fileName" type="text" lay-verify="fileName" autocomplete="off" class="layui-input"
+                    <input id="fileName" type="text" autocomplete="off" class="layui-input"
                            disabled name="titleImg" value="^{articleDo.titleImg}">
                 </div>
                 <button type="button" class="layui-btn" id="upFile">
@@ -85,7 +85,7 @@
                     <span class="x-red">*</span>排序
                 </label>
                 <div class="layui-input-inline">
-                    <input type="number" name="sort" required=""
+                    <input type="number" name="sort"
                            autocomplete="off" class="layui-input" maxlength="4" value="^{articleDo.sort}">
                 </div>
                 <div class="layui-form-mid layui-word-aux">排序值越小，排越前。排序值之间最好有一定间隔，好方便以后穿插。</div>
@@ -93,38 +93,40 @@
             <div class="layui-form-item" style="margin-top: -10px">
                 <label class="layui-form-label">来源</label>
                 <div class="layui-input-inline">
-                    <input name="source" required="" autocomplete="off" class="layui-input" value="^{articleDo.source}">
+                    <input name="source" autocomplete="off" class="layui-input" value="^{articleDo.source}">
                 </div>
             </div>
             <div class="layui-form-item" style="margin-top: -10px">
                 <label class="layui-form-label">发布者</label>
                 <div class="layui-input-inline">
-                    <input name="author" required="" autocomplete="off" class="layui-input" value="^{articleDo.author}">
+                    <input name="author" autocomplete="off" class="layui-input" value="^{articleDo.author}">
                 </div>
             </div>
             <div class="layui-form-item" style="margin-top: -10px">
                 <label class="layui-form-label">摘要</label>
                 <div class="layui-input-inline">
-                    <textarea style="width: 1366px; height: 100px;padding-top: 5px" name="summary" required=""
-                              autocomplete="off" class="layui-input">^{articleDo.summary}</textarea>
+                    <textarea style="width: 1366px; height: 100px;padding-top: 5px" name="summary" autocomplete="off"
+                              class="layui-input">^{articleDo.summary}</textarea>
                 </div>
             </div>
             <div class="layui-form-item" style="margin-top: -10px">
                 <label class="layui-form-label">内容</label>
                 <div class="layui-input-inline">
-                    <div id="editor" style="width: 1366px; height: 800px;"></div>
+                    <textarea id="editor" style="width: 1366px; height: 800px;"></textarea>
                 </div>
             </div>
+            <div id="content" style="display:none;">
+                ^{articleDo.content}
+            </div>
             <div class="layui-form-item" style="text-align: right;">
-                <button class="layui-btn" lay-filter="add" lay-submit="" style="width: 150px">修改</button>
+                <button class="layui-btn" lay-filter="edit" lay-submit="" style="width: 150px">修改</button>
             </div>
         </form>
     </div>
 </div>
 <script>
     $(function () {
-        console.log("内容：", "^{articleDo.content}");
-
+        var titleImg;
         var channelList = $("#channelList").children("option").length;
         for (var i = 0; i < channelList; i++) {
             var activeValue = $("#channelList" + i).val();
@@ -145,7 +147,8 @@
 
         ue.addListener("ready", function () {
             // editor准备好之后才可以使用
-            ue.setContent("^{articleDo.content}");
+            var content = $("#content").html();
+            ue.setContent(content);
         });
 
         layui.use('upload', function () {
@@ -164,6 +167,7 @@
                     })
                 },
                 done: function (res) {
+                    titleImg = res.errCode;
                     $('#credential_hide').val(res.msg); //隐藏输入框赋值
                     $('#submitForm').click(); //上传成功后单击隐藏的提交按钮
                 },
@@ -173,9 +177,10 @@
             });
         });
 
-        layui.use(['laydate', 'form'], function () {
+        layui.use(['layer', 'laydate', 'form'], function () {
             $ = layui.jquery;
             var form = layui.form;
+            var layer = layui.layer;
             var laydate = layui.laydate;
 
             //执行一个laydate实例
@@ -193,34 +198,32 @@
                 elem: '#test1'
             });
 
-            //自定义验证规则
-            form.verify({});
-
             //监听提交
-            form.on('submit(add)', function (data) {
-                var _json = {
+            form.on('submit(edit)', function (data) {
+                var _url = "/api/article/update?timestamp=" + new Date().getTime();
+                console.log("postTime", data.field.postTime);
+                var _data = {
                     "id": data.field.id,
                     "channelId": data.field.channelId,
                     "postTime": data.field.postTime,
                     "title": data.field.title,
-                    "titleImg": data.field.titleImg,
+                    "titleImg": titleImg,
                     "recommend": data.field.recommend,
                     "sort": data.field.sort,
                     "source": data.field.source,
                     "author": data.field.author,
                     "summary": data.field.summary,
-                    "content": ue.getContent()
+                    "content": ue.getContent(),
+                    "timestamp": new Date().getTime()
                 };
-                var _data = JSON.stringify(_json);
-                var _url = "/api/article/update";
                 $.ajax({
                     type: "POST",
                     url: _url,
-                    async: true,
-                    data: _data,
+                    data: JSON.stringify(_data),
                     dataType: "json",
                     contentType: "application/json;charset=utf-8",
                     success: function (result) {
+                        console.log("aaa", result);
                         if (result.errCode == 1) {
                             layer.alert("修改成功", {icon: 6}, function () {
                                 //关闭当前frame
@@ -234,6 +237,7 @@
                         }
                     }
                 });
+                return false;
             });
         });
     });

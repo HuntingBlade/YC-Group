@@ -109,7 +109,7 @@
             <div class="layui-form-item" style="margin-top: -10px">
                 <label class="layui-form-label">内容</label>
                 <div class="layui-input-inline">
-                    <div id="editor" style="width: 1366px; height: 800px;"></div>
+                    <textarea id="editor" style="width: 1366px; height: 800px;"></textarea>
                 </div>
             </div>
             <div class="layui-form-item" style="text-align: right;">
@@ -223,6 +223,7 @@
                         }
                     }
                 });
+                return false;
             });
         });
     });

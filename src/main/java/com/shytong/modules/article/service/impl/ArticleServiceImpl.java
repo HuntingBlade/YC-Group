@@ -65,10 +65,6 @@ public class ArticleServiceImpl implements IArticleService {
         if (articleDo == null) {
             return ResultCode.PARAMETER_ERROR;
         }
-        String titleImg = articleDo.getTitleImg();
-        if (titleImg != null) {
-            articleDo.setTitleImg("/upfiles/ueditor/" + articleDo.getTitleImg());
-        }
         Integer result = articleDao.updateArticle(articleDo);
         if (result < 0) {
             throw new RuntimeException();

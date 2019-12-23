@@ -98,6 +98,7 @@
 	    if(full){
 	       layer.full(index); 
 	    }
+	    return index;
 	}
 	/**
 	 * [close 关闭弹出层]
