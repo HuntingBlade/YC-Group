@@ -2,6 +2,7 @@ package com.shytong.modules.front.controller;
 
 import com.shytong.common.model.SyMap;
 import com.shytong.common.web.BaseController;
+import com.shytong.modules.article.dao.IArticleDao;
 import com.shytong.modules.front.service.IFrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.IntegerSyntax;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -306,17 +309,31 @@ public class FrontController extends BaseController {
      * @param servletRequest
      * @return
      */
-    @RequestMapping(value = {"/admin/modules-modelList/{firstChannelId}", "/admin/modules-modelList/{firstChannelId}/{secondChannelId}"},
-            produces = "text/html;charset=utf-8", method = RequestMethod.GET)
-    public String adminModulesListPage(HttpServletRequest servletRequest, ModelMap model, Integer pageNum, Integer pageSize,
-                                       @RequestParam Map map,
-                                       @PathVariable String firstChannelId,
-                                       @PathVariable String secondChannelId) {
+    @GetMapping(value = "/admin/modules-modelList/{channelId}", produces = "text/html;charset=utf-8")
+    public String adminModulesListPage(HttpServletRequest servletRequest, @PathVariable String channelId,
+                                       ModelMap model, Integer pageNum, Integer pageSize, @RequestParam Map map) {
         SyMap params = new SyMap(map);
-        params.put("firstChannelId", firstChannelId);
-        params.put("secondChannelId", secondChannelId);
+        params.put("channelId", channelId);
         frontService.setModules(model, params, pageNum, pageSize);
         return "/mgr/modules/model";
+    }
+
+    @Autowired
+    private IArticleDao articleDao;
+
+    /**
+     * 查询模块文章列表
+     *
+     * @param servletRequest
+     * @return
+     */
+    @PostMapping(value = "/admin/select", produces = "text/html;charset=utf-8")
+    public String getAdminModulesListPage(HttpServletRequest servletRequest,
+                                          ModelMap model, Integer pageNum, Integer pageSize, @RequestBody Map map) {
+        SyMap params = new SyMap(map);
+        params.put("channelId", params.getString("channelId"));
+        frontService.setModules(model, params, pageNum, pageSize);
+        return "/mgr/modules/model#top10";
     }
 
     /**

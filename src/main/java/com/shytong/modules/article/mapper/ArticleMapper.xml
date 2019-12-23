@@ -366,7 +366,7 @@
         SELECT
         a.id AS id,
         a.title AS title,
-        a.post_time AS postTime,
+        DATE_FORMAT( a.post_time, "%Y-%m-%d" ) AS postTime,
         a.sort AS sort,
         a.click_count AS clickCount,
         b.`name` AS channelName

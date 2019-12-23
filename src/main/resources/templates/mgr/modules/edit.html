@@ -123,6 +123,16 @@
 </div>
 <script>
     $(function () {
+        console.log("内容：", "^{articleDo.content}");
+
+        var channelList = $("#channelList").children("option").length;
+        for (var i = 0; i < channelList; i++) {
+            var activeValue = $("#channelList" + i).val();
+            if ("^{articleDo.channelId}" == activeValue) {
+                $("#channelList" + i).attr("selected", true);
+            }
+        }
+
         // 百度富文本
         var ue = UE.getEditor('editor');
 
@@ -133,26 +143,10 @@
             return editor;
         };
 
-        UE.delEditor = function (id) {
-            var editor;
-            if (editor = instances[id]) {
-                editor.key && editor.destroy();
-                delete instances[id]
-            }
-        };
-
         ue.addListener("ready", function () {
             // editor准备好之后才可以使用
-            ue.setContent('^{articleDo.content}');
+            ue.setContent("^{articleDo.content}");
         });
-
-        var channelList = $("#channelList").children("option").length;
-        for (var i = 0; i < channelList; i++) {
-            var activeValue = $("#channelList" + i).val();
-            if ("^{articleDo.channelId}" == activeValue) {
-                $("#channelList" + i).attr("selected", true);
-            }
-        }
 
         layui.use('upload', function () {
             var upload = layui.upload;
@@ -243,8 +237,6 @@
             });
         });
     });
-
-
 </script>
 </body>
 </html>

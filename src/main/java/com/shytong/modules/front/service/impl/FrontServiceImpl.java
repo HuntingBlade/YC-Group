@@ -344,7 +344,6 @@ public class FrontServiceImpl implements IFrontService {
     @Override
     public void setModules(ModelMap model, SyMap params, Integer pageNum, Integer pageSize) {
         ArrayList list = new ArrayList<>();
-
         // 查询数据库文章显示大小
         SysConfigDo sysConfigDo = (SysConfigDo) sysConfigDao.getSysConfig("articlePageSize", "yc");
         if (pageNum == null) {
@@ -356,41 +355,46 @@ public class FrontServiceImpl implements IFrontService {
             pageSize = Integer.parseInt(sysConfigDo.getSysValue());
         }
 
-        // 一级栏目编号
-        String firstChannelId = params.getString("firstChannelId");
-        String secondChannelId = params.getString("secondChannelId");
-
-        // 二级栏目
-        List<ChannelDo> channelList = channelDao.getSonChannelListById(Integer.parseInt(firstChannelId));
-        model.addAttribute("channelList", channelList);
-
+        String channelId = params.getString("channelId");
+        System.err.println("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        // 二级栏目列表
+        List<ChannelDo> channelList = null;
+        // 文章
         PageInfo articleList = null;
-        if (secondChannelId != null) {
-            // 选中二级栏目Id
-            model.addAttribute("activeChannelId", secondChannelId);
-            list.add(Integer.parseInt(secondChannelId));
-            params.put("array", list);
-        } else {
-            // 选中二级栏目Id
-            model.addAttribute("activeChannelId", firstChannelId);
-            if (channelList.size() > 0) {
-                // 有二级栏目
-                for (int i = 0; i < channelList.size(); i++) {
-                    Integer chaId = channelList.get(i).getId();
+        // 一级栏目
+        String firstChannelId = null;
+        // 判断是一级栏目还是二级
+        ChannelDo channelDo = channelDao.getChannelById(Integer.parseInt(channelId));
+        if (channelDo.getParentId() == 0) {
+            channelList = channelDao.getSonChannelListById(Integer.parseInt(channelId));
+            firstChannelId = channelId;
+            // 子栏目
+            List<ChannelDo> sonChannelDoList = channelDao.getSonChannelListById(Integer.parseInt(channelId));
+            if (sonChannelDoList.size() > 0) {
+                // 有子栏目
+                for (int i = 0; i < sonChannelDoList.size(); i++) {
+                    Integer chaId = sonChannelDoList.get(i).getId();
                     list.add(chaId);
                 }
-                params.put("array", list);
             } else {
-                list.add(Integer.parseInt(firstChannelId));
-                params.put("array", list);
+                list.add(Integer.parseInt(channelId));
             }
+        } else {
+            firstChannelId = channelDo.getParentId().toString();
+            channelList = channelDao.getSonChannelListById(Integer.parseInt(firstChannelId));
+            list.add(Integer.parseInt(channelId));
         }
+        params.put("array", list);
         articleList = articleDao.getArticleAndChannelInfoByChannelId(params, pageNum, pageSize);
 
+        // 二级栏目下拉框
+        model.addAttribute("channelList", channelList);
         // 所属模块的文章列表
         model.addAttribute("articleList", articleList.getList());
         // 父栏目Id
         model.addAttribute("firstChannelId", firstChannelId);
+        // 父栏目Id
+        model.addAttribute("activeChannelId", channelId);
         // 每页显示大小
         model.addAttribute("pageSize", pageSize);
         // 页码

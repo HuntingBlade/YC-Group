@@ -47,9 +47,9 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="layui-inline layui-show-xs-block">
-                            <input lay-search="title" type="text" name="title" placeholder="标题" autocomplete="off"
+                            <input id="title" lay-search="title" type="text" name="title" placeholder="标题"
+                                   autocomplete="off"
                                    class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
@@ -78,7 +78,7 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th width="10px">
+                            <th width="10px" style="z-index: 2">
                                 <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
                             </th>
                             <th>编号</th>
@@ -90,11 +90,16 @@
                             <th>操作</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        @#for(var i = 0; i < articleList.~size;i++){#@
+                        <tbody id="tagsTr">
+                        @#
+                        #ajax top10:{
+                        for(var i = 0; i < articleList.~size;i++){#@
                         <tr>
                             <td width="10px">
                                 <input type="checkbox" name="number" value="^{articleList[i].id}" lay-skin="primary">
+                                <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i
+                                        class="layui-icon layui-icon-ok"></i>
+                                </div>
                             </td>
                             <td>^{(pageNum * pageSize - (pageSize - 1)) + i}</td>
                             <td>^{articleList[i].title}</td>
@@ -113,7 +118,7 @@
                                 </a>
                             </td>
                         </tr>
-                        @#}#@
+                        @#}}#@
                         </tbody>
                     </table>
                 </div>
@@ -127,21 +132,10 @@
 </div>
 <script>
     $(function () {
-        var channelId = $("#channelId").children("option").length;
-        console.log("bbb", "^{activeChannelId}");
-        for (var i = 0; i < channelId; i++) {
-            var channelIdValue = $("#channelId" + i).val();
-            console.log("aaa", channelIdValue);
-            if ("^{activeChannelId!}" == (channelIdValue)) {
-                $("#channelId" + i).attr("selected", true);
-            }
-        }
-
         // 分页
         layui.use('laypage', function () {
-            var laypage = layui.laypage;
-            //执行一个laypage实例
-            laypage.render({
+            var layPage = layui.laypage;
+            layPage.render({
                 theme: "#009688",
                 elem: 'articlePage', //注意，这里的 test1 是 ID，不用加 # 号
                 count: "^{total}", //数据总数，从服务端得到
@@ -149,11 +143,33 @@
                 limit: "^{pageSize}",
                 jump: function (obj, first) {
                     if (!first) {
-                        window.location.href = "/front/public/admin/modules-modelList/^{firstChannelId}/^{activeChannelId}?pageNum= " + obj.curr + "&pageSize=" + obj.limit;
+                        var _url = "/front/public/admin/select?pageNum=" + obj.curr;
+                        var _channelId = $('#channelId option:selected').val();
+                        var _title = $("#title").val();
+                        var _startTime = $("#start").val();
+                        var _endTime = $("#end").val();
+                        var _data = {
+                            "channelId": _channelId,
+                            "title": _title,
+                            "startTime": _startTime,
+                            "endTime": _endTime
+                        };
+                        $.ajax({
+                            type: "POST",
+                            url: _url,
+                            data: JSON.stringify(_data),
+                            async: true,
+                            contentType: "application/json;charset=utf-8",
+                            success: function (result) {
+                                $("#tagsTr").innerHTML = "";
+                                $("#tagsTr").html(result);
+                            }
+                        });
                     }
                 }
             });
         });
+
 
         layui.use(['laydate', 'form'], function () {
             $ = layui.jquery;
@@ -182,25 +198,20 @@
 
             form.on('submit(search)', function (data) {
                 var _data = JSON.stringify(data.field);
-                _data = _data.replace("\"", "%22").replace("{", "%7b").replace("}", "%7d");
-                if ("^{activeChannelId!}" == data.field.channelId) {
-                    var _url = "/front/public/admin/modules-modelList/^{firstChannelId}";
-                } else {
-                    var _url = "/front/public/admin/modules-modelList/^{firstChannelId}/" + data.field.channelId;
-                }
-                console.log("链接：", _url);
+                var _url = "/front/public/admin/select";
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: _url,
                     data: _data,
                     async: true,
-                    dataType: "json",
                     contentType: "application/json;charset=utf-8",
                     success: function (result) {
-                        console.log(result);
+                        $("#tagsTr").innerHTML = "";
+                        $("#tagsTr").html(result);
                     }
-                })
-            })
+                });
+                return false;
+            });
         });
     });
 
