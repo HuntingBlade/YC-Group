@@ -6,12 +6,17 @@ import com.shytong.common.resultcode.ResultCodeInfo;
 import com.shytong.common.web.BaseController;
 import com.shytong.core.util.SyValidationUtils;
 import com.shytong.modules.mgr.service.IMgrService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -19,8 +24,8 @@ import java.util.Map;
  * @Author: CL
  * @Date: 2019/11/29 22:26
  */
-@RequestMapping(value = "/mgr", produces = "application/json;charset=utf-8", consumes = "application/json")
-@RestController
+@RequestMapping(value = "/mgr")
+@Controller
 public class MgrController extends BaseController {
 
     @Autowired
@@ -33,7 +38,8 @@ public class MgrController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/admin/login", method = RequestMethod.POST, consumes = "*")
+    @RequestMapping(value = "/admin/login", method = RequestMethod.POST, produces = "application/json;charset=utf-8", consumes = "*")
+    @ResponseBody
     public String adminLogin(HttpServletRequest servletRequest, HttpSession session, ModelMap model, @RequestBody Map map) throws ApiBizException {
         // 参数校验
         SyMap params = new SyMap(map);
@@ -46,5 +52,20 @@ public class MgrController extends BaseController {
                 .len(code, 4, true, "验证码格式错误");
         String res = mgrService.login(params, session);
         return this.normalResp(res);
+    }
+
+
+    /**
+     * 管理后台登出
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/admin/login/out", consumes = "*")
+    public ModelAndView adminLoginOut(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("sessionId");
+        model.setViewName("mgr/login");
+        return model;
     }
 }

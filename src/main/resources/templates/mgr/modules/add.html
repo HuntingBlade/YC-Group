@@ -61,13 +61,15 @@
                     <span class="x-red"></span>标题图片
                 </label>
                 <div class="layui-input-inline" id="wrap-sysValue">
-                    <input id="fileName" type="text" lay-verify="fileName" autocomplete="off" class="layui-input"
+                    <img id="previewImg" src="" alt="" width="100px" height="100px" style="display: none;margin-bottom: 5px">
+                    <input id="fileName" type="hidden" lay-verify="fileName" autocomplete="off" class="layui-input"
                            disabled name="titleImg">
+                    <button type="button" class="layui-btn" id="upFile">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
                 </div>
-                <button type="button" class="layui-btn" id="upFile">
-                    <i class="layui-icon">&#xe67c;</i>上传图片
-                </button>
             </div>
+
             @#if(firstChannelId == "5"){#@
             <div class="layui-form-item" style="margin-top: -20px">
                 <label class="layui-form-label">是否为推荐</label>
@@ -153,8 +155,11 @@
                     })
                 },
                 done: function (res) {
+                    $("#previewImg").css("display", "block");
+                    $("#previewImg").attr("src", res.errCode);
                     $('#credential_hide').val(res.msg); //隐藏输入框赋值
                     $('#submitForm').click(); //上传成功后单击隐藏的提交按钮
+
                 },
                 error: function () {
                     layer.msg('上传失败！' + index, {icon: 5});

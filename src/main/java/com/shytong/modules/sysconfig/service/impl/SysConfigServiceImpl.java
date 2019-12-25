@@ -74,14 +74,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
     public void JudgeType(SysConfigDo sysConfigDo, String type) {
         String _type = "indexCarousel";
         if (_type.equals(type)) {
-            String sysSource = sysConfigDo.getSysSource();
-            if (!sysSource.isEmpty()) {
-                sysConfigDo.setSysKey("1");
-                String source = "0";
-                if (sysSource.equals(source)) {
-                    sysConfigDo.setSysValue("/upfiles/ueditor/" + sysConfigDo.getSysValue());
-                }
-            }
+            sysConfigDo.getSysSource();
+            sysConfigDo.setSysKey("1");
+            sysConfigDo.setSysValue(sysConfigDo.getSysValue());
         }
     }
 }

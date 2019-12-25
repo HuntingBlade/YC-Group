@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
 
 /**
  * @Description: 判断用户是否登录，未登录则跳转到登录页面
@@ -27,9 +28,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        HttpSession session = request.getSession(true);
-        String userId = (String) session.getAttribute("userInfo");
-        if (StringUtils.isEmpty(userId)) {
+        HttpSession session = request.getSession();
+        String sessionId = (String) session.getAttribute("sessionId");
+        if (StringUtils.isEmpty(sessionId)) {
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/json; charset=utf-8");
             response.sendRedirect("/front/public/admin/login");

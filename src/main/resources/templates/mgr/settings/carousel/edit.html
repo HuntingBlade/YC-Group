@@ -127,6 +127,7 @@
                     })
                 },
                 done: function (res) {
+                    $("#fileName").val(res.errCode);
                     $('#credential_hide').val(res.msg); //隐藏输入框赋值
                     $('#submitForm').click(); //上传成功后单击隐藏的提交按钮
                 },
@@ -183,18 +184,19 @@
                     contentType: "application/json;charset=utf-8",
                     success: function (result) {
                         if (result.errCode == 1) {
-                            alert(1);
-                            layer.alert("增加成功", {icon: 6}, function () {
+                            layer.alert("修改成功", {icon: 6}, function () {
                                 //关闭当前frame
                                 xadmin.close();
                                 // 可以对父窗口进行刷新
                                 xadmin.father_reload();
                             });
                         } else {
-                            return false;
+                            layer.alert("修改失败", {icon: 5}, function () {
+                            });
                         }
-                    },
+                    }
                 });
+                return false;
             });
         });
     });

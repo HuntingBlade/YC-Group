@@ -18,7 +18,6 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
 <div class="x-nav">
       <span class="layui-breadcrumb">
@@ -101,6 +100,11 @@
                                         class="layui-icon layui-icon-ok"></i>
                                 </div>
                             </td>
+                            @#
+                            var _total = total;
+                            var _pageNum = pageNum;
+                            var _pageSize = pageSize;
+                            #@
                             <td>^{(pageNum * pageSize - (pageSize - 1)) + i}</td>
                             <td>^{articleList[i].title}</td>
                             <td>^{articleList[i].channelName}</td>
@@ -110,7 +114,7 @@
                             <td class="td-manage">
                                 <a title="编辑"
                                    onclick="xadmin.open('编辑','/front/public/admin/model-edit/^{firstChannelId}/^{articleList[i].id}',800,800,true)"
-                                   href="javascript:;">
+                                   href="javascript:void(0);">
                                     <i class="layui-icon">&#xe642;</i>编辑
                                 </a>
                                 <a title="删除" onclick="member_del(this,'^{articleList[i].id}')">
@@ -118,13 +122,51 @@
                                 </a>
                             </td>
                         </tr>
+                        <script>
+                            layui.use('laypage', function () {
+                                var layPage = layui.laypage;
+                                layPage.render({
+                                    theme: "#009688",
+                                    elem: 'articlePage', //注意，这里的 test1 是 ID，不用加 # 号
+                                    count: "^{_total}", //数据总数，从服务端得到
+                                    curr: "^{_pageNum}",
+                                    limit: "^{_pageSize}",
+                                    jump: function (obj, first) {
+                                        if (!first) {
+                                            var _url = "/front/public/admin/select?pageNum=" + obj.curr;
+                                            var _channelId = $('#channelId option:selected').val();
+                                            var _title = $("#title").val();
+                                            var _startTime = $("#start").val();
+                                            var _endTime = $("#end").val();
+                                            var _data = {
+                                                "channelId": _channelId,
+                                                "title": _title,
+                                                "startTime": _startTime,
+                                                "endTime": _endTime
+                                            };
+                                            $.ajax({
+                                                type: "POST",
+                                                url: _url,
+                                                data: JSON.stringify(_data),
+                                                async: true,
+                                                contentType: "application/json;charset=utf-8",
+                                                success: function (result) {
+                                                    $("#tagsTr").innerHTML = "";
+                                                    $("#tagsTr").html(result);
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
                         @#}}#@
                         </tbody>
                     </table>
-                </div>
-                <div class="layui-card-body ">
-                    <!-- 分页 -->
-                    <div id="articlePage" style="text-align: center"></div>
+                    <div class="layui-card-body ">
+                        <!-- 分页 -->
+                        <div id="articlePage" style="text-align: center"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,45 +174,6 @@
 </div>
 <script>
     $(function () {
-        // 分页
-        layui.use('laypage', function () {
-            var layPage = layui.laypage;
-            layPage.render({
-                theme: "#009688",
-                elem: 'articlePage', //注意，这里的 test1 是 ID，不用加 # 号
-                count: "^{total}", //数据总数，从服务端得到
-                curr: "^{pageNum}",
-                limit: "^{pageSize}",
-                jump: function (obj, first) {
-                    if (!first) {
-                        var _url = "/front/public/admin/select?pageNum=" + obj.curr;
-                        var _channelId = $('#channelId option:selected').val();
-                        var _title = $("#title").val();
-                        var _startTime = $("#start").val();
-                        var _endTime = $("#end").val();
-                        var _data = {
-                            "channelId": _channelId,
-                            "title": _title,
-                            "startTime": _startTime,
-                            "endTime": _endTime
-                        };
-                        $.ajax({
-                            type: "POST",
-                            url: _url,
-                            data: JSON.stringify(_data),
-                            async: true,
-                            contentType: "application/json;charset=utf-8",
-                            success: function (result) {
-                                $("#tagsTr").innerHTML = "";
-                                $("#tagsTr").html(result);
-                            }
-                        });
-                    }
-                }
-            });
-        });
-
-
         layui.use(['laydate', 'form'], function () {
             $ = layui.jquery;
             var form = layui.form;

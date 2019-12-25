@@ -32,7 +32,7 @@
                         <input type="hidden" name="id" value="^{articleDo.id}">
                         <select id="channelList" name="channelId" lay-verify="">
                             @# for(item in belongChannels){ #@
-                            <option id="channelList^{itemLP.index}" value="^{item.id}">^{item.name}</option>
+                            <option id="channelList^{itemLP.dataIndex}" value="^{item.id}">^{item.name}</option>
                             @#}#@
                         </select>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">发布时间</label>
                     <div class="layui-input-inline">
-                        <input type="text"  name="postTime" class="layui-input" value="^{articleDo.postTime}"
+                        <input type="text" name="postTime" class="layui-input" value="^{articleDo.postTime}"
                                id="test1"
                         />
                     </div>
@@ -64,13 +64,16 @@
                     <span class="x-red"></span>标题图片
                 </label>
                 <div class="layui-input-inline" id="wrap-sysValue">
-                    <input id="fileName" type="text" autocomplete="off" class="layui-input"
+                    <img id="previewImg" src="" alt="" width="100px" height="100px"
+                         style="display: none;margin-bottom: 5px">
+                    <input id="fileName" type="hidden" autocomplete="off" class="layui-input"
                            disabled name="titleImg" value="^{articleDo.titleImg}">
+                    <button type="button" class="layui-btn" id="upFile">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
                 </div>
-                <button type="button" class="layui-btn" id="upFile">
-                    <i class="layui-icon">&#xe67c;</i>上传图片
-                </button>
             </div>
+
             @#if(firstChannelId == 5){#@
             <div class="layui-form-item" style="margin-top: -20px">
                 <label class="layui-form-label">是否为首页推荐</label>
@@ -127,6 +130,7 @@
 <script>
     $(function () {
         var titleImg;
+
         var channelList = $("#channelList").children("option").length;
         for (var i = 0; i < channelList; i++) {
             var activeValue = $("#channelList" + i).val();
@@ -167,6 +171,8 @@
                     })
                 },
                 done: function (res) {
+                    $("#previewImg").css("display", "block");
+                    $("#previewImg").attr("src", res.errCode);
                     titleImg = res.errCode;
                     $('#credential_hide').val(res.msg); //隐藏输入框赋值
                     $('#submitForm').click(); //上传成功后单击隐藏的提交按钮
@@ -223,7 +229,6 @@
                     dataType: "json",
                     contentType: "application/json;charset=utf-8",
                     success: function (result) {
-                        console.log("aaa", result);
                         if (result.errCode == 1) {
                             layer.alert("修改成功", {icon: 6}, function () {
                                 //关闭当前frame

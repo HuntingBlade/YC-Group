@@ -48,6 +48,7 @@
                             <th>链接</th>
                             <th>排序</th>
                             <th>状态</th>
+                            <th>图片</th>
                             <th>加入时间</th>
                             <th>操作</th>
                         </tr>
@@ -74,6 +75,9 @@
                                     已停用
                                 </span>
                                 @#}#@
+                            </td>
+                            <td style="text-align: center">
+                                <img src="^{item.sysValue}" style="width: 150px;height: 70px">
                             </td>
                             <td>^{item.gmtModified,dateFormat="yyyy-MM-dd"}</td>
                             <td>

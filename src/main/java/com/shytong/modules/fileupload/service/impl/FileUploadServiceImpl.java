@@ -23,16 +23,12 @@ public class FileUploadServiceImpl implements IFileUploadService {
                 return "文件为空";
             }
             // 获取文件名
-            String fileName = file.getOriginalFilename();
-            System.out.println("上传的文件名为：" + fileName);
-//            // 获取文件的后缀名
-//            String suffixName = fileName.substring(fileName.lastIndexOf("."));
-//            System.out.println("文件的后缀名为：" + suffixName);
+            String name = file.getOriginalFilename();
+            String fileName = name.substring(0, name.lastIndexOf(".")) + System.currentTimeMillis() + name.substring(name.lastIndexOf("."));
             // 设置文件存储路径
             String projectPath = ResourceUtils.getURL("classpath:").getPath();
             String packagePath = "static/upfiles/ueditor/";
             String path = projectPath + packagePath + fileName;
-            System.out.println(path);
             File dest = new File(path);
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
