@@ -3,6 +3,7 @@ package com.shytong.modules.mgr.dao.impl;
 import com.shytong.common.model.SyMap;
 import com.shytong.core.database.BaseDao;
 import com.shytong.modules.mgr.dao.IMgrDao;
+import com.shytong.modules.mgr.model.MgrDo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +20,10 @@ public class MgrDaoImpl implements IMgrDao {
     @Override
     public Integer login(SyMap params) {
         return baseDao.selectOne("MgrMapper.login", params);
+    }
+
+    @Override
+    public Integer update(MgrDo mgrDo) {
+        return baseDao.update("MgrMapper.update", mgrDo);
     }
 }

@@ -74,27 +74,10 @@
     </div>
 </div>
 <script>
-    $(function () {
-
-    });
-
-    layui.use(['form', 'layer', 'jquery'],
-        function () {
+    layui.use(['form', 'layer', 'jquery'], function () {
             $ = layui.jquery;
             var form = layui.form,
                 layer = layui.layer;
-
-            //自定义验证规则
-            form.verify({
-                nikename: function (value) {
-
-                },
-                pass: [/(.+){6,12}$/, '密码必须6到12位'],
-                repass: function (value) {
-
-                }
-            });
-
 
             //监听提交
             form.on('submit(add)', function (data) {
@@ -125,8 +108,9 @@
                                 // 可以对父窗口进行刷新
                                 xadmin.father_reload();
                             });
-                        }else{
-                            layer.alert("添加失败", {icon: 5}, function () {});
+                        } else {
+                            layer.alert("添加失败", {icon: 5}, function () {
+                            });
                         }
                     }
                 });

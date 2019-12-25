@@ -3,6 +3,7 @@ package com.shytong.modules.mgr.service.impl;
 import com.shytong.common.model.SyMap;
 import com.shytong.common.resultcode.ResultCode;
 import com.shytong.modules.mgr.dao.IMgrDao;
+import com.shytong.modules.mgr.model.MgrDo;
 import com.shytong.modules.mgr.service.IMgrService;
 import com.shytong.modules.validatecode.commcode.service.IValidateCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,25 @@ public class MgrServiceImpl implements IMgrService {
             return ResultCode.USER_ACCOUNT_ERROR;
         }
         session.setAttribute("sessionId", params.getString("username") + "-" + params.get("password"));
+        return ResultCode.SUCCESS;
+    }
+
+    @Override
+    public String updatePassWord(Map map) {
+        String account = (String) map.get("account");
+        String pwd = (String) map.get("pwd");
+        String newPwd = (String) map.get("newPwd");
+        String rePwd = (String) map.get("rePwd");
+        if (!newPwd.equals(rePwd)) {
+            return ResultCode.PARAMETER_ERROR;
+        }
+        MgrDo mgrDo = new MgrDo();
+        mgrDo.setAccount(account);
+        mgrDo.setPwd(pwd);
+        Integer result = mgrDao.update(mgrDo);
+        if (result < 0) {
+            throw new RuntimeException();
+        }
         return ResultCode.SUCCESS;
     }
 }

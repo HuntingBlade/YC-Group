@@ -68,4 +68,19 @@ public class MgrController extends BaseController {
         model.setViewName("mgr/login");
         return model;
     }
+
+
+    /**
+     * 修改密码
+     *
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/admin/update/password", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String adminUpdatePassword(HttpServletRequest request, @RequestBody Map map) {
+        System.out.println(map);
+        String res = mgrService.updatePassWord(map);
+        return this.normalResp(res);
+    }
 }

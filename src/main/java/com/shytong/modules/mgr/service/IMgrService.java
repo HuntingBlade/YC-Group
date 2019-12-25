@@ -3,6 +3,7 @@ package com.shytong.modules.mgr.service;
 import com.shytong.common.model.SyMap;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * @Author: CL
@@ -18,4 +19,11 @@ public interface IMgrService {
      * @return
      */
     String login(SyMap params, HttpSession session);
+
+    /**
+     * 修改密码
+     * @param map
+     * @return
+     */
+    String updatePassWord(Map map);
 }

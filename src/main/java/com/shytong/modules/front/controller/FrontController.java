@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.IntegerSyntax;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -359,5 +360,15 @@ public class FrontController extends BaseController {
         return "/mgr/modules/edit";
     }
 
-
+    /**
+     * 跳转修改页码
+     *
+     * @param servletRequest
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "/edit/password", produces = "text/html;charset=utf-8")
+    public String adminEditPassword(HttpServletRequest servletRequest, ModelMap model) {
+        return "/mgr/editPwd";
+    }
 }

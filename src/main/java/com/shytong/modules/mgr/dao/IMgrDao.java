@@ -1,6 +1,7 @@
 package com.shytong.modules.mgr.dao;
 
 import com.shytong.common.model.SyMap;
+import com.shytong.modules.mgr.model.MgrDo;
 
 /**
  * @Author: CL
@@ -15,4 +16,11 @@ public interface IMgrDao {
      * @return
      */
     Integer login(SyMap params);
+
+    /**
+     * 修改
+     * @param mgrDo
+     * @return
+     */
+    Integer update(MgrDo mgrDo);
 }
