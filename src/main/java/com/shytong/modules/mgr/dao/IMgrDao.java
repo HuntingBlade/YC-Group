@@ -23,4 +23,11 @@ public interface IMgrDao {
      * @return
      */
     Integer update(MgrDo mgrDo);
+
+    /**
+     * 根据账号获取账号信息
+     * @param account
+     * @return
+     */
+    MgrDo isAccountInfoOf(String account);
 }

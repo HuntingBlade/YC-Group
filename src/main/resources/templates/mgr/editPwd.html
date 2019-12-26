@@ -24,7 +24,8 @@
                     <span class="x-red">*</span>用户名
                 </label>
                 <div class="layui-input-inline">
-                    <input id="account" name="account" required="" autocomplete="off" class="layui-input" disabled>
+                    <input id="account" name="account" lay-verify="required" autocomplete="off" class="layui-input"
+                           disabled>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -32,7 +33,7 @@
                     <span class="x-red">*</span>原密码
                 </label>
                 <div class="layui-input-inline">
-                    <input type="password" name="pwd" required=""
+                    <input type="password" name="pwd" lay-verify="pwd"
                            autocomplete="off" class="layui-input" maxlength="18">
                 </div>
             </div>
@@ -41,7 +42,7 @@
                     <span class="x-red">*</span>新密码
                 </label>
                 <div class="layui-input-inline">
-                    <input type="password" name="newPwd" required=""
+                    <input type="password" name="newPwd" lay-verify="newPwd"
                            autocomplete="off" class="layui-input" maxlength="18">
                 </div>
             </div>
@@ -50,7 +51,7 @@
                     <span class="x-red">*</span>确认密码
                 </label>
                 <div class="layui-input-inline">
-                    <input type="password" name="rePwd" required=""
+                    <input type="password" name="rePwd" lay-verify="rePwd"
                            autocomplete="off" class="layui-input" maxlength="18">
                 </div>
             </div>
@@ -72,9 +73,22 @@
 
             //自定义验证规则
             form.verify({
-                pwd: [/(.+){6,18}$/, '密码必须6到18位'],
-                newPwd: [/(.+){6,18}$/, '密码必须6到18位'],
-                rePwd: [/(.+){6,18}$/, '密码必须6到18位']
+                pwd: function (value, item) {
+                    console.log("长度：", value.length);
+                    if (value.length < 6) {
+                        return "密码至少6位";
+                    }
+                },
+                newPwd: function (value, item) {
+                    if (value.length < 6) {
+                        return "密码至少6位";
+                    }
+                },
+                rePwd: function (value, item) {
+                    if (value.length < 6) {
+                        return "密码至少6位";
+                    }
+                }
             });
 
             //监听提交
@@ -91,17 +105,13 @@
                     contentType: "application/json;charset=utf-8",
                     success: function (result) {
                         if (result.errCode == 1) {
-                            layer.alert("修改成功", {icon: 6}, function () {
-                                window.localStorage.removeItem("username");
-                                //关闭当前frame
+                            layer.alert("修改成功", {icon: 6}, function (index, layero) {
                                 xadmin.close();
-                                // 可以对父窗口进行刷新
-                                xadmin.father_reload();
                             });
+                            window.location.href = "/front/public/admin/login";
                         } else {
-                            layer.alert("修改失败", {icon: 5}, function () {
-                                //关闭当前frame
-                                xadmin.close();
+                            layer.alert("修改失败" + '\<br\>[ ' + result.errInfo + " ] ", {icon: 5}, function (index, layero) {
+                                layer.close(index);
                             });
                         }
                     }

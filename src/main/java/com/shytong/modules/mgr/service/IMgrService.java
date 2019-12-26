@@ -22,8 +22,9 @@ public interface IMgrService {
 
     /**
      * 修改密码
+     *
      * @param map
      * @return
      */
-    String updatePassWord(Map map);
+    String updatePassWord(Map map, HttpSession session);
 }

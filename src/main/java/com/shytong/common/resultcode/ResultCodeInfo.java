@@ -18,6 +18,8 @@ public class ResultCodeInfo {
         resultMap.put("20003", "用户名或密码错误");
         resultMap.put("20004", "用户账户已被禁用");
         resultMap.put("20005", "用户已存在");
+        resultMap.put("20006", "新密码和确认密码不一致");
+        resultMap.put("20007", "密码错误");
         resultMap.put("21001", "验证码错误");
         resultMap.put("40001", "参数错误");
     }

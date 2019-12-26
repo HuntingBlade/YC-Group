@@ -26,4 +26,9 @@ public class MgrDaoImpl implements IMgrDao {
     public Integer update(MgrDo mgrDo) {
         return baseDao.update("MgrMapper.update", mgrDo);
     }
+
+    @Override
+    public MgrDo isAccountInfoOf(String account) {
+        return baseDao.selectOne("MgrMapper.selectMgrDo", account);
+    }
 }

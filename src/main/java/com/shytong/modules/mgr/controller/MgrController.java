@@ -78,9 +78,8 @@ public class MgrController extends BaseController {
      */
     @PostMapping(value = "/admin/update/password", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String adminUpdatePassword(HttpServletRequest request, @RequestBody Map map) {
-        System.out.println(map);
-        String res = mgrService.updatePassWord(map);
+    public String adminUpdatePassword(HttpServletRequest request, @RequestBody Map map, HttpSession session) {
+        String res = mgrService.updatePassWord(map, session);
         return this.normalResp(res);
     }
 }
